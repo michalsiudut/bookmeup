@@ -32,26 +32,15 @@ aside {
     align-items: center;
 }
 
-<<<<<<< HEAD
 main {
     background-color: rosybrown;
 }
 
-@media screen and (max-width: 480px) {
-    .conatiner {
-        grid-template-columns: 1fr;
-    }
 
-
-    aside {
-        position: fixed;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        height: 80px;
-    }
-=======
 .messages {
     color: red,
->>>>>>> ce8758c (Password validation)
+}
+
+p {
+    color: red
 }

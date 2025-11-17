@@ -10,9 +10,9 @@
 </head>
 
 <body>
-    <form method="POST" action="/login">
+    <form method="POST" action="/register">
         <h1>
-            LOGIN
+            Register
         </h1>
 
         <?php if(isset($messages)): ?>
@@ -23,8 +23,12 @@
 
         <input name="email" type="email" placeholder="Twoj email">
         <input name="password" type="password" placeholder="Twoje haslo">
-        <button type="submit">LOGIN</button>
-        <a href="/register">Zarejestruj sie!</a>
+        <input name="password2" type="password2" placeholder="Potworz haslo">
+
+        <input name="firstName" type="password" placeholder="Twoje imie">
+
+        <input name="lastName" type="password" placeholder="Twoje nazwisko">
+        <button type="submit">Register</button>
     </form>
 </body>
 
