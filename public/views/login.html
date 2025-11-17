@@ -14,6 +14,11 @@
         <h1>
             LOGIN
         </h1>
+        <?php if(isset($messages)): ?>
+        <p>
+            <?= $messages; ?>
+        </p>
+        <?php endif; ?>
         <input type="email" placeholder="Twoj email">
         <input type="password" placeholder="Twoje haslo">
         <button type="submit">LOGIN</button>

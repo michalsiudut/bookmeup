@@ -7,6 +7,6 @@ class SecurityController extends AppController{
     public function login(){
         // TODO zwroc html logowania, przetworz dane
 
-        return $this->render("login", ["message" => "Bledne haslo!"]);
+        return $this->render("login", ["messages" => "Bledne haslo!"]);
     }
 }
