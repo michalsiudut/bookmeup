@@ -22,6 +22,11 @@ class SecurityController extends AppController{
         ],
     ];
 
+    private $userRepository;
+    public function __construct(){
+        $this->userRepository = new UserRepository();
+    }
+
 
     public function login()
     {
@@ -32,28 +37,21 @@ class SecurityController extends AppController{
         $email = $_POST["email"] ?? '';
         $password = $_POST["password"] ?? '';
 
+        $user = $this->userRepository->getUserByEmail($email);
+
         if (empty($email) || empty($password)) {
             return $this->render('login', ['messages' => 'Fill all fields']);
         }
 
-       //TODO replace with search from database
-        $userRow = null;
-        foreach (self::$users as $u) {
-            if (strcasecmp($u['email'], $email) === 0) {
-                $userRow = $u;
-                break;
-            }
+        if(!$user){
+            return $this->render('login', ['messages' => 'user doesnt exists']);
         }
 
-        if (!$userRow) {
-            return $this->render('login', ['messages' => 'User not found']);
+        if (!password_verify($password, $user['password'])) {
+            return $this->render('login', ['messages' => 'Wrong password']);
         }
 
-        //if (!password_verify($password, $userRow['password'])) {
-        //    return $this->render('login', ['messages' => 'Wrong password']);
-        //}
-
-        // TODO możemy przechowywać sesje użytkowika lub token
+       //  TODO możemy przechowywać sesje użytkowika lub token
         // setcookie("username", $userRow['email'], time() + 3600, '/');
 
         $url = "http://$_SERVER[HTTP_HOST]";
@@ -62,34 +60,34 @@ class SecurityController extends AppController{
 
     public function register()
     {
+
         if (!$this->isPost()) {
             return $this->render('register');
         }
 
         $email = trim($_POST['email'] ?? '');
         $password = $_POST['password'] ?? '';
+        $password2 = $_POST['password2'] ?? '';
         $firstName = $_POST['firstName'] ?? '';
+        $lastName = $_POST['lastName'] ?? '';
 
-        if (empty($email) || empty($password) || empty($firstName)) {
+        if($password != $password2){
+            return $this->render('register', ['messages' => 'Passwords should be the same']);
+        }
+
+        if($this->userRepository->getUserByEmail($email)){
+            return $this->render('register', ['messages' => 'This email is in use']);
+        }
+        if (empty($email) || empty($password) || empty($firstName) || empty($lastName)) {
             return $this->render('register', ['messages' => 'Fill all fields']);
         }
-
-	// TODO this will be checked in database
-        foreach (self::$users as $u) {
-            if (strcasecmp($u['email'], $email) === 0) {
-                return $this->render('register', ['messages' => 'Email is taken']);
-            }
-        }
-
         $hashedPassword = password_hash($password, PASSWORD_BCRYPT);
-
-        self::$users[] = [
-            'email' => $email,
-            'password' => $hashedPassword,
-            'first_name' => $firstName
-        ];
-
-        $url = "http://$_SERVER[HTTP_HOST]";
-        header("Location: {$url}/login");
+        $this->userRepository->createUser(
+            $email,
+            $hashedPassword,
+            $firstName,
+            $lastName
+        );
+        return $this->render("login", ["messages"=>"User register successfully.Please login!"]);
     }
 }
