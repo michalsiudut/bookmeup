@@ -9,8 +9,9 @@ require_once 'src/controllers/DashboardController.php';
 //  TODO /dashboard - wszystkie dane
 //  /dashboiard/12234 - wyciagnie nam jakis elemtn o konkretnym id 12234
 //  regex
+//  sesja uzytkownika
+//  singletony 
 class Routing {
-
 
     public static $routes= [
         "login" => [
@@ -24,39 +25,35 @@ class Routing {
         "dashboard" => [
             "controller" => "DashboardController",
             "action" => "dashboard",
+        ],
+        "search-cards" => [
+            "controller" => "DashboardController",
+            "action" => "search",
         ]
     ];
 
-    public static function run(string $path){
+    public static function run(string $path)
+    {
+        $path = trim($path, '/'); 
+        if (array_key_exists($path, self::$routes)) {
+            $controllerName = self::$routes[$path]["controller"];
+            $actionName = self::$routes[$path]["action"];
+            $controllerObj = new $controllerName();
+            $controllerObj->$actionName();
+            
+            return; 
+        }
 
-        switch($path){
-         case 'dashboard':
-            $controller = Routing::$routes[$path]["controller"];
-            $action = Routing::$routes[$path]["action"];
-
-
-            $controllerObj = new $controller;
-            $controllerObj -> $action();
-
-            break;
-        case 'login':
-        case 'register':
-            $controller = Routing::$routes[$path]["controller"];
-            $action = Routing::$routes[$path]["action"];
-
-
-            $controllerObj = new $controller;
-            $controllerObj -> $action();
-            break;
-        case 'test':
-            include 'public/views/test.html';
-            break;
-        case 'profile':
-            include 'public/views/profile.html';
-            break;
-        default:
-            include 'public/views/404.html';
-            break;
+        switch ($path) {
+            case 'test':
+                include 'public/views/test.html';
+                break;
+            case 'profile':
+                include 'public/views/profile.html';
+                break;
+            default:
+                include 'public/views/404.html';
+                break;
         }
     }
 }
