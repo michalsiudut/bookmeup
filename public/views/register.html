@@ -1,35 +1,75 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pl">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" type="text/css" href="public/styles/main.css">
-    <link rel="stylesheet" type="text/css" href="public/styles/login.css">
-    <title>LOGIN</title>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Rejestracja - bookmeup</title>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="public/styles/main.css?v=<?= time(); ?>">
+    <link rel="stylesheet" type="text/css" href="public/styles/register.css?v=<?= time(); ?>">
 </head>
 
-<body>
-    <form method="POST" action="/register">
-        <h1>
-            Register
-        </h1>
+<body class="bg-light">
 
-        <?php if(isset($messages)): ?>
-        <p>
-            <?= $messages; ?>
-        </p>
-        <?php endif; ?>
+    <div class="page-wrapper">
+        <div class="login-container">
+            <form class="form-wrapper" method="POST" action="/register">
 
-        <input name="email" type="email" placeholder="Twoj email">
-        <input name="password" type="password" placeholder="Twoje haslo">
-        <input name="password2" type="password2" placeholder="Potworz haslo">
+                <div class="text-center">
+                    <h1 class="title">Stwórz swoje konto</h1>
+                    <p class="subtitle">Dołącz do bookmeup i rezerwuj usługi z łatwością.</p>
+                </div>
 
-        <input name="firstName" type="password" placeholder="Twoje imie">
+                <?php if(isset($messages)): ?>
+                <div class="error-messages">
+                    <?= $messages; ?>
+                </div>
+                <?php endif; ?>
 
-        <input name="lastName" type="password" placeholder="Twoje nazwisko">
-        <button type="submit">Register</button>
-    </form>
+                <div class="input-group">
+                    <div class="grid-2-col">
+                        <label class="input-label">
+                            <span class="label-text">Imię</span>
+                            <input name="firstName" class="input-field" placeholder="Imię" type="text" required>
+                        </label>
+                        <label class="input-label">
+                            <span class="label-text">Nazwisko</span>
+                            <input name="lastName" class="input-field" placeholder="Nazwisko" type="text" required>
+                        </label>
+                    </div>
+
+                    <label class="input-label">
+                        <span class="label-text">Adres e-mail</span>
+                        <input name="email" class="input-field" placeholder="wpisz swój adres e-mail" type="email"
+                            required>
+                    </label>
+
+                    <label class="input-label">
+                        <span class="label-text">Hasło</span>
+                        <input name="password" class="input-field" placeholder="Utwórz hasło" type="password" required>
+                    </label>
+
+                    <label class="input-label">
+                        <span class="label-text">Potwierdź hasło</span>
+                        <input name="password2" class="input-field" placeholder="Powtórz hasło" type="password"
+                            required>
+                    </label>
+                </div>
+
+                <div class="button-group">
+                    <button class="btn-primary" type="submit">ZAREJESTRUJ SIĘ</button>
+
+                    <p class="footer-text">
+                        Masz już konto?
+                        <a class="link" href="/login">Zaloguj się</a>
+                    </p>
+                </div>
+
+            </form>
+        </div>
+    </div>
+
 </body>
 
 </html>
