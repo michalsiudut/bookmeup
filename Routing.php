@@ -26,9 +26,13 @@ class Routing {
             "controller" => "DashboardController",
             "action" => "dashboard",
         ],
-        "search-cards" => [
+        "calendar" => [
             "controller" => "DashboardController",
-            "action" => "search",
+            "action" => "calendar",
+        ],
+        "appointments" => [
+            "controller" => "DashboardController",
+            "action" => "appointments",
         ]
     ];
 
