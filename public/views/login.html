@@ -1,31 +1,71 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pl">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" type="text/css" href="public/styles/main.css">
-    <link rel="stylesheet" type="text/css" href="public/styles/login.css">
-    <title>LOGIN</title>
+    <link rel="stylesheet" type="text/css" href="public/styles/main.css?v=<?= time(); ?>">
+    <link rel="stylesheet" type="text/css" href="public/styles/login.css?v=<?= time(); ?>">
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700&display=swap" rel="stylesheet">
+    <title>Logowanie - bookmeup</title>
 </head>
 
 <body>
-    <form method="POST" action="/login">
-        <h1>
-            LOGINN
-        </h1>
 
-        <?php if(isset($messages)): ?>
-        <p>
-            <?= $messages; ?>
-        </p>
-        <?php endif; ?>
+    <div class="page-wrapper">
+        <div class="login-container">
+            <form class="form-wrapper" method="POST" action="/login">
 
-        <input name="email" type="email" placeholder="Twoj email">
-        <input name="password" type="password" placeholder="Twoje haslo">
-        <button type="submit">LOGIN</button>
-        <a href="/register">Zarejestruj sie!</a>
-    </form>
+                <div class="text-center">
+                    <h1 class="title">Zaloguj się</h1>
+                </div>
+
+                <?php if(isset($messages)): ?>
+                <div class="error-messages">
+                    <?php 
+                        // Jeśli $messages to tablica, przechodzimy pętlą, jeśli string - wyświetlamy
+                        if(is_array($messages)) {
+                            foreach($messages as $message) {
+                                echo "<p>$message</p>";
+                            }
+                        } else {
+                            echo "<p>$messages</p>";
+                        }
+                    ?>
+                </div>
+                <?php endif; ?>
+
+                <div class="input-group">
+                    <label class="input-label">
+                        <span class="label-text">Adres e-mail</span>
+                        <input name="email" class="input-field" placeholder="wpisz swój adres e-mail" type="email"
+                            required>
+                    </label>
+
+                    <label class="input-label">
+                        <span class="label-text">Hasło</span>
+                        <input name="password" class="input-field" placeholder="wpisz swoje hasło" type="password"
+                            required>
+                    </label>
+
+                    <a class="link forgot-password" href="/forgotPassword">Nie pamiętasz hasła?</a>
+                </div>
+
+                <div class="button-group">
+                    <button class="btn-primary" type="submit">
+                        ZALOGUJ SIĘ
+                    </button>
+
+                    <p class="footer-text">
+                        Nie masz jeszcze konta?
+                        <a class="link" href="/register">Zarejestruj się</a>
+                    </p>
+                </div>
+
+            </form>
+        </div>
+    </div>
+
 </body>
 
 </html>
