@@ -2,83 +2,56 @@
 
 require_once 'src/controllers/SecurityController.php';
 require_once 'src/controllers/DashboardController.php';
+require_once 'src/controllers/ProfileController.php';
 
-
-// TODO musimty zapewnic ze utworzony oboekt ma tylko jedna iinstacje - singleton
-
-//  TODO /dashboard - wszystkie dane
-//  /dashboiard/12234 - wyciagnie nam jakis elemtn o konkretnym id 12234
-//  regex
-//  sesja uzytkownika
-//  singletony 
 class Routing {
+    private static $instance;
+    private static $routes = [];
 
-    public static $routes= [
-        "login" => [
-            "controller" => "SecurityController",
-            "action" => "login",
-        ],
-        "register" => [
-            "controller" => "SecurityController",
-            "action" => "register",
-        ],
-        "dashboard" => [
-            "controller" => "DashboardController",
-            "action" => "dashboard",
-        ],
-        "calendar" => [
-            "controller" => "DashboardController",
-            "action" => "calendar",
-        ],
-        "appointments" => [
-            "controller" => "DashboardController",
-            "action" => "appointments",
-        ],
-        "profile" => [
-            "controller" => "ProfileController",
-            "action" => "profile",
-        ],
-        "logout" => [
-            "controller" => "SecurityController",
-            "action" => "logout",
-        ]
-    ];
+    private function __construct() {}
 
-    public static function run(string $path)
-    {
-        $path = trim($path, '/'); 
-        if (array_key_exists($path, self::$routes)) {
-            $controllerName = self::$routes[$path]["controller"];
-            $actionName = self::$routes[$path]["action"];
-            $controllerObj = new $controllerName();
-            $controllerObj->$actionName();
-            
-            return; 
+    public static function getInstance(): Routing {
+        if (self::$instance === null) {
+            self::$instance = new Routing();
         }
-        if ($path === "") {
+        return self::$instance;
+    }
+
+    public static function get($url, $config) {
+        self::$routes[$url] = $config;
+    }
+
+    public static function post($url, $config) {
+        self::$routes[$url] = $config;
+    }
+
+    public static function run(string $path) {
+        $path = trim($path, '/');
+        $path = explode("/", $path)[0];
+
+        if (empty($path)) {
             if (isset($_SESSION['user_id'])) {
-                $path = "dashboard";
+                self::redirect('dashboard');
             } else {
-                $path = "login";     
+                self::redirect('login');
             }
         }
 
-        switch ($path) {
-            case 'test':
-                include 'public/views/test.html';
-                break;
-            case 'profile':
-                include 'public/views/profile.html';
-                break;
-            case 'dashboard':
-                include 'public/views/dashboard.html';
-                break;
-            case 'login':
-                include 'public/views/login.html';
-                break;
-            default:
-                include 'public/views/404.html';
-                break;
+        if (!array_key_exists($path, self::$routes)) {
+            include 'public/views/404.html';
+            die();
         }
+
+        $controllerName = self::$routes[$path]['controller'];
+        $action = self::$routes[$path]['action'];
+
+        $object = new $controllerName;
+        $object->$action();
+    }
+
+    private static function redirect($path) {
+        $url = "http://$_SERVER[HTTP_HOST]";
+        header("Location: {$url}/{$path}");
+        exit();
     }
 }

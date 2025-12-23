@@ -2,7 +2,6 @@
 
 require_once  'AppController.php';
 require_once __DIR__.'/../repository/UserRepository.php';
-require_once __DIR__.'/../repository/CardsRepository.php';
 
 class DashboardController extends AppController{
 
