@@ -4,31 +4,15 @@ require_once  'AppController.php';
 
 class SecurityController extends AppController{
 
-        private static array $users = [
-        [
-            'email' => 'anna@example.com',
-            'password' => '$2y$10$VljUCkQwxrsULVbZovCaF.UfkeqVNcdz8SRFQptFS/Hr8QnUgsf5G', // test123
-            'first_name' => 'Anna'
-        ],
-        [
-            'email' => 'bartek@example.com',
-            'password' => '$2y$10$fK9rLobZK2C6rJq6B/9I6u6Udaez9CaRu7eC/0zT3pGq5piVDsElW', // haslo456
-            'first_name' => 'Bartek'
-        ],
-        [
-            'email' => 'celina@example.com',
-            'password' => '$2y$10$Cq1J6YMGzRKR6XzTb3fDF.6sC6CShm8kFgEv7jJdtyWkhC1GuazJa', // qwerty
-            'first_name' => 'Celina'
-        ],
-    ];
 
     private $userRepository;
     public function __construct(){
+        parent::__construct();
         $this->userRepository = new UserRepository();
     }
 
 
-    public function login()
+        public function login()
     {
         if (!$this->isPost()) {
             return $this->render('login');
@@ -51,13 +35,15 @@ class SecurityController extends AppController{
             return $this->render('login', ['messages' => 'Wrong password']);
         }
 
-       //  TODO możemy przechowywać sesje użytkowika lub token
-        // setcookie("username", $userRow['email'], time() + 3600, '/');
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+        
+        $_SESSION['user_id'] = $user['email']; 
 
         $url = "http://$_SERVER[HTTP_HOST]";
         header("Location: {$url}/dashboard");
     }
-
     public function register()
     {
 
@@ -89,5 +75,11 @@ class SecurityController extends AppController{
             $lastName
         );
         return $this->render("login", ["messages"=>"User register successfully.Please login!"]);
+    }
+
+    public function logout() {
+        session_destroy();
+        $url = "http://$_SERVER[HTTP_HOST]";
+        header("Location: {$url}/login");
     }
 }

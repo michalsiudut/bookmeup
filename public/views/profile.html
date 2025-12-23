@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Kalendarz - bookmeup</title>
+    <title>Profil - bookmeup</title>
     <link rel="stylesheet" href="public/styles/main.css">
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
 </head>
@@ -14,7 +14,20 @@
         <?php include __DIR__ . '/header.html'; ?>
 
         <main class="content-area">
-            <h1>Twój Profile</h1>
+            <div class="profile-header">
+                <h1>Twój Profil</h1>
+
+                <a href="logout" class="logout-button">
+                    <span class="material-symbols-outlined">logout</span>
+                    <span>Wyloguj się</span>
+                </a>
+            </div>
+
+            <div class="profile-details">
+                <p>Jesteś zalogowany jako: <strong>
+                        <?php echo $_SESSION['user_id']; ?>
+                    </strong></p>
+            </div>
         </main>
 
     </div>

@@ -33,6 +33,14 @@ class Routing {
         "appointments" => [
             "controller" => "DashboardController",
             "action" => "appointments",
+        ],
+        "profile" => [
+            "controller" => "ProfileController",
+            "action" => "profile",
+        ],
+        "logout" => [
+            "controller" => "SecurityController",
+            "action" => "logout",
         ]
     ];
 
@@ -47,6 +55,13 @@ class Routing {
             
             return; 
         }
+        if ($path === "") {
+            if (isset($_SESSION['user_id'])) {
+                $path = "dashboard";
+            } else {
+                $path = "login";     
+            }
+        }
 
         switch ($path) {
             case 'test':
@@ -54,6 +69,12 @@ class Routing {
                 break;
             case 'profile':
                 include 'public/views/profile.html';
+                break;
+            case 'dashboard':
+                include 'public/views/dashboard.html';
+                break;
+            case 'login':
+                include 'public/views/login.html';
                 break;
             default:
                 include 'public/views/404.html';
