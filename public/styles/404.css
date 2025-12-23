@@ -1,0 +1,155 @@
+:root {
+    --primary: #068cf9;
+    --primary-hover: #0570c7;
+    --background-light: #FFFFFF;
+    --gray-400: #9ca3af;
+    --gray-500: #6b7280;
+    --gray-800: #1f2937;
+    --border-light: #F1F1F1;
+}
+
+.error-page-wrapper {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    width: 100%;
+    background-color: var(--background-light);
+    font-family: 'Manrope', sans-serif;
+}
+
+.error-container {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    max-width: 960px;
+    margin: 0 auto;
+    width: 100%;
+    padding: 0 1rem;
+}
+
+/* Header błędu (jeśli nie używasz wspólnego) */
+.error-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid var(--border-light);
+}
+
+/* Główna sekcja 404 */
+.error-main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 4rem 1rem;
+}
+
+.big-text-404 {
+    font-size: 120px;
+    font-weight: 900;
+    line-height: 1;
+    letter-spacing: -0.05em;
+    /* Efekt primary/10 - kolor z 10% przezroczystości */
+    color: rgba(6, 140, 249, 0.1);
+    margin: 0;
+    user-select: none;
+}
+
+@media (min-width: 640px) {
+    .big-text-404 {
+        font-size: 160px;
+    }
+}
+
+.error-content {
+    position: relative;
+    margin-top: -3rem;
+    /* Przesunięcie tekstu na cyfry */
+}
+
+@media (min-width: 640px) {
+    .error-content {
+        margin-top: -4rem;
+    }
+}
+
+.error-title {
+    font-size: 1.875rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    color: #111518;
+}
+
+@media (min-width: 640px) {
+    .error-title {
+        font-size: 2.25rem;
+    }
+}
+
+.error-description {
+    color: var(--gray-500);
+    font-size: 1rem;
+    max-width: 28rem;
+    margin: 0 auto 2rem auto;
+    line-height: 1.5;
+}
+
+.btn-home {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--primary);
+    color: white;
+    padding: 0.75rem 2rem;
+    border-radius: 0.5rem;
+    font-weight: 700;
+    text-decoration: none;
+    transition: all 0.2s;
+    box-shadow: 0 10px 15px -3px rgba(6, 140, 249, 0.2);
+}
+
+.btn-home:hover {
+    background-color: var(--primary-hover);
+    transform: translateY(-1px);
+}
+
+/* Footer błędu */
+.error-footer {
+    border-top: 1px solid var(--border-light);
+    padding: 1.5rem 1rem;
+    margin-top: auto;
+}
+
+.footer-inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    font-size: 0.875rem;
+    color: var(--gray-500);
+}
+
+@media (min-width: 640px) {
+    .footer-inner {
+        flex-direction: row;
+    }
+}
+
+.footer-links {
+    display: flex;
+    gap: 1rem;
+}
+
+.footer-links a {
+    text-decoration: none;
+    color: inherit;
+    transition: color 0.2s;
+}
+
+.footer-links a:hover {
+    color: var(--primary);
+}

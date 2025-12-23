@@ -1,17 +1,50 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pl">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" type="text/css" href="public/styles/main.css">
-    <title>404</title>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>404 - Nie odnaleziono strony</title>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;700;900&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="public/styles/404.css?v=<?= time(); ?>">
 </head>
 
 <body>
-    <h1>
-        404
-    </h1>
+
+    <div class="error-page-wrapper">
+        <div class="error-container">
+
+            <main class="error-main">
+                <h1 class="big-text-404">404</h1>
+
+                <div class="error-content">
+                    <h2 class="error-title">Strona nie została znaleziona</h2>
+                    <p class="error-description">
+                        Przepraszamy, ale strona której szukasz nie istnieje, została przeniesiona lub adres jest
+                        nieprawidłowy.
+                    </p>
+                    <div class="flex-center">
+                        <a class="btn-home" href="/dashboard">
+                            Wróć do strony głównej
+                        </a>
+                    </div>
+                </div>
+            </main>
+
+            <footer class="error-footer">
+                <div class="footer-inner">
+                    <p>© 2024 bookmeup. Wszelkie prawa zastrzeżone.</p>
+                    <nav class="footer-links">
+                        <a href="#">O nas</a>
+                        <a href="#">Kontakt</a>
+                        <a href="#">FAQ</a>
+                        <a href="#">Regulamin</a>
+                    </nav>
+                </div>
+            </footer>
+        </div>
+    </div>
+
 </body>
 
 </html>
