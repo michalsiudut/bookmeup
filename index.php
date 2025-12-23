@@ -13,10 +13,10 @@ $router = Routing::getInstance();
 
 Routing::get('login', ['controller' => 'SecurityController', 'action' => 'login']);
 Routing::post('login', ['controller' => 'SecurityController', 'action' => 'login']);
-Routing::get('dashboard', ['controller' => 'DashboardController', 'action' => 'dashboard']);
-Routing::get('calendar', ['controller' => 'DashboardController', 'action' => 'calendar']);
-Routing::get('appointments', ['controller' => 'DashboardController', 'action' => 'appointments']);
-Routing::get('profile', ['controller' => 'ProfileController', 'action' => 'profile']);
+Routing::get('dashboard', ['controller' => 'NavigationController', 'action' => 'dashboard']);
+Routing::get('calendar', ['controller' => 'NavigationController', 'action' => 'calendar']);
+Routing::get('appointments', ['controller' => 'NavigationController', 'action' => 'appointments']);
+Routing::get('profile', ['controller' => 'NavigationController', 'action' => 'profile']);
 Routing::get('logout', ['controller' => 'SecurityController', 'action' => 'logout']);
 
 $router->run($path);

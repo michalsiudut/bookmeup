@@ -3,7 +3,7 @@
 require_once  'AppController.php';
 require_once __DIR__.'/../repository/UserRepository.php';
 
-class DashboardController extends AppController{
+class NavigationController extends AppController{
 
 
     public function dashboard(?int $id = null){
@@ -23,6 +23,10 @@ class DashboardController extends AppController{
     public function appointments() {
         // DATA FETCH HERE
         return $this->render("appointments");
+    }
+
+    public function profile() {
+        $this->render('profile', ['email' => $_SESSION['user_id']]);
     }
 
 }

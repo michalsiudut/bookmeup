@@ -1,5 +1,4 @@
 <?php
-require_once 'src/controllers/ProfileController.php';
 
 
 abstract class AppController {
