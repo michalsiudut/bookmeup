@@ -37,66 +37,45 @@
                     <h2>Odkryj polecanych specjalistów</h2>
                     <div class="specialists-grid">
 
+                        <?php if (!empty($businesses)): ?>
+                        <?php foreach ($businesses as $business): ?>
                         <div class="specialist-card">
-                            <div class="card-img"
-                                style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAPjJb0ReUAijkBGWbtLmXEiJkcTUM5mBh2GpEUIZpn7oSdU9bDF68zbAxukjH2Lt0ALNNWK4Q8tyaJ-mQUiMnh26T1qziS5qIIHm6CFGwflzMOP4L_pjdQgD7GJ-Wm8AYcnf0gwCEwuD-UCPsCevWEBT-JKnFfwIn3OsTgE_jDRfth2HdkFHXLSjz2068Yz5sAMN8Ynpmn3ePQ1RB19tx_fUySWwiFVdaQ6KkUZ4EsxitAqshYmnr6tkuwtXVc5Zl78Zvb7zsh0tM')">
-                            </div>
+                            <?php 
+                                $bgImage = htmlspecialchars($business['image_url']); 
+                            ?>
+                            <div class="card-img" style="background-image: url('<?= $bgImage ?>');"></div>
                             <div class="card-content">
-                                <h3>Gentleman's Cut</h3>
-                                <p class="category">Fryzjerstwo</p>
+                                <h3>
+                                    <?= htmlspecialchars($business['name']) ?>
+                                </h3>
+                                <p class="category">
+                                    <?= htmlspecialchars($business['category']) ?> •
+                                    <?= htmlspecialchars($business['city']) ?>
+                                </p>
+
                                 <div class="rating">
-                                    <span class="material-symbols-outlined star-filled">star</span>
-                                    <span class="material-symbols-outlined star-filled">star</span>
-                                    <span class="material-symbols-outlined star-filled">star</span>
-                                    <span class="material-symbols-outlined star-filled">star</span>
-                                    <span class="material-symbols-outlined star-empty">star</span>
-                                    <span class="count">(123)</span>
+                                    <?php 
+                            // Renderowanie gwiazdek na podstawie oceny (np. 4.5 -> 5 gwiazdek)
+                            $rating = round($business['rating_avg']); 
+                            for ($i = 1; $i <= 5; $i++): 
+                            ?>
+                                    <span
+                                        class="material-symbols-outlined <?= $i <= $rating ? 'star-filled' : 'star-empty' ?>">
+                                        star
+                                    </span>
+                                    <?php endfor; ?>
+                                    <span class="count">(
+                                        <?= $business['review_count'] ?>)
+                                    </span>
                                 </div>
+
                                 <button class="btn-card-action">Zobacz profil</button>
                             </div>
                         </div>
-
-                        <div class="specialist-card">
-                            <div class="card-img"
-                                style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCm0r2_sulMdz6WT6X9JkYoh_vqnYZJKuVuGg9wgMoXT0Agc88dbCF-dTLD7DZGjC_Nz16NVOLNstVcZxGh3YoD0fanwPIKCnTrYutc2UKSyBYAPJN90Dg099__ZSUGLI2o-bqfbOzGzFV5ZzykBcTIfkbrTEVDWgFkaRXYa2gYuc0Zrcd4f5uc8bjOUjdHP23u_YzZNz5xdsQcXmu7XGrSq86cPZY9U-e09Y4nMWJN_d_jN-n-dFhdau-xyTEQ8vnGdHAMvo1b4j0')">
-                            </div>
-                            <div class="card-content">
-                                <h3>Beauty Haven</h3>
-                                <p class="category">Kosmetyka</p>
-                                <div class="rating">
-                                    <span class="material-symbols-outlined star-filled">star</span>
-                                    <span class="material-symbols-outlined star-filled">star</span>
-                                    <span class="material-symbols-outlined star-filled">star</span>
-                                    <span class="material-symbols-outlined star-filled">star</span>
-                                    <span class="material-symbols-outlined star-filled">star</span>
-                                    <span class="count">(98)</span>
-                                </div>
-                                <button class="btn-card-action">Zobacz profil</button>
-                            </div>
-                        </div>
-
-                    </div>
-                </section>
-
-                <section class="content-section">
-                    <h2>Twoje nadchodzące wizyty</h2>
-                    <div class="appointments-stack">
-
-                        <div class="appointment-card">
-                            <div class="appointment-details">
-                                <p class="time">15 Sierpnia 2024, 14:30</p>
-                                <p class="service">Strzyżenie męskie</p>
-                                <p class="location">Gentleman's Cut, ul. Przykładowa 1, Warszawa</p>
-                            </div>
-                            <div class="appointment-btns">
-                                <button class="btn-secondary">
-                                    <span class="material-symbols-outlined">edit_calendar</span>Zmień termin
-                                </button>
-                                <button class="btn-secondary">
-                                    <span class="material-symbols-outlined">cancel</span>Anuluj
-                                </button>
-                            </div>
-                        </div>
+                        <?php endforeach; ?>
+                        <?php else: ?>
+                        <p>Obecnie nie znaleziono żadnych specjalistów w Twojej okolicy.</p>
+                        <?php endif; ?>
 
                     </div>
                 </section>

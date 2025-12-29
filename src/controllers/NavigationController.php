@@ -2,16 +2,19 @@
 
 require_once  'AppController.php';
 require_once __DIR__.'/../repository/UserRepository.php';
+require_once __DIR__.'/../repository/BusinessRepository.php';
 
 class NavigationController extends AppController{
 
 
-    public function dashboard(?int $id = null){
+    public function dashboard() {
 
-        $userRepository = new UserRepository();
-        $users = $userRepository->getUsers();
+        // DATA FETCH HERE
+        $businessRepository = new BusinessRepository();
+        
+        $businesses = $businessRepository->getBusinesses();
 
-        return $this->render("dashboard");
+        return $this->render("dashboard", ['businesses' => $businesses]);
     }
 
     public function calendar() {
@@ -19,7 +22,6 @@ class NavigationController extends AppController{
         return $this->render("calendar");
     }
 
-    // Dodaj tę metodę
     public function appointments() {
         // DATA FETCH HERE
         return $this->render("appointments");
