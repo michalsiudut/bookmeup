@@ -2,22 +2,117 @@
 <html lang="pl">
 
 <head>
-    <meta charset="UTF-8">
-    <title>Kalendarz - bookmeup</title>
-    <link rel="stylesheet" href="public/styles/main.css">
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>bookmeup</title>
+
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+
+    <link rel="stylesheet" href="public/styles/dashboard.css">
 </head>
 
-
-<body>
+<body class="dashboard-body">
     <div class="layout-container">
 
         <?php include __DIR__ . '/header.html'; ?>
 
-        <main class="content-area">
-            <h1>Twój dashboard</h1>
-        </main>
+        <main class="main-content-wrapper">
+            <div class="container-960">
 
+                <header class="hero-section">
+                    <h1>Znajdź i zarezerwuj idealną usługę</h1>
+                </header>
+
+                <div class="search-container">
+                    <div class="search-bar">
+                        <div class="search-icon">
+                            <span class="material-symbols-outlined">search</span>
+                        </div>
+                        <input type="text" placeholder="Nazwa usługi, kategoria, miasto..." class="search-input">
+                    </div>
+                    <button class="btn-search">Szukaj</button>
+                </div>
+
+                <section class="content-section">
+                    <h2>Odkryj polecanych specjalistów</h2>
+                    <div class="specialists-grid">
+
+                        <div class="specialist-card">
+                            <div class="card-img"
+                                style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAPjJb0ReUAijkBGWbtLmXEiJkcTUM5mBh2GpEUIZpn7oSdU9bDF68zbAxukjH2Lt0ALNNWK4Q8tyaJ-mQUiMnh26T1qziS5qIIHm6CFGwflzMOP4L_pjdQgD7GJ-Wm8AYcnf0gwCEwuD-UCPsCevWEBT-JKnFfwIn3OsTgE_jDRfth2HdkFHXLSjz2068Yz5sAMN8Ynpmn3ePQ1RB19tx_fUySWwiFVdaQ6KkUZ4EsxitAqshYmnr6tkuwtXVc5Zl78Zvb7zsh0tM')">
+                            </div>
+                            <div class="card-content">
+                                <h3>Gentleman's Cut</h3>
+                                <p class="category">Fryzjerstwo</p>
+                                <div class="rating">
+                                    <span class="material-symbols-outlined star-filled">star</span>
+                                    <span class="material-symbols-outlined star-filled">star</span>
+                                    <span class="material-symbols-outlined star-filled">star</span>
+                                    <span class="material-symbols-outlined star-filled">star</span>
+                                    <span class="material-symbols-outlined star-empty">star</span>
+                                    <span class="count">(123)</span>
+                                </div>
+                                <button class="btn-card-action">Zobacz profil</button>
+                            </div>
+                        </div>
+
+                        <div class="specialist-card">
+                            <div class="card-img"
+                                style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCm0r2_sulMdz6WT6X9JkYoh_vqnYZJKuVuGg9wgMoXT0Agc88dbCF-dTLD7DZGjC_Nz16NVOLNstVcZxGh3YoD0fanwPIKCnTrYutc2UKSyBYAPJN90Dg099__ZSUGLI2o-bqfbOzGzFV5ZzykBcTIfkbrTEVDWgFkaRXYa2gYuc0Zrcd4f5uc8bjOUjdHP23u_YzZNz5xdsQcXmu7XGrSq86cPZY9U-e09Y4nMWJN_d_jN-n-dFhdau-xyTEQ8vnGdHAMvo1b4j0')">
+                            </div>
+                            <div class="card-content">
+                                <h3>Beauty Haven</h3>
+                                <p class="category">Kosmetyka</p>
+                                <div class="rating">
+                                    <span class="material-symbols-outlined star-filled">star</span>
+                                    <span class="material-symbols-outlined star-filled">star</span>
+                                    <span class="material-symbols-outlined star-filled">star</span>
+                                    <span class="material-symbols-outlined star-filled">star</span>
+                                    <span class="material-symbols-outlined star-filled">star</span>
+                                    <span class="count">(98)</span>
+                                </div>
+                                <button class="btn-card-action">Zobacz profil</button>
+                            </div>
+                        </div>
+
+                    </div>
+                </section>
+
+                <section class="content-section">
+                    <h2>Twoje nadchodzące wizyty</h2>
+                    <div class="appointments-stack">
+
+                        <div class="appointment-card">
+                            <div class="appointment-details">
+                                <p class="time">15 Sierpnia 2024, 14:30</p>
+                                <p class="service">Strzyżenie męskie</p>
+                                <p class="location">Gentleman's Cut, ul. Przykładowa 1, Warszawa</p>
+                            </div>
+                            <div class="appointment-btns">
+                                <button class="btn-secondary">
+                                    <span class="material-symbols-outlined">edit_calendar</span>Zmień termin
+                                </button>
+                                <button class="btn-secondary">
+                                    <span class="material-symbols-outlined">cancel</span>Anuluj
+                                </button>
+                            </div>
+                        </div>
+
+                    </div>
+                </section>
+
+                <footer class="dashboard-footer">
+                    <p>© 2024 bookmeup. Wszelkie prawa zastrzeżone.</p>
+                    <div class="footer-links">
+                        <a href="#">O nas</a>
+                        <a href="#">Kontakt</a>
+                        <a href="#">FAQ</a>
+                        <a href="#">Regulamin</a>
+                    </div>
+                </footer>
+
+            </div>
+        </main>
     </div>
 </body>
 
