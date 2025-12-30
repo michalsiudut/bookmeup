@@ -12,11 +12,9 @@ class BusinessRepository extends Repository {
 
         $businesses = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-        // Jeśli baza jest pusta, zwróć pustą tablicę
         return $businesses ?: [];
     }
 
-    // Dodatkowa metoda, która przyda się później do wyszukiwarki
     public function searchBusinesses(string $searchString): array {
         $searchString = '%' . strtolower($searchString) . '%';
 

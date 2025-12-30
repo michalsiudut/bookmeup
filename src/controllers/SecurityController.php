@@ -82,12 +82,44 @@ class SecurityController extends AppController{
         return $this->render('preRegister');
     }
 
-    public function registerBusiness()
-    {
-        if (!$this->isPost()) {
-            return $this->render('registerBusiness');
-        }
+    public function registerBusiness() {
+    if (!$this->isPost()) {
+        return $this->render('registerBusiness');
     }
+
+    // Odbieramy dane z Twojego poprawionego HTML
+    $email = $_POST['email'] ?? '';
+    $password = $_POST['password'] ?? '';
+    
+    $userData = [
+        'email' => $email,
+        'password' => password_hash($password, PASSWORD_BCRYPT),
+        'firstname' => $_POST['businessName'] ?? '', // Używamy nazwy firmy jako imienia
+        'lastname' => 'Owner'
+    ];
+
+    $businessData = [
+        'name' => $_POST['businessName'] ?? '',
+        'nip' => $_POST['nip'] ?? '',
+        'category' => $_POST['category'] ?? '',
+        'city' => $_POST['city'] ?? '',
+        'street' => $_POST['street'] ?? '',
+        'house_number' => $_POST['houseNumber'] ?? '',
+        'postal_code' => $_POST['postalCode'] ?? '',
+        'phone' => $_POST['phone'] ?? '',
+        'email' => $email,
+        'description' => $_POST['description'] ?? ''
+    ];
+
+    // Wywołujemy tylko jedną metodę repozytorium, która załatwi wszystko
+    $success = $this->userRepository->registerBusinessWithUser($userData, $businessData);
+
+    if ($success) {
+        return $this->render('login', ['messages' => ['Firma i użytkownik zarejestrowani!']]);
+    } else {
+        return $this->render('registerBusiness', ['messages' => ['Błąd rejestracji. Upewnij się, że dane są poprawne.']]);
+    }
+}
 
     public function logout() {
         session_destroy();
