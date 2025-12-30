@@ -77,6 +77,18 @@ class SecurityController extends AppController{
         return $this->render("login", ["messages"=>"User register successfully.Please login!"]);
     }
 
+    public function preRegister()
+    {
+        return $this->render('preRegister');
+    }
+
+    public function registerBusiness()
+    {
+        if (!$this->isPost()) {
+            return $this->render('registerBusiness');
+        }
+    }
+
     public function logout() {
         session_destroy();
         $url = "http://$_SERVER[HTTP_HOST]";

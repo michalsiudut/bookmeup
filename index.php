@@ -20,5 +20,7 @@ Routing::get('calendar', ['controller' => 'NavigationController', 'action' => 'c
 Routing::get('appointments', ['controller' => 'NavigationController', 'action' => 'appointments']);
 Routing::get('profile', ['controller' => 'NavigationController', 'action' => 'profile']);
 Routing::get('logout', ['controller' => 'SecurityController', 'action' => 'logout']);
+Routing::get('preRegister', ['controller' => 'SecurityController', 'action' => 'preRegister']);
+Routing::get('registerBusiness', ['controller' => 'SecurityController', 'action' => 'registerBusiness']);
 
 $router->run($path);
