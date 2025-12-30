@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="pl">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Rejestracja Firmy - bookmeup</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="registerBusiness.css">
+</head>
+
+<body>
+    <div class="main-container">
+        <div class="registration-card">
+            <header class="header">
+                <h1>Zarejestruj swoją firmę</h1>
+                <p>Dołącz do bookmeup i docieraj do nowych klientów.</p>
+            </header>
+
+            <form class="registration-form">
+                <section class="form-section">
+                    <h3>Podstawowe informacje</h3>
+                    <div class="grid-2">
+                        <div class="form-group">
+                            <label>Nazwa firmy</label>
+                            <input type="text" placeholder="Wpisz nazwę firmy">
+                        </div>
+                        <div class="form-group">
+                            <label>NIP</label>
+                            <input type="text" placeholder="Wpisz NIP firmy">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Adres e-mail</label>
+                        <input type="email" placeholder="Wpisz adres e-mail">
+                    </div>
+                    <div class="grid-2">
+                        <div class="form-group">
+                            <label>Hasło</label>
+                            <input type="password" placeholder="Utwórz swoje hasło">
+                        </div>
+                        <div class="form-group">
+                            <label>Potwierdź hasło</label>
+                            <input type="password" placeholder="Potwierdź swoje hasło">
+                        </div>
+                    </div>
+                </section>
+
+                <section class="form-section">
+                    <h3>Dane adresowe</h3>
+                    <div class="grid-address">
+                        <div class="form-group street">
+                            <label>Ulica</label>
+                            <input type="text" placeholder="Wpisz ulicę">
+                        </div>
+                        <div class="form-group number">
+                            <label>Numer</label>
+                            <input type="text" placeholder="Numer">
+                        </div>
+                    </div>
+                    <div class="grid-2">
+                        <div class="form-group">
+                            <label>Miasto</label>
+                            <input type="text" placeholder="Wpisz miasto">
+                        </div>
+                        <div class="form-group">
+                            <label>Kod pocztowy</label>
+                            <input type="text" placeholder="00-000">
+                        </div>
+                    </div>
+                </section>
+
+                <section class="form-section">
+                    <h3>Informacje dodatkowe</h3>
+                    <div class="form-group">
+                        <label>Numer telefonu</label>
+                        <input type="tel" placeholder="Wpisz numer telefonu">
+                    </div>
+                    <div class="form-group">
+                        <label>Kategoria usług</label>
+                        <select>
+                            <option disabled selected>Wybierz kategorię</option>
+                            <option>Fryzjerstwo</option>
+                            <option>Kosmetyka</option>
+                            <option>Fizjoterapia</option>
+                            <option>Trening personalny</option>
+                            <option>Inne</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Krótki opis działalności</label>
+                        <textarea placeholder="Opisz krótko swoją działalność..." rows="4"></textarea>
+                    </div>
+                </section>
+
+                <div class="form-actions">
+                    <button type="submit" class="btn-primary">Zarejestruj firmę</button>
+                    <p class="login-link">Masz już konto? <a href="#">Zaloguj się</a></p>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+
+</html>

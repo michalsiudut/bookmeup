@@ -13,6 +13,8 @@ $router = Routing::getInstance();
 
 Routing::get('login', ['controller' => 'SecurityController', 'action' => 'login']);
 Routing::post('login', ['controller' => 'SecurityController', 'action' => 'login']);
+Routing::get('register', ['controller' => 'SecurityController', 'action' => 'register']);
+Routing::post('register', ['controller' => 'SecurityController', 'action' => 'register']);
 Routing::get('dashboard', ['controller' => 'NavigationController', 'action' => 'dashboard']);
 Routing::get('calendar', ['controller' => 'NavigationController', 'action' => 'calendar']);
 Routing::get('appointments', ['controller' => 'NavigationController', 'action' => 'appointments']);

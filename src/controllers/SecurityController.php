@@ -12,7 +12,7 @@ class SecurityController extends AppController{
     }
 
 
-        public function login()
+    public function login()
     {
         if (!$this->isPost()) {
             return $this->render('login');

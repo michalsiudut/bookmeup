@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="pl">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>bookmeup - Wybierz typ konta</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800;900&display=swap"
+        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+
+    <link rel="stylesheet" href="public/styles/preRegister.css">
+</head>
+
+<body class="pre-register-body">
+    <div class="layout-container">
+
+        <div class="content-wrapper">
+            <div class="container-960">
+
+                <header class="simple-header">
+                    <div class="logo-group">
+                        <span class="material-symbols-outlined icon-primary">book</span>
+                        <h2 class="logo-text">bookmeup</h2>
+                    </div>
+                </header>
+
+                <main class="pre-register-main">
+                    <div class="hero-text-center">
+                        <h1>Dołącz do nas. Kim jesteś?</h1>
+                        <p class="subtitle">Wybierz typ swojego konta</p>
+                    </div>
+
+                    <div class="selection-grid">
+                        <div class="choice-card card-hover" onclick="window.location.href='/register'">
+                            <div class="icon-wrapper">
+                                <span class="material-symbols-outlined display-icon">person</span>
+                            </div>
+                            <div class="card-info">
+                                <p class="card-title">Jestem Klientem</p>
+                                <p class="card-description">Szukaj i rezerwuj usługi w prosty i szybki sposób.</p>
+                            </div>
+                            <button class="btn-primary btn-hover">
+                                Zarejestruj się jako Klient
+                            </button>
+                        </div>
+
+                        <div class="choice-card card-hover" onclick="window.location.href='/registerBusiness'">
+                            <div class="icon-wrapper">
+                                <span class="material-symbols-outlined display-icon">storefront</span>
+                            </div>
+                            <div class="card-info">
+                                <p class="card-title">Jestem Usługodawcą</p>
+                                <p class="card-description">Zarządzaj rezerwacjami i docieraj do nowych klientów.</p>
+                            </div>
+                            <button class="btn-primary btn-hover">
+                                Załóż konto firmowe
+                            </button>
+                        </div>
+                    </div>
+
+                    <p class="login-footer">
+                        Masz już konto? <a href="/login" class="link-primary">Zaloguj się</a>
+                    </p>
+                </main>
+
+                <footer class="pre-register-footer">
+                    <div class="footer-links">
+                        <a href="#">Regulamin</a>
+                        <a href="#">Polityka prywatności</a>
+                        <a href="#">Kontakt</a>
+                    </div>
+                    <p class="copyright">© 2024 bookmeup</p>
+                </footer>
+
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
