@@ -1,6 +1,7 @@
 <?php
 
 require_once  'AppController.php';
+require_once 'supabase.php';
 
 class SecurityController extends AppController{
 
@@ -83,47 +84,87 @@ class SecurityController extends AppController{
     }
 
     public function registerBusiness() {
-    if (!$this->isPost()) {
-        return $this->render('registerBusiness');
+        if (!$this->isPost()) {
+            return $this->render('registerBusiness');
+        }
+        $imageUrl = "http://default-image.com/default.png"; // Domyślne zdjęcie
+        $email = $_POST['email'] ?? '';
+        $password = $_POST['password'] ?? '';
+        
+        if (isset($_FILES['bussines_photos']) && $_FILES['bussines_photos']['error'] === UPLOAD_ERR_OK) {
+            $uploadedUrl = $this->uploadToSupabase($_FILES['bussines_photos']);
+            if ($uploadedUrl) {
+                $imageUrl = $uploadedUrl;
+            }
+        }
+
+        $userData = [
+            'email' => $email,
+            'password' => password_hash($password, PASSWORD_BCRYPT),
+            'firstname' => $_POST['businessName'] ?? '',
+            'lastname' => 'Owner'
+        ];
+
+        $businessData = [
+            'name' => $_POST['businessName'] ?? '',
+            'nip' => $_POST['nip'] ?? '',
+            'category' => $_POST['category'] ?? '',
+            'image_url' => $imageUrl,
+            'city' => $_POST['city'] ?? '',
+            'street' => $_POST['street'] ?? '',
+            'house_number' => $_POST['houseNumber'] ?? '',
+            'postal_code' => $_POST['postalCode'] ?? '',
+            'phone' => $_POST['phone'] ?? '',
+            'email' => $email,
+            'description' => $_POST['description'] ?? ''
+        ];
+
+        $success = $this->userRepository->registerBusinessWithUser($userData, $businessData);
+
+        if ($success) {
+            return $this->render('login', ['messages' => ['Firma i użytkownik zarejestrowani!']]);
+        } else {
+            return $this->render('registerBusiness', ['messages' => ['Błąd rejestracji. Upewnij się, że dane są poprawne.']]);
+        }
     }
-
-    // Odbieramy dane z Twojego poprawionego HTML
-    $email = $_POST['email'] ?? '';
-    $password = $_POST['password'] ?? '';
-    
-    $userData = [
-        'email' => $email,
-        'password' => password_hash($password, PASSWORD_BCRYPT),
-        'firstname' => $_POST['businessName'] ?? '', // Używamy nazwy firmy jako imienia
-        'lastname' => 'Owner'
-    ];
-
-    $businessData = [
-        'name' => $_POST['businessName'] ?? '',
-        'nip' => $_POST['nip'] ?? '',
-        'category' => $_POST['category'] ?? '',
-        'city' => $_POST['city'] ?? '',
-        'street' => $_POST['street'] ?? '',
-        'house_number' => $_POST['houseNumber'] ?? '',
-        'postal_code' => $_POST['postalCode'] ?? '',
-        'phone' => $_POST['phone'] ?? '',
-        'email' => $email,
-        'description' => $_POST['description'] ?? ''
-    ];
-
-    // Wywołujemy tylko jedną metodę repozytorium, która załatwi wszystko
-    $success = $this->userRepository->registerBusinessWithUser($userData, $businessData);
-
-    if ($success) {
-        return $this->render('login', ['messages' => ['Firma i użytkownik zarejestrowani!']]);
-    } else {
-        return $this->render('registerBusiness', ['messages' => ['Błąd rejestracji. Upewnij się, że dane są poprawne.']]);
-    }
-}
 
     public function logout() {
         session_destroy();
         $url = "http://$_SERVER[HTTP_HOST]";
         header("Location: {$url}/login");
     }
+
+    // SUPBASE API TO STORAGE IMAGES
+    private function uploadToSupabase($file): ?string {
+        $supabaseUrl = SUPABASE_URL;
+        $token = SUPABASE_KEY;
+        $bucket = SUPABASE_BUCKET;
+
+        $fileName = time() . '_' . $file['name'];
+        $filePath = "/public/" . $fileName; // Ścieżka wewnątrz bucketu
+        $url = $supabaseUrl . "/storage/v1/object/" . $bucket . $filePath;
+
+        $ch = curl_init($url);
+        $fileData = file_get_contents($file['tmp_name']);
+
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $fileData);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, [
+            "Authorization: Bearer " . $token,
+            "Content-Type: " . $file['type']
+        ]);
+
+        $response = curl_exec($ch);
+        $info = curl_getinfo($ch);
+        curl_close($ch);
+
+        if ($info['http_code'] === 200) {
+            // Zwracamy publiczny URL do pliku
+            return $supabaseUrl . "/storage/v1/object/public/" . $bucket . $filePath;
+        }
+
+        return null;
+    }
+    
 }

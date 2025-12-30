@@ -1,3 +1,4 @@
 config.php
 .vs
 .vscode
+supabase.php

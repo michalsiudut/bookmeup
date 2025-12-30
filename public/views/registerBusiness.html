@@ -28,7 +28,7 @@
                 <?php endif; ?>
             </div>
 
-            <form class="registration-form" action="registerBusiness" method="POST">
+            <form class="registration-form" action="registerBusiness" method="POST" enctype="multipart/form-data">
                 <section class="form-section">
                     <h3>Podstawowe informacje</h3>
                     <div class="grid-2">
@@ -80,6 +80,10 @@
                         </div>
                     </div>
                 </section>
+                <div class="form-group">
+                    <label>Zdjęcie profilowe firmy</label>
+                    <input name="bussines_photos" type="file" accept="image/*">
+                </div>
 
                 <section class="form-section">
                     <h3>Informacje dodatkowe</h3>
