@@ -26,13 +26,12 @@
                 <section class="user-card">
                     <div class="user-info">
                         <?php 
-            // Przygotowanie zmiennych, aby kod wewnątrz HTML był czytelniejszy
-            $avatarUrl = $user['image_url'] ?? 'https://lh3.googleusercontent.com/aida-public/AB6AXuAkl7q-j7rxaTrAQ59t4u3j_K_rrRptrqlLEsYN2ECyKS6k9yoL0bxNiS2-EMHfIVgVvYfup_BAwDUcvRjkJKEaxmD_lpEzyc77lPzF-MoAIOu_Nbfa9MrIC3ly0bCfZod33WEE5KZj-Dx6de5toUnTYsSXap2Xkny4puh-ZNtiApyuOA8mqYFvf7UDNacc3EN4rz9MWhZyKLqHafS7yieU_dadYcT9Glod13ur6bCChVCzY8dK065gy1g4LB506F9MyuujYOsYTok';
-            $firstName = $user['firstname'] ?? '';
-            $lastName = $user['lastname'] ?? '';
-            $email = $user['email'] ?? '';
-            $fullName = trim($firstName . ' ' . $lastName);
-        ?>
+                            $avatarUrl = $user['image_url'] ?? 'https://lh3.googleusercontent.com/aida-public/AB6AXuAkl7q-j7rxaTrAQ59t4u3j_K_rrRptrqlLEsYN2ECyKS6k9yoL0bxNiS2-EMHfIVgVvYfup_BAwDUcvRjkJKEaxmD_lpEzyc77lPzF-MoAIOu_Nbfa9MrIC3ly0bCfZod33WEE5KZj-Dx6de5toUnTYsSXap2Xkny4puh-ZNtiApyuOA8mqYFvf7UDNacc3EN4rz9MWhZyKLqHafS7yieU_dadYcT9Glod13ur6bCChVCzY8dK065gy1g4LB506F9MyuujYOsYTok';
+                            $firstName = $user['firstname'] ?? '';
+                            $lastName = $user['lastname'] ?? '';
+                            $email = $user['email'] ?? '';
+                            $fullName = trim($firstName . ' ' . $lastName);
+                        ?>
 
                         <div class="avatar" style="background-image: url('<?= $avatarUrl ?>');"></div>
 
@@ -45,7 +44,11 @@
                             </p>
                         </div>
                     </div>
-                    <button class="btn-primary">Edytuj dane</button>
+
+                    <div class="user-actions-profile">
+                        <button class="btn-primary">Edytuj dane</button>
+                        <a href="/logout" class="btn-logout">Wyloguj się</a>
+                    </div>
                 </section>
 
                 <section class="settings-section">
@@ -110,11 +113,6 @@
                         </div>
                     </div>
                 </section>
-
-                <footer class="logout-section">
-                    <button class="btn-logout">Wyloguj się</button>
-                </footer>
-
             </div>
         </main>
     </div>
