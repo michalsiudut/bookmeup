@@ -69,7 +69,10 @@
                                     </span>
                                 </div>
 
-                                <button class="btn-card-action">Zobacz profil</button>
+                                <form action="/business_profile" method="GET">
+                                    <input type="hidden" name="service_id" value="123">
+                                    <button type="submit" class="select-btn">Wybierz</button>
+                                </form>
                             </div>
                         </div>
                         <?php endforeach; ?>

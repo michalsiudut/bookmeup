@@ -49,4 +49,18 @@ class NavigationController extends AppController{
         ]);
     }
 
+    public function business_profile() {
+        $serviceId = $_GET['id'] ?? null;
+        
+        $selectedService = null;
+        if ($serviceId) {
+            # TODO FECTH DATA FROM REPO
+        }
+
+        return $this->render('business-profile', [
+            'selectedService' => $selectedService,
+            'serviceId' => $serviceId
+        ]);
+    }
+
 }
