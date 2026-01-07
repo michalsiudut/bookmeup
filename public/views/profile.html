@@ -1,35 +1,122 @@
 <!DOCTYPE html>
-<html lang="pl">
+<html lang="pl" class="light">
 
 <head>
-    <meta charset="UTF-8">
-    <title>Profil - bookmeup</title>
-    <link rel="stylesheet" href="public/styles/main.css">
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Mój profil - bookmeup</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800;900&display=swap"
+        rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+
+    <link rel="stylesheet" href="public/styles/profile.css">
 </head>
 
 <body>
-    <div class="layout-container">
+    <?php include __DIR__ . '/header.html'; ?>
 
-        <?php include __DIR__ . '/header.html'; ?>
+    <div class="page-wrapper">
+        <main class="layout-container">
+            <div class="content-wrapper">
+                <header class="profile-header">
+                    <h1>Mój profil</h1>
+                </header>
 
-        <main class="content-area">
-            <div class="profile-header">
-                <h1>Twój Profil</h1>
+                <section class="user-card">
+                    <div class="user-info">
+                        <?php 
+            // Przygotowanie zmiennych, aby kod wewnątrz HTML był czytelniejszy
+            $avatarUrl = $user['image_url'] ?? 'https://lh3.googleusercontent.com/aida-public/AB6AXuAkl7q-j7rxaTrAQ59t4u3j_K_rrRptrqlLEsYN2ECyKS6k9yoL0bxNiS2-EMHfIVgVvYfup_BAwDUcvRjkJKEaxmD_lpEzyc77lPzF-MoAIOu_Nbfa9MrIC3ly0bCfZod33WEE5KZj-Dx6de5toUnTYsSXap2Xkny4puh-ZNtiApyuOA8mqYFvf7UDNacc3EN4rz9MWhZyKLqHafS7yieU_dadYcT9Glod13ur6bCChVCzY8dK065gy1g4LB506F9MyuujYOsYTok';
+            $firstName = $user['firstname'] ?? '';
+            $lastName = $user['lastname'] ?? '';
+            $email = $user['email'] ?? '';
+            $fullName = trim($firstName . ' ' . $lastName);
+        ?>
 
-                <a href="logout" class="logout-button">
-                    <span class="material-symbols-outlined">logout</span>
-                    <span>Wyloguj się</span>
-                </a>
-            </div>
+                        <div class="avatar" style="background-image: url('<?= $avatarUrl ?>');"></div>
 
-            <div class="profile-details">
-                <p>Jesteś zalogowany jako: <strong>
-                        <?php echo $_SESSION['user_id']; ?>
-                    </strong></p>
+                        <div class="user-details">
+                            <p class="user-name">
+                                <?= htmlspecialchars($fullName ?: 'Użytkownik bez imienia') ?>
+                            </p>
+                            <p class="user-email">
+                                <?= htmlspecialchars($email) ?>
+                            </p>
+                        </div>
+                    </div>
+                    <button class="btn-primary">Edytuj dane</button>
+                </section>
+
+                <section class="settings-section">
+                    <h2>Ustawienia powiadomień</h2>
+                    <div class="settings-list">
+                        <div class="settings-item border-bottom">
+                            <div class="settings-label">
+                                <div class="icon-box">
+                                    <span class="material-symbols-outlined">email</span>
+                                </div>
+                                <p>Powiadomienia email</p>
+                            </div>
+                            <label class="switch">
+                                <input type="checkbox" checked>
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                        <div class="settings-item">
+                            <div class="settings-label">
+                                <div class="icon-box">
+                                    <span class="material-symbols-outlined">sms</span>
+                                </div>
+                                <p>Powiadomienia SMS</p>
+                            </div>
+                            <label class="switch">
+                                <input type="checkbox">
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="settings-section">
+                    <h2>Historia rezerwacji</h2>
+                    <div class="table-container">
+                        <div class="table-row border-bottom">
+                            <div class="service-info">
+                                <p class="service-name">Strzyżenie męskie</p>
+                                <p class="service-provider">Barber Shop "Pod Wąsem"</p>
+                            </div>
+                            <p class="service-date">25.07.2024, 14:30</p>
+                            <span class="badge badge-success">Potwierdzona</span>
+                            <button class="btn-link">Szczegóły</button>
+                        </div>
+                        <div class="table-row border-bottom">
+                            <div class="service-info">
+                                <p class="service-name">Masaż relaksacyjny</p>
+                                <p class="service-provider">Oaza Spokoju SPA</p>
+                            </div>
+                            <p class="service-date">15.06.2024, 18:00</p>
+                            <span class="badge badge-neutral">Zakończona</span>
+                            <button class="btn-link">Szczegóły</button>
+                        </div>
+                        <div class="table-row">
+                            <div class="service-info">
+                                <p class="service-name">Wizyta u weterynarza</p>
+                                <p class="service-provider">Przychodnia "Cztery Łapy"</p>
+                            </div>
+                            <p class="service-date">01.06.2024, 10:00</p>
+                            <span class="badge badge-error">Anulowana</span>
+                            <button class="btn-link">Szczegóły</button>
+                        </div>
+                    </div>
+                </section>
+
+                <footer class="logout-section">
+                    <button class="btn-logout">Wyloguj się</button>
+                </footer>
+
             </div>
         </main>
-
     </div>
 </body>
 
