@@ -1,0 +1,256 @@
+/* Zmienne i Reset */
+:root {
+    --primary: #ADD8E6;
+    --bg-light: #FFFFFF;
+    --bg-dark: #0f1a23;
+    --text-light: #000000;
+    --text-dark: #FFFFFF;
+    --gray-200: #e5e7eb;
+    --gray-400: #9ca3af;
+    --gray-500: #6b7280;
+    --gray-700: #374151;
+    --gray-800: #1f2937;
+}
+
+body {
+    font-family: 'Manrope', sans-serif;
+    background-color: var(--bg-light);
+    color: var(--text-light);
+    margin: 0;
+}
+
+/* Tryb Ciemny */
+@media (prefers-color-scheme: dark) {
+    body {
+        background-color: var(--bg-dark);
+        color: var(--text-dark);
+    }
+
+    .input-field,
+    .textarea-field {
+        background-color: var(--gray-800);
+        border-color: var(--gray-700);
+        color: white;
+    }
+
+    .subtitle,
+    .helper-text {
+        color: var(--gray-400);
+    }
+}
+
+/* Layout */
+.profile-page-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 40px 16px;
+    min-height: 100vh;
+}
+
+.layout-content-container {
+    width: 100%;
+    max-width: 640px;
+}
+
+.section-header {
+    padding: 0 16px;
+    margin-bottom: 32px;
+}
+
+.title {
+    font-size: 1.875rem;
+    font-weight: 900;
+    letter-spacing: -0.033em;
+    margin: 0 0 8px 0;
+}
+
+.subtitle {
+    font-size: 0.875rem;
+    color: var(--gray-500);
+    margin: 0;
+}
+
+/* Formularz */
+.profile-form {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+}
+
+.avatar-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    padding: 16px;
+}
+
+.avatar-wrapper {
+    position: relative;
+}
+
+.avatar-image {
+    width: 128px;
+    height: 128px;
+    border-radius: 50%;
+    background-size: cover;
+    background-position: center;
+    border: 4px solid white;
+    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+}
+
+.avatar-upload-label {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    background-color: var(--primary);
+    color: var(--text-light);
+    padding: 8px;
+    border-radius: 50%;
+    cursor: pointer;
+    box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.avatar-upload-label:hover {
+    opacity: 0.9;
+}
+
+.helper-text {
+    font-size: 0.75rem;
+    color: var(--gray-500);
+    font-weight: 500;
+}
+
+/* Inputy */
+.grid-row {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 16px;
+    padding: 0 16px;
+}
+
+@media (min-width: 768px) {
+    .grid-row {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+.input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.px-padding {
+    padding: 0 16px;
+}
+
+.label {
+    font-size: 0.875rem;
+    font-weight: 700;
+    padding: 0 4px;
+}
+
+.input-field,
+.textarea-field {
+    height: 48px;
+    padding: 0 16px;
+    border-radius: 0.5rem;
+    border: 1px solid var(--gray-200);
+    font-size: 1rem;
+    outline: none;
+    transition: ring 0.2s;
+}
+
+.textarea-field {
+    height: auto;
+    padding: 16px;
+    resize: none;
+}
+
+.input-field:focus,
+.textarea-field:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 2px var(--primary);
+}
+
+.password-wrapper {
+    position: relative;
+    width: 100%;
+}
+
+.full-width {
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.toggle-password {
+    position: absolute;
+    right: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    color: var(--gray-400);
+    cursor: pointer;
+}
+
+/* Przyciski */
+.form-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: 16px 16px 0 16px;
+    border-top: 1px solid var(--gray-200);
+}
+
+@media (min-width: 768px) {
+    .form-actions {
+        flex-direction: row;
+    }
+}
+
+.btn-primary {
+    flex: 1;
+    height: 48px;
+    background-color: var(--primary);
+    color: var(--text-light);
+    border: none;
+    border-radius: 0.5rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: opacity 0.2s;
+}
+
+.btn-secondary {
+    flex: 1;
+    height: 48px;
+    background: transparent;
+    color: var(--gray-500);
+    border: 1px solid var(--gray-200);
+    border-radius: 0.5rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.btn-primary:hover {
+    opacity: 0.8;
+}
+
+.btn-secondary:hover {
+    background-color: #f9fafb;
+}
+
+.footer-note {
+    margin-top: 48px;
+    text-align: center;
+    padding: 0 16px;
+    font-size: 0.75rem;
+    color: var(--gray-400);
+}

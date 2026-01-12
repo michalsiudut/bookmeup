@@ -63,4 +63,19 @@ class NavigationController extends AppController{
         ]);
     }
 
+    public function editProfile() {
+        if (!$this->isLoggedIn()) {
+            $url = "http://$_SERVER[HTTP_HOST]";
+            header("Location: {$url}/login");
+            exit();
+        }
+
+        $email = $_SESSION['user_id'];
+        $user = $this->userRepository->getUserByEmail($email);
+
+        $this->render('editProfile', [
+            'user' => $user
+        ]);
+    }
+
 }

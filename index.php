@@ -23,5 +23,7 @@ Routing::get('logout', ['controller' => 'SecurityController', 'action' => 'logou
 Routing::get('preRegister', ['controller' => 'SecurityController', 'action' => 'preRegister']);
 Routing::get('registerBusiness', ['controller' => 'SecurityController', 'action' => 'registerBusiness']);
 Routing::post('registerBusiness', ['controller' => 'SecurityController', 'action' => 'registerBusiness']);
+Routing::get('editProfile', ['controller' => 'NavigationController', 'action' => 'editProfile']);
+Routing::post('editProfile', ['controller' => 'NavigationController', 'action' => 'editProfile']);
 
 $router->run($path);
