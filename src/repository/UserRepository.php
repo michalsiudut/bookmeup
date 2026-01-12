@@ -54,6 +54,20 @@ class UserRepository extends Repository {
         ]);
     }
 
+    public function updateSettings(string $email, bool $emailNotif, bool $smsNotif) {
+        $stmt = $this->database->connect()->prepare('
+            UPDATE users 
+            SET email_notifications = :emailNotif, sms_notifications = :smsNotif 
+            WHERE email = :email
+        ');
+        
+        $stmt->bindParam(':emailNotif', $emailNotif, PDO::PARAM_BOOL);
+        $stmt->bindParam(':smsNotif', $smsNotif, PDO::PARAM_BOOL);
+        $stmt->bindParam(':email', $email, PDO::PARAM_STR);
+        
+        return $stmt->execute();
+    }
+
     public function registerBusinessWithUser(array $userData, array $businessData): bool {
         $db = $this->database->connect();
         try {

@@ -25,5 +25,7 @@ Routing::get('registerBusiness', ['controller' => 'SecurityController', 'action'
 Routing::post('registerBusiness', ['controller' => 'SecurityController', 'action' => 'registerBusiness']);
 Routing::get('editProfile', ['controller' => 'NavigationController', 'action' => 'editProfile']);
 Routing::post('editProfile', ['controller' => 'NavigationController', 'action' => 'editProfile']);
+Routing::post('updateSettings', ['controller' => 'SecurityController', 'action' => 'updateSettings']);
+
 
 $router->run($path);

@@ -9,7 +9,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800;900&display=swap"
         rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
-
+    <script src="public/scripts/profile-settings.js?v=<?= time(); ?>"></script>
     <link rel="stylesheet" href="public/styles/profile.css">
 </head>
 
@@ -64,25 +64,23 @@
                     <div class="settings-list">
                         <div class="settings-item border-bottom">
                             <div class="settings-label">
-                                <div class="icon-box">
-                                    <span class="material-symbols-outlined">email</span>
-                                </div>
+                                <div class="icon-box"><span class="material-symbols-outlined">email</span></div>
                                 <p>Powiadomienia email</p>
                             </div>
                             <label class="switch">
-                                <input type="checkbox" checked>
+                                <input type="checkbox" id="email_notifications" <?=$user['email_notifications']
+                                    ? 'checked' : '' ?>>
                                 <span class="slider"></span>
                             </label>
                         </div>
                         <div class="settings-item">
                             <div class="settings-label">
-                                <div class="icon-box">
-                                    <span class="material-symbols-outlined">sms</span>
-                                </div>
+                                <div class="icon-box"><span class="material-symbols-outlined">sms</span></div>
                                 <p>Powiadomienia SMS</p>
                             </div>
                             <label class="switch">
-                                <input type="checkbox">
+                                <input type="checkbox" id="sms_notifications" <?=$user['sms_notifications'] ? 'checked'
+                                    : '' ?>>
                                 <span class="slider"></span>
                             </label>
                         </div>

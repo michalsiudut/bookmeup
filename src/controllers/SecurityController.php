@@ -174,5 +174,32 @@ class SecurityController extends AppController{
 
         return null;
     }
+
+    public function updateSettings() {
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+
+        if (!isset($_SESSION['user_id'])) {
+            http_response_code(403);
+            echo json_encode(['status' => 'error', 'message' => 'Unauthorized']);
+            return;
+        }
+
+        $content = trim(file_get_contents("php://input"));
+        $decoded = json_decode($content, true);
+
+        if (is_array($decoded)) {
+            $email = $_SESSION['user_id'];
+            $emailNotif = filter_var($decoded['email_notifications'], FILTER_VALIDATE_BOOLEAN);
+            $smsNotif = filter_var($decoded['sms_notifications'], FILTER_VALIDATE_BOOLEAN);
+
+            $result = $this->userRepository->updateSettings($email, $emailNotif, $smsNotif);
+
+            header('Content-Type: application/json');
+            echo json_encode(['status' => $result ? 'success' : 'error']);
+            exit;
+        }
+    }
     
 }
