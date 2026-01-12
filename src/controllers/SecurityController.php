@@ -47,7 +47,6 @@ class SecurityController extends AppController{
     }
     public function register()
     {
-
         if (!$this->isPost()) {
             return $this->render('register');
         }
@@ -57,25 +56,34 @@ class SecurityController extends AppController{
         $password2 = $_POST['password2'] ?? '';
         $firstName = $_POST['firstName'] ?? '';
         $lastName = $_POST['lastName'] ?? '';
+        $imageUrl = 'https://www.w3schools.com/howto/img_avatar.png'; 
+
+        if (isset($_FILES['avatar']) && $_FILES['avatar']['error'] === UPLOAD_ERR_OK) {
+            $uploadedUrl = $this->uploadToSupabase($_FILES['avatar']);
+            if ($uploadedUrl) {
+                $imageUrl = $uploadedUrl; 
+            }
+        }
 
         if($password != $password2){
-            return $this->render('register', ['messages' => 'Passwords should be the same']);
+            return $this->render('register', ['messages' => 'Hasła muszą być identyczne']);
         }
 
         if($this->userRepository->getUserByEmail($email)){
-            return $this->render('register', ['messages' => 'This email is in use']);
+            return $this->render('register', ['messages' => 'Ten email jest już zajęty']);
         }
-        if (empty($email) || empty($password) || empty($firstName) || empty($lastName)) {
-            return $this->render('register', ['messages' => 'Fill all fields']);
-        }
+
         $hashedPassword = password_hash($password, PASSWORD_BCRYPT);
+        
         $this->userRepository->createUser(
             $email,
             $hashedPassword,
             $firstName,
-            $lastName
+            $lastName,
+            $imageUrl 
         );
-        return $this->render("login", ["messages"=>"User register successfully.Please login!"]);
+
+        return $this->render("login", ["messages" => "Zarejestrowano pomyślnie. Zaloguj się!"]);
     }
 
     public function preRegister()
@@ -87,7 +95,7 @@ class SecurityController extends AppController{
         if (!$this->isPost()) {
             return $this->render('registerBusiness');
         }
-        $imageUrl = "http://default-image.com/default.png"; // Domyślne zdjęcie
+        $imageUrl = "http://default-image.com/default.png"; 
         $email = $_POST['email'] ?? '';
         $password = $_POST['password'] ?? '';
         
@@ -136,13 +144,14 @@ class SecurityController extends AppController{
 
     // SUPBASE API TO STORAGE IMAGES
     private function uploadToSupabase($file): ?string {
-        $supabaseUrl = SUPABASE_URL;
+        $supabaseUrl = rtrim(SUPABASE_URL, '/');
         $token = SUPABASE_KEY;
         $bucket = SUPABASE_BUCKET;
 
-        $fileName = time() . '_' . $file['name'];
-        $filePath = "/public/" . $fileName; // Ścieżka wewnątrz bucketu
-        $url = $supabaseUrl . "/storage/v1/object/" . $bucket . $filePath;
+        $fileName = time() . '_' . basename($file['name']);
+        
+        $filePath = "public/" . $fileName; 
+        $url = $supabaseUrl . "/storage/v1/object/" . $bucket . "/" . $filePath;
 
         $ch = curl_init($url);
         $fileData = file_get_contents($file['tmp_name']);
@@ -160,8 +169,7 @@ class SecurityController extends AppController{
         curl_close($ch);
 
         if ($info['http_code'] === 200) {
-            // Zwracamy publiczny URL do pliku
-            return $supabaseUrl . "/storage/v1/object/public/" . $bucket . $filePath;
+            return $supabaseUrl . "/storage/v1/object/public/" . $bucket . "/" . $filePath;
         }
 
         return null;

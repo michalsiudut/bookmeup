@@ -14,7 +14,7 @@
 
     <div class="page-wrapper">
         <div class="login-container">
-            <form class="form-wrapper" method="POST" action="/register">
+            <form class="form-wrapper" method="POST" action="/register" enctype="multipart/form-data">
 
                 <div class="text-center">
                     <h1 class="title">Stwórz swoje konto</h1>
@@ -37,6 +37,11 @@
                             <span class="label-text">Nazwisko</span>
                             <input name="lastName" class="input-field" placeholder="Nazwisko" type="text" required>
                         </label>
+                    </div>
+
+                    <div class="avatar-upload-container">
+                        <span class="label-text">Zdjęcie profilowe (opcjonalnie)</span>
+                        <input name="avatar" type="file" class="input-field" accept="image/*">
                     </div>
 
                     <label class="input-label">

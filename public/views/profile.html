@@ -33,8 +33,13 @@
                             $fullName = trim($firstName . ' ' . $lastName);
                         ?>
 
-                        <div class="avatar" style="background-image: url('<?= $avatarUrl ?>');"></div>
+                        <?php 
+                            $avatarUrl = (!empty($user['image_url'])) 
+                                        ? $user['image_url'] 
+                                        : 'https://www.w3schools.com/howto/img_avatar.png';
+                        ?>
 
+                        <div class="avatar" style="background-image: url('<?= htmlspecialchars($avatarUrl) ?>');"></div>
                         <div class="user-details">
                             <p class="user-name">
                                 <?= htmlspecialchars($fullName ?: 'Użytkownik bez imienia') ?>

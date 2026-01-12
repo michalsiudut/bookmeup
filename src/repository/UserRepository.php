@@ -31,24 +31,25 @@ class UserRepository extends Repository {
         return $user;
     }
 
-    public function createUser(string $email, string $hashedPassword, string $firstname, string $lastname, string $bio = ''){
+
+    public function createUser(string $email, string $hashedPassword, string $firstname, string $lastname, string $imageUrl = null){
+        if (!$imageUrl) {
+            $imageUrl = 'https://lh3.googleusercontent.com/aida-public/AB6AXuAkl7q-j7rxaTrAQ59t4u3j_K_rrRptrqlLEsYN2ECyKS6k9yoL0bxNiS2-EMHfIVgVvYfup_BAwDUcvRjkJKEaxmD_lpEzyc77lPzF-MoAIOu_Nbfa9MrIC3ly0bCfZod33WEE5KZj-Dx6de5toUnTYsSXap2Xkny4puh-ZNtiApyuOA8mqYFvf7UDNacc3EN4rz9MWhZyKLqHafS7yieU_dadYcT9Glod13ur6bCChVCzY8dK065gy1g4LB506F9MyuujYOsYTok';
+        }
 
         $query = $this->database->connect()->prepare(
             "
-            INSERT INTO users (firstname, lastname, email, password, bio, enabled)
-                VALUES (?,?,?,?,?,?);
+            INSERT INTO users (firstname, lastname, email, password, image_url, enabled)
+            VALUES (?, ?, ?, ?, ?, ?);
             "
         );
 
-        # TODO try catach lub insert with to handle errors with Creating user
-
-        #$query->bindParam(':email', $email);
         $query->execute([
             $firstname,
             $lastname,
             $email,
             $hashedPassword,
-            $bio,
+            $imageUrl,
             1
         ]);
     }
