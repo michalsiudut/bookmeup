@@ -4,6 +4,8 @@ require_once 'AppController.php';
 require_once __DIR__ . '/../repository/UserRepository.php';
 require_once __DIR__ . '/../repository/BusinessRepository.php';
 
+require_once __DIR__ . '/../../supabase.php';
+
 class NavigationController extends AppController
 {
 
@@ -114,9 +116,77 @@ class NavigationController extends AppController
         $email = $_SESSION['user_id'];
         $user = $this->userRepository->getUserByEmail($email);
 
+        if ($this->isPost()) {
+            $firstname = $_POST['firstname'];
+            $lastname = $_POST['lastname'];
+            $email = $_POST['email'];
+            $bio = $_POST['bio'];
+            $password = !empty($_POST['password']) ? password_hash($_POST['password'], PASSWORD_BCRYPT) : null;
+            $imageUrl = null;
+
+            if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+                return $this->render('editProfile', [
+                    'user' => $user,
+                    'error' => 'Nieprawidłowy adres email.'
+                ]);
+            }
+
+            if (isset($_FILES['avatar']) && $_FILES['avatar']['error'] === UPLOAD_ERR_OK) {
+                // Use Supabase upload logic
+                $uploadedUrl = $this->uploadToSupabase($_FILES['avatar']);
+                if ($uploadedUrl) {
+                    $imageUrl = $uploadedUrl;
+                }
+            }
+
+            $this->userRepository->updateUserDetails($user['id'], $firstname, $lastname, $email, $password, $bio, $imageUrl);
+
+            // Update session if email changed
+            if ($email !== $_SESSION['user_id']) {
+                $_SESSION['user_id'] = $email;
+            }
+
+            $url = "http://$_SERVER[HTTP_HOST]";
+            header("Location: {$url}/profile?status=updated");
+            exit();
+        }
+
         $this->render('editProfile', [
             'user' => $user
         ]);
+    }
+
+    private function uploadToSupabase($file): ?string
+    {
+        $supabaseUrl = rtrim(SUPABASE_URL, '/');
+        $token = SUPABASE_KEY;
+        $bucket = SUPABASE_BUCKET;
+
+        $fileName = time() . '_' . basename($file['name']);
+
+        $filePath = "public/" . $fileName;
+        $url = $supabaseUrl . "/storage/v1/object/" . $bucket . "/" . $filePath;
+
+        $ch = curl_init($url);
+        $fileData = file_get_contents($file['tmp_name']);
+
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $fileData);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, [
+            "Authorization: Bearer " . $token,
+            "Content-Type: " . $file['type']
+        ]);
+
+        $response = curl_exec($ch);
+        $info = curl_getinfo($ch);
+        curl_close($ch);
+
+        if ($info['http_code'] === 200) {
+            return $supabaseUrl . "/storage/v1/object/public/" . $bucket . "/" . $filePath;
+        }
+
+        return null;
     }
 
 }

@@ -21,7 +21,7 @@
                 <p>Zaktualizuj swoje informacje osobiste i zarządzaj ustawieniami konta.</p>
             </div>
 
-            <form action="/editProfile" method="POST" class="profile-form">
+            <form action="/editProfile" method="POST" class="profile-form" enctype="multipart/form-data">
                 <div class="avatar-section">
                     <div class="avatar-wrapper">
                         <?php 
@@ -86,6 +86,46 @@
             </div>
         </div>
     </div>
+    <?php if (isset($error)): ?>
+    <div class="error-toast" id="errorToast">
+        <div class="toast-content">
+            <span class="material-symbols-outlined error-icon">error</span>
+            <div class="toast-message">
+                <h4>Błąd!</h4>
+                <p>
+                    <?= htmlspecialchars($error) ?>
+                </p>
+            </div>
+            <button class="toast-close" onclick="document.getElementById('errorToast').remove()">
+                <span class="material-symbols-outlined">close</span>
+            </button>
+        </div>
+        <div class="toast-progress error-progress"></div>
+    </div>
+    <?php endif; ?>
+
+    <script>
+        // Avatar Preview
+        document.getElementById('avatar-upload').addEventListener('change', function (event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    document.querySelector('.avatar-preview').style.backgroundImage = `url('${e.target.result}')`;
+                }
+                reader.readAsDataURL(file);
+            }
+        });
+
+        // Error Toast Timer (only runs if element exists)
+        const toast = document.getElementById('errorToast');
+        if (toast) {
+            setTimeout(() => {
+                toast.style.animation = 'slideOut 0.5s forwards';
+                setTimeout(() => toast.remove(), 500);
+            }, 4000);
+        }
+    </script>
 </body>
 
 </html>

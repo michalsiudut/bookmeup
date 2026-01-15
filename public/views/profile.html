@@ -131,6 +131,30 @@
             </div>
         </main>
     </div>
+    <?php if (isset($_GET['status']) && $_GET['status'] === 'updated'): ?>
+    <div class="success-toast" id="successToast">
+        <div class="toast-content">
+            <span class="material-symbols-outlined check-icon">check_circle</span>
+            <div class="toast-message">
+                <h4>Sukces!</h4>
+                <p>Twój profil został zaktualizowany.</p>
+            </div>
+            <button class="toast-close" onclick="document.getElementById('successToast').remove()">
+                <span class="material-symbols-outlined">close</span>
+            </button>
+        </div>
+        <div class="toast-progress"></div>
+    </div>
+    <script>
+        setTimeout(() => {
+            const toast = document.getElementById('successToast');
+            if (toast) {
+                toast.style.animation = 'slideOut 0.5s forwards';
+                setTimeout(() => toast.remove(), 500);
+            }
+        }, 4000);
+    </script>
+    <?php endif; ?>
 </body>
 
 </html>
