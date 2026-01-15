@@ -20,13 +20,23 @@ class NavigationController extends AppController
 
     public function dashboard()
     {
-
-        // DATA FETCH HERE
+        $search = $_GET['search'] ?? null;
         $businessRepository = new BusinessRepository();
 
-        $businesses = $businessRepository->getBusinesses();
+        $businesses = $businessRepository->getBusinesses($search);
 
-        return $this->render("dashboard", ['businesses' => $businesses]);
+        // Fetch user data for header
+        $email = $_SESSION['user_id'] ?? null;
+        $user = null;
+        if ($email) {
+            $user = $this->userRepository->getUserByEmail($email);
+        }
+
+        return $this->render("dashboard", [
+            'businesses' => $businesses,
+            'search' => $search,
+            'user' => $user
+        ]);
     }
 
     public function calendar()
@@ -144,6 +154,11 @@ class NavigationController extends AppController
             // Update session if email changed
             if ($email !== $_SESSION['user_id']) {
                 $_SESSION['user_id'] = $email;
+            }
+
+            // Update session if avatar changed
+            if ($imageUrl) {
+                $_SESSION['user_avatar'] = $imageUrl;
             }
 
             $url = "http://$_SERVER[HTTP_HOST]";

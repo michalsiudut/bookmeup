@@ -1,13 +1,15 @@
 <?php
 
-require_once  'AppController.php';
+require_once 'AppController.php';
 require_once 'supabase.php';
 
-class SecurityController extends AppController{
+class SecurityController extends AppController
+{
 
 
     private $userRepository;
-    public function __construct(){
+    public function __construct()
+    {
         parent::__construct();
         $this->userRepository = new UserRepository();
     }
@@ -28,7 +30,7 @@ class SecurityController extends AppController{
             return $this->render('login', ['messages' => 'Fill all fields']);
         }
 
-        if(!$user){
+        if (!$user) {
             return $this->render('login', ['messages' => 'user doesnt exists']);
         }
 
@@ -39,8 +41,9 @@ class SecurityController extends AppController{
         if (session_status() === PHP_SESSION_NONE) {
             session_start();
         }
-        
-        $_SESSION['user_id'] = $user['email']; 
+
+        $_SESSION['user_id'] = $user['email'];
+        $_SESSION['user_avatar'] = $user['image_url'];
 
         $url = "http://$_SERVER[HTTP_HOST]";
         header("Location: {$url}/dashboard");
@@ -56,31 +59,31 @@ class SecurityController extends AppController{
         $password2 = $_POST['password2'] ?? '';
         $firstName = $_POST['firstName'] ?? '';
         $lastName = $_POST['lastName'] ?? '';
-        $imageUrl = 'https://www.w3schools.com/howto/img_avatar.png'; 
+        $imageUrl = 'https://www.w3schools.com/howto/img_avatar.png';
 
         if (isset($_FILES['avatar']) && $_FILES['avatar']['error'] === UPLOAD_ERR_OK) {
             $uploadedUrl = $this->uploadToSupabase($_FILES['avatar']);
             if ($uploadedUrl) {
-                $imageUrl = $uploadedUrl; 
+                $imageUrl = $uploadedUrl;
             }
         }
 
-        if($password != $password2){
+        if ($password != $password2) {
             return $this->render('register', ['messages' => 'Hasła muszą być identyczne']);
         }
 
-        if($this->userRepository->getUserByEmail($email)){
+        if ($this->userRepository->getUserByEmail($email)) {
             return $this->render('register', ['messages' => 'Ten email jest już zajęty']);
         }
 
         $hashedPassword = password_hash($password, PASSWORD_BCRYPT);
-        
+
         $this->userRepository->createUser(
             $email,
             $hashedPassword,
             $firstName,
             $lastName,
-            $imageUrl 
+            $imageUrl
         );
 
         return $this->render("login", ["messages" => "Zarejestrowano pomyślnie. Zaloguj się!"]);
@@ -91,14 +94,15 @@ class SecurityController extends AppController{
         return $this->render('preRegister');
     }
 
-    public function registerBusiness() {
+    public function registerBusiness()
+    {
         if (!$this->isPost()) {
             return $this->render('registerBusiness');
         }
-        $imageUrl = "http://default-image.com/default.png"; 
+        $imageUrl = "http://default-image.com/default.png";
         $email = $_POST['email'] ?? '';
         $password = $_POST['password'] ?? '';
-        
+
         if (isset($_FILES['bussines_photos']) && $_FILES['bussines_photos']['error'] === UPLOAD_ERR_OK) {
             $uploadedUrl = $this->uploadToSupabase($_FILES['bussines_photos']);
             if ($uploadedUrl) {
@@ -136,21 +140,23 @@ class SecurityController extends AppController{
         }
     }
 
-    public function logout() {
+    public function logout()
+    {
         session_destroy();
         $url = "http://$_SERVER[HTTP_HOST]";
         header("Location: {$url}/login");
     }
 
     // SUPBASE API TO STORAGE IMAGES
-    private function uploadToSupabase($file): ?string {
+    private function uploadToSupabase($file): ?string
+    {
         $supabaseUrl = rtrim(SUPABASE_URL, '/');
         $token = SUPABASE_KEY;
         $bucket = SUPABASE_BUCKET;
 
         $fileName = time() . '_' . basename($file['name']);
-        
-        $filePath = "public/" . $fileName; 
+
+        $filePath = "public/" . $fileName;
         $url = $supabaseUrl . "/storage/v1/object/" . $bucket . "/" . $filePath;
 
         $ch = curl_init($url);
@@ -175,7 +181,8 @@ class SecurityController extends AppController{
         return null;
     }
 
-    public function updateSettings() {
+    public function updateSettings()
+    {
         if (session_status() === PHP_SESSION_NONE) {
             session_start();
         }
@@ -201,5 +208,5 @@ class SecurityController extends AppController{
             exit;
         }
     }
-    
+
 }

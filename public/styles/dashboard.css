@@ -30,6 +30,17 @@
     font-weight: 900;
     letter-spacing: -0.033em;
     margin-bottom: 24px;
+    text-align: center;
+}
+
+.content-section h2 {
+    font-size: 24px;
+    font-weight: 800;
+    margin-bottom: 24px;
+    position: relative;
+    padding-left: 16px;
+    border-left: 4px solid var(--primary);
+    line-height: 1.2;
 }
 
 /* Search Bar */
@@ -68,11 +79,18 @@
     background: var(--primary);
     color: white;
     border: none;
-    padding: 0 24px;
+    padding: 0 32px;
     border-radius: 12px;
     font-weight: 700;
     cursor: pointer;
-    transition: background 0.2s;
+    transition: all 0.2s ease;
+    font-size: 1rem;
+}
+
+.btn-search:hover {
+    background-color: black;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
 /* Specialists Grid */
@@ -83,73 +101,144 @@
     margin-bottom: 48px;
 }
 
+/* List View Mode (Search Results) */
+.specialists-grid.list-view-mode {
+    grid-template-columns: 1fr;
+    gap: 16px;
+}
+
+.specialists-grid.list-view-mode .specialist-card {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    height: auto;
+    max-height: 200px;
+}
+
+.specialists-grid.list-view-mode .card-img {
+    width: 200px;
+    height: 100%;
+    min-height: 180px;
+    flex-shrink: 0;
+}
+
+.specialists-grid.list-view-mode .card-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 24px;
+}
+
+.specialists-grid.list-view-mode .btn-card-action,
+.specialists-grid.list-view-mode .select-btn {
+    width: auto;
+    align-self: flex-start;
+    padding: 10px 32px;
+}
+
+/* Specific adjustments for list view content */
+.specialists-grid.list-view-mode .rating {
+    margin-bottom: 16px;
+}
+
+@media (max-width: 768px) {
+    .specialists-grid.list-view-mode .specialist-card {
+        flex-direction: column;
+        max-height: none;
+    }
+
+    .specialists-grid.list-view-mode .card-img {
+        width: 100%;
+        height: 180px;
+    }
+
+    .specialists-grid.list-view-mode .select-btn {
+        width: 100%;
+    }
+}
+
 .specialist-card {
     background: white;
     border: 1px solid #eee;
-    border-radius: 12px;
+    border-radius: 16px;
+    /* More rounded */
     overflow: hidden;
-    transition: transform 0.3s ease;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
 }
 
 .specialist-card:hover {
     transform: translateY(-4px);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.08);
+    /* Better shadow */
 }
 
 .card-img {
-    height: 160px;
+    height: 180px;
+    /* Taller image */
     background-size: cover;
     background-position: center;
 }
 
 .card-content {
-    padding: 16px;
+    padding: 20px;
 }
 
 .card-content h3 {
     margin: 0;
     font-size: 18px;
+    font-weight: 800;
 }
 
 .category {
     color: var(--text-muted);
     font-size: 14px;
-    margin: 4px 0;
+    margin: 4px 0 12px 0;
 }
 
 .rating {
     display: flex;
     align-items: center;
-    gap: 1px;
-    margin: 8px 0;
+    gap: 2px;
+    margin-bottom: 20px;
 }
 
 .star-filled {
-    color: #eab308;
+    color: var(--primary);
+    /* Black stars for premium feel */
     font-size: 16px;
 }
 
 .star-empty {
-    color: #d1d5db;
+    color: #e5e7eb;
     font-size: 16px;
 }
 
 .count {
     font-size: 12px;
     color: var(--text-muted);
-    margin-left: 4px;
+    font-weight: 600;
+    margin-left: 6px;
 }
 
-.btn-card-action {
+.select-btn {
     width: 100%;
-    margin-top: 16px;
-    height: 40px;
-    background: rgba(6, 140, 249, 0.1);
+    background-color: white;
     color: var(--primary);
-    border: none;
-    border-radius: 12px;
+    border: 2px solid var(--primary);
+    padding: 12px;
+    border-radius: 10px;
     font-weight: 700;
     cursor: pointer;
+    transition: all 0.2s;
+    font-size: 0.95rem;
+}
+
+.select-btn:hover {
+    background-color: var(--primary);
+    color: white;
+    transform: translateY(-1px);
 }
 
 /* Appointments Section */
@@ -163,19 +252,27 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 16px;
+    padding: 20px;
     border: 1px solid var(--border-light);
-    border-radius: 12px;
+    border-radius: 16px;
+    background-color: white;
+    transition: box-shadow 0.2s;
+}
+
+.appointment-card:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
 }
 
 .appointment-details .time {
-    font-weight: 700;
+    font-weight: 800;
     font-size: 18px;
     margin: 0;
+    color: var(--primary);
 }
 
 .appointment-details .service {
     margin: 4px 0;
+    font-weight: 600;
 }
 
 .appointment-details .location {
@@ -193,19 +290,26 @@
     display: flex;
     align-items: center;
     gap: 8px;
-    background: var(--bg-gray);
-    border: none;
-    padding: 8px 12px;
-    border-radius: 12px;
+    background: transparent;
+    border: 1px solid var(--border-light);
+    color: var(--text-main);
+    padding: 8px 16px;
+    border-radius: 10px;
     font-size: 14px;
-    font-weight: 500;
+    font-weight: 600;
     cursor: pointer;
+    transition: all 0.2s;
+}
+
+.btn-secondary:hover {
+    background: var(--bg-gray);
+    border-color: #e5e7eb;
 }
 
 /* Footer */
 .dashboard-footer {
-    margin-top: 40px;
-    padding: 24px 0;
+    margin-top: 60px;
+    padding: 32px 0;
     border-top: 1px solid var(--border-light);
     display: flex;
     justify-content: space-between;
@@ -215,12 +319,17 @@
 
 .footer-links {
     display: flex;
-    gap: 16px;
+    gap: 24px;
 }
 
 .footer-links a {
     text-decoration: none;
-    color: inherit;
+    color: var(--text-muted);
+    transition: color 0.2s;
+}
+
+.footer-links a:hover {
+    color: var(--primary);
 }
 
 /* Responsywność */
@@ -232,10 +341,22 @@
     .appointment-card {
         flex-direction: column;
         align-items: flex-start;
+        gap: 16px;
+    }
+
+    .appointment-btns {
+        width: 100%;
+    }
+
+    .btn-secondary {
+        flex: 1;
+        justify-content: center;
     }
 
     .dashboard-footer {
         flex-direction: column;
-        gap: 16px;
+        gap: 20px;
+        align-items: center;
+        text-align: center;
     }
 }

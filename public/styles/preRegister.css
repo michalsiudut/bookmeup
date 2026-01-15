@@ -1,11 +1,12 @@
-/* Konfiguracja zmiennych zgodna z Twoim designem */
 :root {
-    --primary: #87CEEB;
-    --primary-hover: #add8e6;
+    --primary: #111111;
+    --primary-hover: #000000;
     --bg-light: #FFFFFF;
-    --text-main: #000000;
+    --text-main: #111518;
     --subtext: #5f788c;
-    --border-color: #e5e7eb;
+    --border-color: #f1f1f1;
+    --white: #ffffff;
+    --glass-bg: rgba(255, 255, 255, 0.9);
 }
 
 .pre-register-body {
@@ -114,8 +115,8 @@
     height: 48px;
     background-color: var(--primary);
     border: none;
-    border-radius: 8px;
-    color: var(--text-main);
+    border-radius: 12px;
+    color: var(--white);
     font-weight: 700;
     font-size: 16px;
     cursor: pointer;

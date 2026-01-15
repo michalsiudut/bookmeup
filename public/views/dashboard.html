@@ -23,19 +23,20 @@
                     <h1>Znajdź i zarezerwuj idealną usługę</h1>
                 </header>
 
-                <div class="search-container">
+                <form class="search-container" action="/dashboard" method="GET">
                     <div class="search-bar">
                         <div class="search-icon">
                             <span class="material-symbols-outlined">search</span>
                         </div>
-                        <input type="text" placeholder="Nazwa usługi, kategoria, miasto..." class="search-input">
+                        <input type="text" name="search" value="<?= htmlspecialchars($search ?? '') ?>"
+                            placeholder="Nazwa usługi, kategoria, miasto..." class="search-input">
                     </div>
-                    <button class="btn-search">Szukaj</button>
-                </div>
+                    <button type="submit" class="btn-search">Szukaj</button>
+                </form>
 
                 <section class="content-section">
                     <h2>Odkryj polecanych specjalistów</h2>
-                    <div class="specialists-grid">
+                    <div class="specialists-grid <?= !empty($search) ? 'list-view-mode' : '' ?>">
 
                         <?php if (!empty($businesses)): ?>
                         <?php foreach ($businesses as $business): ?>
