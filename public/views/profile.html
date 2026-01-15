@@ -47,21 +47,24 @@
                             <p class="user-email">
                                 <?= htmlspecialchars($email) ?>
                             </p>
+                            <?php if (!empty($user['bio'])): ?>
+                            <p class="user-bio">
+                                <?= nl2br(htmlspecialchars($user['bio'])) ?>
+                            </p>
+                            <?php endif; ?>
                         </div>
                     </div>
 
                     <div class="user-actions-profile">
-                        <a href="/editProfile" class="btn-primary"
-                            style="text-decoration: none; display: flex; align-items: center; justify-content: center;">
+                        <a href="/editProfile" class="btn-primary">
                             Edytuj dane
                         </a>
-                        <a href="/logout" class="btn-logout">Wyloguj się</a>
                         <?php if (isset($isOwner) && $isOwner): ?>
-                        <a href="/business_dashboard" class="btn-primary"
-                            style="margin-left: 1rem; text-decoration: none; display: flex; align-items: center; justify-content: center;">
-                            Zarządzaj biznesem
+                        <a href="/business_dashboard" class="btn-primary">
+                            Dodaj Usługę
                         </a>
                         <?php endif; ?>
+                        <a href="/logout" class="btn-logout">Wyloguj się</a>
                     </div>
                 </section>
 

@@ -1,5 +1,5 @@
 :root {
-    --primary: #38bdf8;
+    --primary: #111111;
     --gray-50: #f9fafb;
     --gray-100: #f3f4f6;
     --gray-200: #e5e7eb;
@@ -9,32 +9,54 @@
     --gray-700: #374151;
     --gray-900: #111827;
     --white: #ffffff;
+    --font-heading: 'Manrope', sans-serif;
+    --font-body: 'Manrope', sans-serif;
+}
+
+/* Base styles */
+body {
+    font-family: var(--font-body);
+    background-color: var(--gray-50);
+    color: var(--gray-900);
+    margin: 0;
 }
 
 /* Layout główny */
-.edit-profile-container {
+.page-wrapper {
     display: flex;
     justify-content: center;
-    padding: 40px 16px;
-    background-color: var(--white);
+    padding: 20px 16px;
+    /* Reduced vertical padding */
+    min-height: calc(100vh - 80px);
+    align-items: center;
+    /* Vertically center if possible */
 }
 
 .content-card {
     width: 100%;
-    max-width: 640px;
+    max-width: 900px;
+    /* Wider */
+    background-color: var(--white);
+    padding: 1.5rem 2rem;
+    /* Reduced padding */
+    border-radius: 1rem;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
 }
 
 /* Nagłówek */
 .section-header {
-    margin-bottom: 32px;
-    padding: 0 16px;
+    margin-bottom: 16px;
+    /* Reduced margin */
+    padding: 0;
+    text-align: center;
 }
 
 .section-header h1 {
-    font-size: 1.875rem;
-    font-weight: 900;
+    font-size: 1.5rem;
+    /* Smaller font */
+    font-weight: 800;
     color: var(--gray-900);
-    margin: 0 0 8px 0;
+    margin: 0 0 4px 0;
     letter-spacing: -0.033em;
 }
 
@@ -47,10 +69,13 @@
 /* Sekcja Avatara */
 .avatar-section {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
+    /* Horizontal avatar layout to save height */
+    justify-content: center;
     align-items: center;
     gap: 16px;
-    margin-bottom: 32px;
+    margin-bottom: 20px;
+    /* Reduced margin */
 }
 
 .avatar-wrapper {
@@ -58,13 +83,15 @@
 }
 
 .avatar-preview {
-    width: 128px;
-    height: 128px;
+    width: 80px;
+    /* Smaller avatar */
+    height: 80px;
     border-radius: 50%;
     background-size: cover;
     background-position: center;
-    border: 4px solid var(--white);
+    border: 3px solid var(--white);
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    background-color: var(--gray-100);
 }
 
 .avatar-upload-btn {
@@ -78,11 +105,12 @@
     cursor: pointer;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     display: flex;
-    transition: transform 0.2s;
+    transition: transform 0.2s, background-color 0.2s;
 }
 
 .avatar-upload-btn:hover {
     transform: scale(1.1);
+    background-color: #000;
 }
 
 .helper-text {
@@ -94,19 +122,20 @@
 .profile-form {
     display: flex;
     flex-direction: column;
-    gap: 24px;
+    gap: 16px;
+    /* Reduced gap */
 }
 
 .form-grid {
     display: grid;
     grid-template-columns: 1fr;
     gap: 16px;
-    padding: 0 16px;
 }
 
 @media (min-width: 768px) {
     .form-grid {
         grid-template-columns: 1fr 1fr;
+        /* 2 columns for inputs */
     }
 }
 
@@ -114,7 +143,6 @@
     display: flex;
     flex-direction: column;
     gap: 8px;
-    padding: 0 16px;
 }
 
 .input-group label {
@@ -131,12 +159,15 @@
     font-size: 1rem;
     outline: none;
     transition: all 0.2s;
+    background-color: var(--gray-50);
+    font-family: inherit;
 }
 
 .input-group input:focus,
 .input-group textarea:focus {
     border-color: var(--primary);
-    box-shadow: 0 0 0 2px rgba(56, 189, 248, 0.2);
+    background-color: var(--white);
+    box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.1);
 }
 
 /* Hasło */
@@ -158,7 +189,7 @@
     transform: translateY(-50%);
     background: none;
     border: none;
-    color: var(--gray-300);
+    color: var(--gray-500);
     cursor: pointer;
 }
 
@@ -167,9 +198,11 @@
     display: flex;
     flex-direction: column;
     gap: 12px;
-    padding: 24px 16px;
-    border-top: 1px solid var(--gray-100);
-    margin-top: 16px;
+    padding-top: 16px;
+    /* Reduced */
+    border-top: 1px solid var(--gray-200);
+    margin-top: 0;
+    /* Reduced */
 }
 
 @media (min-width: 768px) {
@@ -187,14 +220,14 @@
     border-radius: 0.75rem;
     font-weight: 700;
     cursor: pointer;
-    transition: opacity 0.2s;
+    transition: opacity 0.2s, transform 0.1s;
 }
 
 .btn-cancel {
     flex: 1;
     background: transparent;
-    color: var(--gray-500);
-    border: 1px solid var(--gray-200);
+    color: var(--gray-600);
+    border: 1px solid var(--gray-300);
     padding: 14px;
     border-radius: 0.75rem;
     font-weight: 700;
@@ -204,15 +237,17 @@
 
 .btn-save:hover {
     opacity: 0.9;
+    transform: translateY(-1px);
 }
 
 .btn-cancel:hover {
-    background-color: var(--gray-50);
+    background-color: var(--gray-100);
+    color: var(--gray-900);
 }
 
 .security-footer {
     text-align: center;
     margin-top: 32px;
     font-size: 0.75rem;
-    color: var(--gray-300);
+    color: var(--gray-500);
 }

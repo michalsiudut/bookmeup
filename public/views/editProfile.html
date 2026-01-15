@@ -1,76 +1,91 @@
+<!DOCTYPE html>
+<html lang="pl" class="light">
+
 <head>
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-    <title>Dashboard</title>
+    <title>Edytuj Profil - bookmeup</title>
 
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&display=swap" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
-
     <link rel="stylesheet" href="public/styles/editProfile.css">
 </head>
 
-<div class="edit-profile-container">
-    <div class="content-card">
-        <div class="section-header">
-            <h1>Edycja Danych Profilu</h1>
-            <p>Zaktualizuj swoje informacje osobiste i zarządzaj ustawieniami konta.</p>
-        </div>
+<body class="font-sans">
+    <?php include __DIR__ . '/header.html'; ?>
 
-        <form action="/editProfile" method="POST" class="profile-form">
-            <div class="avatar-section">
-                <div class="avatar-wrapper">
-                    <div class="avatar-preview"> </div>
-                    <label class="avatar-upload-btn" for="avatar-upload">
-                        <span class="material-symbols-outlined">photo_camera</span>
-                        <input type="file" id="avatar-upload" name="avatar" accept="image/*" hidden>
-                    </label>
-                </div>
-                <p class="helper-text">Kliknij ikonę, aby zmienić zdjęcie profilowe</p>
+    <div class="page-wrapper">
+        <div class="content-card">
+            <div class="section-header">
+                <h1>Edycja Danych Profilu</h1>
+                <p>Zaktualizuj swoje informacje osobiste i zarządzaj ustawieniami konta.</p>
             </div>
 
-            <div class="form-grid">
+            <form action="/editProfile" method="POST" class="profile-form">
+                <div class="avatar-section">
+                    <div class="avatar-wrapper">
+                        <?php 
+                            $avatarUrl = (!empty($user['image_url'])) 
+                                        ? $user['image_url'] 
+                                        : 'https://www.w3schools.com/howto/img_avatar.png';
+                        ?>
+                        <div class="avatar-preview"
+                            style="background-image: url('<?= htmlspecialchars($avatarUrl) ?>');"></div>
+                        <label class="avatar-upload-btn" for="avatar-upload">
+                            <span class="material-symbols-outlined">photo_camera</span>
+                            <input type="file" id="avatar-upload" name="avatar" accept="image/*" hidden>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="form-grid">
+                    <div class="input-group">
+                        <label for="firstname">Imię</label>
+                        <input type="text" id="firstname" name="firstname"
+                            value="<?= htmlspecialchars($user['firstname'] ?? '') ?>" required>
+                    </div>
+                    <div class="input-group">
+                        <label for="lastname">Nazwisko</label>
+                        <input type="text" id="lastname" name="lastname"
+                            value="<?= htmlspecialchars($user['lastname'] ?? '') ?>" required>
+                    </div>
+                </div>
+
+                <div class="form-grid">
+                    <div class="input-group">
+                        <label for="email">Adres e-mail</label>
+                        <input type="email" id="email" name="email"
+                            value="<?= htmlspecialchars($user['email'] ?? '') ?>" required>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="password">Hasło</label>
+                        <div class="password-field-wrapper">
+                            <input type="password" id="password" name="password" placeholder="Nowe hasło (opcjonalnie)">
+                            <button type="button" class="password-toggle">
+                                <span class="material-symbols-outlined">visibility</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="input-group">
-                    <label for="firstname">Imię</label>
-                    <input type="text" id="firstname" name="firstname"
-                        value="<?= htmlspecialchars($user['firstname'] ?? '') ?>" required>
+                    <label for="bio">O sobie (bio)</label>
+                    <textarea id="bio" name="bio" rows="4"
+                        placeholder="Napisz coś o sobie..."><?= htmlspecialchars($user['bio'] ?? '') ?></textarea>
                 </div>
-                <div class="input-group">
-                    <label for="lastname">Nazwisko</label>
-                    <input type="text" id="lastname" name="lastname"
-                        value="<?= htmlspecialchars($user['lastname'] ?? '') ?>" required>
+
+                <div class="form-actions">
+                    <button type="submit" class="btn-save">Zapisz zmiany</button>
+                    <button type="button" class="btn-cancel" onclick="window.location.href='/profile'">Anuluj</button>
                 </div>
-            </div>
+            </form>
 
-            <div class="input-group">
-                <label for="email">Adres e-mail</label>
-                <input type="email" id="email" name="email" value="<?= htmlspecialchars($user['email'] ?? '') ?>"
-                    required>
+            <div class="security-footer">
+                <p>Twoje dane są u nas bezpieczne. Zarządzaj swoją prywatnością w ustawieniach konta.</p>
             </div>
-
-            <div class="input-group">
-                <label for="password">Hasło</label>
-                <div class="password-field-wrapper">
-                    <input type="password" id="password" name="password"
-                        placeholder="Wprowadź nowe hasło (opcjonalnie)">
-                    <button type="button" class="password-toggle">
-                        <span class="material-symbols-outlined">visibility</span>
-                    </button>
-                </div>
-            </div>
-
-            <div class="input-group">
-                <label for="bio">O sobie (bio)</label>
-                <textarea id="bio" name="bio" rows="4"
-                    placeholder="Napisz coś o sobie..."><?= htmlspecialchars($user['bio'] ?? '') ?></textarea>
-            </div>
-
-            <div class="form-actions">
-                <button type="submit" class="btn-save">Zapisz zmiany</button>
-                <button type="button" class="btn-cancel" onclick="window.location.href='/profile'">Anuluj</button>
-            </div>
-        </form>
-
-        <div class="security-footer">
-            <p>Twoje dane są u nas bezpieczne. Zarządzaj swoją prywatnością w ustawieniach konta.</p>
         </div>
     </div>
-</div>
+</body>
+
+</html>

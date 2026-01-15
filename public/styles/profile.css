@@ -58,6 +58,8 @@ body {
     justify-content: space-between;
     align-items: center;
     gap: 20px;
+    flex-wrap: wrap;
+    /* Allow wrapping */
     padding: 20px 0;
 }
 
@@ -69,16 +71,19 @@ body {
 
 .btn-primary,
 .btn-logout {
-    width: 100%;
+    width: auto;
     text-align: center;
+    white-space: nowrap;
+    text-decoration: none;
 }
 
 .user-actions-profile {
     display: flex;
-    flex-direction: column;
-    align-items: flex-end;
+    flex-direction: row;
+    align-items: center;
     gap: 12px;
-    min-width: 160px;
+    margin-left: auto;
+    /* Push to right */
 }
 
 .avatar {
@@ -97,6 +102,15 @@ body {
 
 .user-email {
     color: var(--text-muted);
+}
+
+.user-bio {
+    margin-top: 0.5rem;
+    font-size: 0.875rem;
+    color: var(--text-muted);
+    font-style: italic;
+    line-height: 1.4;
+    max-width: 400px;
 }
 
 /* Przyciski */
@@ -129,21 +143,24 @@ body {
 }
 
 .btn-logout {
-    background: none;
+    background-color: #ef4444;
+    color: #FFFFFF;
     border: none;
-    color: #ef4444;
     font-weight: 700;
     cursor: pointer;
     font-size: 1rem;
-    padding: 8px 20px;
+    padding: 0.75rem 1.5rem;
     border-radius: 0.75rem;
-    transition: all 0.3s ease;
+    transition: opacity 0.2s;
     display: inline-block;
     text-decoration: none;
+    text-align: center;
 }
 
 .btn-logout:hover {
+    opacity: 0.8;
     background-color: #ef4444;
+    /* Keep background same, opacity handles the effect */
     color: #FFFFFF;
 }
 
@@ -326,6 +343,8 @@ input:checked+.slider:before {
 
     .user-actions-profile {
         width: 100%;
-        align-items: center;
+        align-items: stretch;
+        flex-direction: column;
+        margin-top: 1rem;
     }
 }
