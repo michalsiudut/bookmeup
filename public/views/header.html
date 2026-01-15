@@ -1,12 +1,11 @@
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+    rel="stylesheet" />
 <link rel="stylesheet" href="public/styles/header.css">
 
 <header class="main-header">
     <a href="/dashboard" class="logo-section" style="text-decoration: none; color: inherit;">
         <div class="logo-section">
-            <svg class="logo-icon" fill="currentColor" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
-                <path clip-rule="evenodd" d="M24 4H42V17.3333V30.6667H24V44H6V30.6667V17.3333H24V44Z"
-                    fill="currentColor" fill-rule="evenodd"></path>
-            </svg>
             <h2 class="logo-text">bookmeup</h2>
         </div>
     </a>
@@ -35,7 +34,7 @@
                 </a>
             </li>
             <li>
-                <a href="/profile" class="nav-link <?= strpos($uri, 'profile') !== false ? 'active' : '' ?>">
+                <a href="/profile" class="nav-link <?= strpos($uri, '/profile') !== false ? 'active' : '' ?>">
                     <span class="material-symbols-outlined">account_circle</span>
                     <span>Profile</span>
                 </a>
@@ -45,7 +44,7 @@
 
     <div class="user-actions">
         <button class="btn-icon"><span class="material-symbols-outlined">notifications</span></button>
-        <a href="/profile" class="nav-link <?= strpos($uri, 'profile') !== false ? 'active' : '' ?>">
+        <a href="/profile" class="nav-link <?= strpos($uri, '/profile') !== false ? 'active' : '' ?>">
             <div class="user-avatar"
                 style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCoGJB7rlV_HRATbXVcgZTlM6mljVWpkXucFTQmjGhPn7o3EBWQe-BHqTiZn7c4aDolME1KWurPaHVYtCTGahKNW5OTerCLeITwKCI9d426kG2caSNXyuzg2poUGtw21Bx0fJ-vRUTcmgw0Q4u7bO94a3pofboYcnTopK8ipiny3UHv2jXW9jE2b1RinUW6aRMEDMoKOkHaCQDpKemljvt2GTDwZMFuKPmC8z_ln0YI1hjIuYViZfUuboY5jS9UPe2mIBjJtZQV6O8');">
             </div>

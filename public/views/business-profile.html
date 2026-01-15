@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html class="light" lang="pl">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Profil Usługodawcy - bookmeup</title>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+        rel="stylesheet" />
+    <link rel="stylesheet" href="public/styles/business-profile.css">
+</head>
+
+<body class="font-sans">
+    <div class="page-wrapper">
+        <?php include __DIR__ . '/header.html'; ?>
+
+
+        <main class="main-content">
+            <div class="breadcrumbs-container">
+                <nav class="breadcrumbs">
+                    <a class="breadcrumb-link" href="#">Start</a>
+                    <span class="breadcrumb-separator">/</span>
+                    <span class="breadcrumb-current">Gentleman's Cut</span>
+                </nav>
+                <div class="action-buttons">
+                    <button class="icon-btn favorite">
+                        <span class="material-symbols-outlined icon-20">favorite</span>
+                    </button>
+                    <button class="icon-btn share">
+                        <span class="material-symbols-outlined icon-20">share</span>
+                    </button>
+                </div>
+            </div>
+
+            <section class="profile-header-section">
+                <div class="profile-header-content">
+                    <div class="profile-text">
+                        <div class="rating-badge-row">
+                            <span class="badge-top-rated">Top Rated</span>
+                            <div class="rating-container">
+                                <span class="material-symbols-outlined star-icon fill-1">star</span>
+                                <span class="rating-value">4.9</span>
+                                <span class="rating-count">(123 opinie)</span>
+                            </div>
+                        </div>
+                        <h1 class="profile-title">Gentleman's Cut</h1>
+                        <div class="location-row">
+                            <span class="material-symbols-outlined icon-18">location_on</span>
+                            <span>ul. Marszałkowska 10, Warszawa</span>
+                            <span class="dot-separator">•</span>
+                            <span class="status-open">Otwarte</span>
+                        </div>
+                    </div>
+                    <div class="profile-logo-container">
+                        <div class="profile-logo-img"
+                            style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAPjJb0ReUAijkBGWbtLmXEiJkcTUM5mBh2GpEUIZpn7oSdU9bDF68zbAxukjH2Lt0ALNNWK4Q8tyaJ-mQUiMnh26T1qziS5qIIHm6CFGwflzMOP4L_pjdQgD7GJ-Wm8AYcnf0gwCEwuD-UCPsCevWEBT-JKnFfwIn3OsTgE_jDRfth2HdkFHXLSjz2068Yz5sAMN8Ynpmn3ePQ1RB19tx_fUySWwiFVdaQ6KkUZ4EsxitAqshYmnr6tkuwtXVc5Zl78Zvb7zsh0tM')">
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="hero-image-section">
+                <div class="hero-image-container">
+                    <div class="hero-image"
+                        style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAPjJb0ReUAijkBGWbtLmXEiJkcTUM5mBh2GpEUIZpn7oSdU9bDF68zbAxukjH2Lt0ALNNWK4Q8tyaJ-mQUiMnh26T1qziS5qIIHm6CFGwflzMOP4L_pjdQgD7GJ-Wm8AYcnf0gwCEwuD-UCPsCevWEBT-JKnFfwIn3OsTgE_jDRfth2HdkFHXLSjz2068Yz5sAMN8Ynpmn3ePQ1RB19tx_fUySWwiFVdaQ6KkUZ4EsxitAqshYmnr6tkuwtXVc5Zl78Zvb7zsh0tM')">
+                    </div>
+                </div>
+            </section>
+
+            <div class="content-grid">
+                <div class="main-column">
+                    <section class="about-section">
+                        <h3 class="section-label">O nas</h3>
+                        <p class="about-text">
+                            Jesteśmy nowoczesnym salonem barberskim w samym sercu Warszawy. Specjalizujemy się w
+                            klasycznym strzyżeniu męskim, trymowaniu brody oraz pielęgnacji twarzy. Nasz zespół to
+                            doświadczeni profesjonaliści, dla których fryzjerstwo to pasja.
+                        </p>
+                        <p class="about-text mt-6">
+                            Używamy tylko najwyższej jakości kosmetyków. Wpadnij do nas na kawę i wyjdź z idealną
+                            fryzurą. Każda wizyta to rytuał, na który zasługujesz.
+                        </p>
+                    </section>
+
+                    <section class="offer-section">
+                        <div class="offer-header">
+                            <h3 class="section-label">Oferta</h3>
+                            <div class="offer-tabs">
+                                <button class="tab-btn active">Wszystkie</button>
+                                <button class="tab-btn">Włosy</button>
+                                <button class="tab-btn">Broda</button>
+                            </div>
+                        </div>
+                        <div class="services-list">
+                            <div class="service-item">
+                                <div class="service-header">
+                                    <h4 class="service-name">Strzyżenie Męskie Klasyczne</h4>
+                                    <span class="service-price">80 PLN</span>
+                                </div>
+                                <p class="service-desc">Konsultacja, mycie głowy, strzyżenie nożyczkami i maszynką,
+                                    modelowanie.</p>
+                                <div class="service-footer">
+                                    <span class="service-duration">45 min</span>
+                                    <button class="select-btn">Wybierz</button>
+                                </div>
+                            </div>
+
+                            <div class="service-item">
+                                <div class="service-header">
+                                    <h4 class="service-name">Strzyżenie Brody</h4>
+                                    <span class="service-price">50 PLN</span>
+                                </div>
+                                <p class="service-desc">Modelowanie brody brzytwą, gorący ręcznik, pielęgnacja olejkiem.
+                                </p>
+                                <div class="service-footer">
+                                    <span class="service-duration">30 min</span>
+                                    <button class="select-btn">Wybierz</button>
+                                </div>
+                            </div>
+
+                            <div class="service-item">
+                                <div class="service-header">
+                                    <h4 class="service-name">Combo (Włosy + Broda)</h4>
+                                    <span class="service-price">120 PLN</span>
+                                </div>
+                                <p class="service-desc">Pełen pakiet dla dżentelmena. Oszczędzasz 10 PLN wybierając
+                                    komplet.</p>
+                                <div class="service-footer">
+                                    <div class="footer-left">
+                                        <span class="service-duration">75 min</span>
+                                        <span class="promo-tag">Promocja</span>
+                                    </div>
+                                    <button class="select-btn">Wybierz</button>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+
+                <div class="sidebar-column">
+                    <div class="booking-widget">
+                        <div class="widget-header">
+                            <h3 class="widget-title">Termin wizyty</h3>
+                            <p class="widget-subtitle">Wybierz datę i godzinę</p>
+                        </div>
+
+                        <div class="calendar-wrapper">
+                            <div class="calendar-nav">
+                                <button class="cal-nav-btn"><span
+                                        class="material-symbols-outlined icon-18">chevron_left</span></button>
+                                <span class="current-month">Wrzesień 2024</span>
+                                <button class="cal-nav-btn"><span
+                                        class="material-symbols-outlined icon-18">chevron_right</span></button>
+                            </div>
+                            <div class="calendar-days-grid">
+                                <div class="day-label">Pn</div>
+                                <div class="day-label">Wt</div>
+                                <div class="day-label">Śr</div>
+                                <div class="day-label">Cz</div>
+                                <div class="day-label">Pt</div>
+                                <div class="day-label">So</div>
+                                <div class="day-label">Nd</div>
+
+                                <div class="day-number disabled">28</div>
+                                <div class="day-number disabled">29</div>
+                                <div class="day-number disabled">30</div>
+                                <div class="day-number">1</div>
+                                <div class="day-number">2</div>
+                                <div class="day-number">3</div>
+                                <div class="day-number">4</div>
+                                <div class="day-number">5</div>
+                                <div class="day-number">6</div>
+                                <div class="day-number">7</div>
+                                <div class="day-number">8</div>
+                                <div class="day-number">9</div>
+                                <div class="day-number">10</div>
+                                <div class="day-number">11</div>
+                                <div class="day-number">12</div>
+                                <div class="day-number">13</div>
+                                <div class="day-number active-day">14</div>
+                                <div class="day-number">15</div>
+                            </div>
+                        </div>
+
+                        <div class="time-slots-grid">
+                            <button class="time-slot">09:00</button>
+                            <button class="time-slot">10:30</button>
+                            <button class="time-slot selected">12:00</button>
+                        </div>
+
+                        <button class="book-submit-btn">
+                            Zarezerwuj teraz
+                        </button>
+                        <p class="instant-confirm-text">Natychmiastowe potwierdzenie</p>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <footer class="main-footer">
+            <div class="footer-content">
+                <div class="footer-logo">bookmeup</div>
+                <div class="footer-links">
+                    <a href="#">O nas</a>
+                    <a href="#">Pomoc</a>
+                    <a href="#">Regulamin</a>
+                    <a href="#">Kontakt</a>
+                </div>
+                <p class="copyright">© 2024</p>
+            </div>
+        </footer>
+    </div>
+</body>
+
+</html>
