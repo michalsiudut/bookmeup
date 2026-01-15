@@ -50,7 +50,40 @@ class NavigationController extends AppController
         $email = $_SESSION['user_id'];
         $user = $this->userRepository->getUserByEmail($email);
 
-        $this->render('profile', [
+        // Check if user is business owner
+        $businessRepository = new BusinessRepository();
+        $isOwner = $businessRepository->checkIfOwner($user['id']);
+
+        return $this->render('profile', [
+            'user' => $user,
+            'isOwner' => $isOwner
+        ]);
+    }
+
+    public function business_dashboard()
+    {
+        if (!$this->isLoggedIn()) {
+            $url = "http://$_SERVER[HTTP_HOST]";
+            header("Location: {$url}/login");
+            exit();
+        }
+
+        $email = $_SESSION['user_id'];
+        $user = $this->userRepository->getUserByEmail($email);
+
+        $businessRepository = new BusinessRepository();
+        $isOwner = $businessRepository->checkIfOwner($user['id']);
+
+        if (!$isOwner) {
+            // Redirect non-owners back to profile or dashboard
+            $url = "http://$_SERVER[HTTP_HOST]";
+            header("Location: {$url}/profile");
+            exit();
+        }
+
+        // TODO: specific data for dashboard could be fetched here
+
+        return $this->render('business-dashboard', [
             'user' => $user
         ]);
     }

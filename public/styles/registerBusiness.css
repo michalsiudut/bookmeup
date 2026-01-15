@@ -1,6 +1,6 @@
 :root {
-    --primary-color: #3b82f6;
-    --primary-hover: #2563eb;
+    --primary-color: #111111;
+    --primary-hover: #000000;
     --bg-light: #ffffff;
     --text-main: #000000;
     --text-muted: #6b7280;
@@ -124,7 +124,7 @@ input:focus,
 select:focus,
 textarea:focus {
     border-color: var(--primary-color);
-    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.5);
+    box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.2);
 }
 
 /* Przyciski */

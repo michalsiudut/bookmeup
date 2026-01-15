@@ -16,7 +16,7 @@
                 $uri = $_SERVER['REQUEST_URI']; 
             ?>
             <li>
-                <a href="/dashboard" class="nav-link <?= strpos($uri, 'dashboard') !== false ? 'active' : '' ?>">
+                <a href="/dashboard" class="nav-link <?= strpos($uri, '/dashboard') !== false ? 'active' : '' ?>">
                     <span class="material-symbols-outlined">pie_chart</span>
                     <span>Dashboard</span>
                 </a>

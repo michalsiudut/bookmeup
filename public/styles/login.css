@@ -1,5 +1,5 @@
 :root {
-    --primary: #38bdf8;
+    --primary: #111111;
     --gray-300: #d1d5db;
     --gray-600: #4b5563;
     --gray-700: #374151;
@@ -69,7 +69,7 @@ body {
 
 .input-field:focus {
     border-color: var(--primary);
-    box-shadow: 0 0 0 2px rgba(56, 189, 248, 0.2);
+    box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.2);
 }
 
 .button-group {

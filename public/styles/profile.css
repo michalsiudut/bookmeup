@@ -1,6 +1,5 @@
-/* Zmienne i motywy */
 :root {
-    --primary: #ADD8E6;
+    --primary: #111111;
     --bg-color: #FFFFFF;
     --text-color: #000000;
     --text-muted: #6b7280;
@@ -103,7 +102,7 @@ body {
 /* Przyciski */
 .btn-primary {
     background-color: var(--primary);
-    color: #000;
+    color: #FFF;
     border: none;
     padding: 0.75rem 1.5rem;
     border-radius: 0.75rem;

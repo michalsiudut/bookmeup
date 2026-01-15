@@ -56,6 +56,12 @@
                             Edytuj dane
                         </a>
                         <a href="/logout" class="btn-logout">Wyloguj się</a>
+                        <?php if (isset($isOwner) && $isOwner): ?>
+                        <a href="/business_dashboard" class="btn-primary"
+                            style="margin-left: 1rem; text-decoration: none; display: flex; align-items: center; justify-content: center;">
+                            Zarządzaj biznesem
+                        </a>
+                        <?php endif; ?>
                     </div>
                 </section>
 

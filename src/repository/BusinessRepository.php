@@ -2,9 +2,11 @@
 
 require_once 'Repository.php';
 
-class BusinessRepository extends Repository {
+class BusinessRepository extends Repository
+{
 
-    public function getBusinesses(): array {
+    public function getBusinesses(): array
+    {
         $stmt = $this->database->connect()->prepare('
             SELECT * FROM businesses ORDER BY created_at DESC
         ');
@@ -15,7 +17,8 @@ class BusinessRepository extends Repository {
         return $businesses ?: [];
     }
 
-    public function searchBusinesses(string $searchString): array {
+    public function searchBusinesses(string $searchString): array
+    {
         $searchString = '%' . strtolower($searchString) . '%';
 
         $stmt = $this->database->connect()->prepare('
@@ -28,5 +31,16 @@ class BusinessRepository extends Repository {
         $stmt->execute();
 
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function checkIfOwner(int $userId): bool
+    {
+        $stmt = $this->database->connect()->prepare('
+            SELECT 1 FROM user_business WHERE user_id = :user_id
+        ');
+        $stmt->bindParam(':user_id', $userId, PDO::PARAM_INT);
+        $stmt->execute();
+
+        return (bool) $stmt->fetchColumn();
     }
 }

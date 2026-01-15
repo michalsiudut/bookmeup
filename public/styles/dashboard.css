@@ -1,6 +1,5 @@
-/* Konfiguracja kolorów i czcionek */
 :root {
-    --primary: #068cf9;
+    --primary: #111111;
     --text-main: #111518;
     --text-muted: #5f788c;
     --bg-gray: #F1F1F1;
