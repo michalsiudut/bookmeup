@@ -37,8 +37,7 @@ class Routing {
         }
 
         if (!array_key_exists($path, self::$routes)) {
-            include 'public/views/404.html';
-            die();
+            self::redirect('');
         }
 
         $controllerName = self::$routes[$path]['controller'];

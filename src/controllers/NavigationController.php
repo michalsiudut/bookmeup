@@ -20,6 +20,12 @@ class NavigationController extends AppController
 
     public function dashboard()
     {
+        if (!$this->isLoggedIn()) {
+            $url = "http://$_SERVER[HTTP_HOST]";
+            header("Location: {$url}/login");
+            exit();
+        }
+
         $search = $_GET['search'] ?? null;
         $businessRepository = new BusinessRepository();
 
@@ -41,12 +47,22 @@ class NavigationController extends AppController
 
     public function calendar()
     {
+        if (!$this->isLoggedIn()) {
+            $url = "http://$_SERVER[HTTP_HOST]";
+            header("Location: {$url}/login");
+            exit();
+        }
         // DATA FETCH HERE
         return $this->render("calendar");
     }
 
     public function appointments()
     {
+        if (!$this->isLoggedIn()) {
+            $url = "http://$_SERVER[HTTP_HOST]";
+            header("Location: {$url}/login");
+            exit();
+        }
         // DATA FETCH HERE
         return $this->render("appointments");
     }
