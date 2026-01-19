@@ -147,10 +147,9 @@ class SecurityController extends AppController
         header("Location: {$url}/login");
     }
 
-    // SUPBASE API TO STORAGE IMAGES
     private function uploadToSupabase($file): ?string
     {
-        $supabaseUrl = rtrim(SUPABASE_URL, '/');
+        $supabaseUrl = trim(SUPABASE_URL, " \n\r\t\v\x00/");
         $token = SUPABASE_KEY;
         $bucket = SUPABASE_BUCKET;
 
@@ -171,12 +170,17 @@ class SecurityController extends AppController
         ]);
 
         $response = curl_exec($ch);
+        if ($response === false) {
+            error_log('Curl error: ' . curl_error($ch));
+        }
         $info = curl_getinfo($ch);
         curl_close($ch);
 
         if ($info['http_code'] === 200) {
             return $supabaseUrl . "/storage/v1/object/public/" . $bucket . "/" . $filePath;
         }
+
+        error_log("Supabase upload failed with code " . $info['http_code'] . ": " . $response);
 
         return null;
     }
