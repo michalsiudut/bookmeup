@@ -95,7 +95,7 @@ class UserRepository extends Repository
 
             // RECORD IN BUSSINESS
             $stmtBiz = $db->prepare('
-                INSERT INTO businesses (name, nip, category, city, street, house_number, postal_code, phone, email, description, rating_avg, image_url)
+                INSERT INTO businesses (name, nip, category, city, street, house_number, postal_code, phone, email, description, rating, image_url)
                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) RETURNING id
             ');
             $stmtBiz->execute([

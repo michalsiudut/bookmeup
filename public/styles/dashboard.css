@@ -200,19 +200,34 @@
 .rating {
     display: flex;
     align-items: center;
-    gap: 2px;
     margin-bottom: 20px;
 }
 
-.star-filled {
-    color: var(--primary);
-    /* Black stars for premium feel */
+.stars-container {
+    display: inline-block;
+    position: relative;
+    font-family: 'Material Symbols Outlined';
     font-size: 16px;
+    letter-spacing: 2px;
 }
 
-.star-empty {
+.stars-outer {
     color: #e5e7eb;
-    font-size: 16px;
+}
+
+.stars-inner {
+    position: absolute;
+    top: 0;
+    left: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    width: 0;
+    color: #f6b01e;
+}
+
+.stars-outer::before,
+.stars-inner::before {
+    content: "star star star star star";
 }
 
 .count {

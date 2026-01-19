@@ -55,16 +55,10 @@
                                 </p>
 
                                 <div class="rating">
-                                    <?php 
-                            // Renderowanie gwiazdek na podstawie oceny (np. 4.5 -> 5 gwiazdek)
-                            $rating = round($business['rating_avg']); 
-                            for ($i = 1; $i <= 5; $i++): 
-                            ?>
-                                    <span
-                                        class="material-symbols-outlined <?= $i <= $rating ? 'star-filled' : 'star-empty' ?>">
-                                        star
-                                    </span>
-                                    <?php endfor; ?>
+                                    <div class="stars-container">
+                                        <div class="stars-outer"></div>
+                                        <?php $w = ($business['rating'] ?? 0) * 20; echo '<div class="stars-inner" style="width: '.$w.'%;"></div>'; ?>
+                                    </div>
                                     <span class="count">(
                                         <?= $business['review_count'] ?>)
                                     </span>
