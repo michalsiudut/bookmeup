@@ -528,7 +528,6 @@ body {
 .select-btn.active {
     background-color: var(--green-600);
     color: #fff;
-    pointer-events: none;
 }
 
 .footer-left {

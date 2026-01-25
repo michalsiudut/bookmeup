@@ -3,6 +3,7 @@
 require_once 'AppController.php';
 require_once __DIR__ . '/../repository/AppointmentRepository.php';
 require_once __DIR__ . '/../repository/UserRepository.php';
+require_once __DIR__ . '/../repository/UserRepository.php';
 
 class AppointmentController extends AppController
 {
@@ -95,6 +96,68 @@ class AppointmentController extends AppController
             echo "Schema update attempted. Check if you can book now.";
         } catch (Exception $e) {
             echo "Error: " . $e->getMessage();
+        }
+    }
+
+    public function cancelAppointment()
+    {
+        if (!$this->isPost()) {
+            http_response_code(405);
+            exit();
+        }
+
+        if (!$this->isLoggedIn()) {
+            http_response_code(401);
+            echo json_encode(['error' => 'Unauthorized']);
+            return;
+        }
+
+        // Get raw POST input
+        $input = json_decode(file_get_contents('php://input'), true);
+        $appointmentId = $input['appointment_id'] ?? null;
+
+        if (!$appointmentId) {
+            http_response_code(400);
+            echo json_encode(['error' => 'Missing appointment ID']);
+            return;
+        }
+
+        $email = $_SESSION['user_id'];
+        // Simple security check: In a real app, verify appointment belongs to user.
+        // For now, assuming only ID is passed, we should ideally check ownership.
+        // Let's fetch appointments for user and check if ID exists there.
+
+        $userRepository = new UserRepository();
+        $user = $userRepository->getUserByEmail($email);
+        $userId = $user['id'];
+
+        $userAppointments = $this->appointmentRepository->getAppointmentsByUserId($userId);
+        $ownsAppointment = false;
+
+        foreach ($userAppointments as $appt) {
+            if ($appt['id'] == $appointmentId) {
+                $ownsAppointment = true;
+                if ($appt['status'] !== 'pending' && $appt['status'] !== 'confirmed') {
+                    http_response_code(400);
+                    echo json_encode(['error' => 'Cannot cancel this appointment']);
+                    return;
+                }
+                break;
+            }
+        }
+
+        if (!$ownsAppointment) {
+            http_response_code(403);
+            echo json_encode(['error' => 'Forbidden']);
+            return;
+        }
+
+        try {
+            $this->appointmentRepository->updateStatus((int) $appointmentId, 'cancelled');
+            echo json_encode(['message' => 'Appointment cancelled']);
+        } catch (Exception $e) {
+            http_response_code(500);
+            echo json_encode(['error' => 'Database error']);
         }
     }
 }

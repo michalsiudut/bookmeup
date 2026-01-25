@@ -5,7 +5,7 @@ require_once 'Repository.php';
 class BusinessRepository extends Repository
 {
 
-    public function getBusinesses(?string $search = null): array
+    public function getBusinesses(?string $search = null, ?int $limit = null): array
     {
         $query = 'SELECT * FROM businesses';
         $params = [];
@@ -16,6 +16,10 @@ class BusinessRepository extends Repository
         }
 
         $query .= ' ORDER BY created_at DESC';
+
+        if ($limit) {
+            $query .= ' LIMIT ' . (int) $limit;
+        }
 
         $stmt = $this->database->connect()->prepare($query);
         $stmt->execute($params);

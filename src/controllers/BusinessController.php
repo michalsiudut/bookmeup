@@ -46,8 +46,10 @@ class BusinessController extends AppController
         $price = (float) $_POST['price'];
         $duration = (int) $_POST['duration_minutes'];
         $description = $_POST['description'];
+        $startHour = $_POST['start_hour'] ?? '09:00';
+        $endHour = $_POST['end_hour'] ?? '17:00';
 
-        $this->serviceRepository->addService($business['id'], $name, $price, $duration, $description);
+        $this->serviceRepository->addService($business['id'], $name, $price, $duration, $description, $startHour, $endHour);
 
         $url = "http://$_SERVER[HTTP_HOST]";
         // Redirect back to dashboard or profile

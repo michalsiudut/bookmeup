@@ -28,4 +28,47 @@ document.addEventListener('DOMContentLoaded', () => {
 
     emailNotif.addEventListener('change', update);
     smsNotif.addEventListener('change', update);
+
+    // Cancel Appointment Logic
+    const cancelButtons = document.querySelectorAll('.btn-cancel-appointment');
+
+    cancelButtons.forEach(btn => {
+        btn.addEventListener('click', async (e) => {
+            const appointmentId = btn.dataset.id;
+
+            if (!confirm('Czy na pewno chcesz anulować tę rezerwację?')) {
+                return;
+            }
+
+            const originalText = btn.textContent;
+            btn.textContent = '...';
+            btn.disabled = true;
+
+            try {
+                const response = await fetch('/cancelAppointment', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ appointment_id: appointmentId })
+                });
+
+                const result = await response.json();
+
+                if (response.ok) {
+                    // alert('Rezerwacja anulowana.');
+                    location.reload();
+                } else {
+                    alert('Błąd: ' + (result.error || 'Nie udało się anulować.'));
+                    btn.textContent = originalText;
+                    btn.disabled = false;
+                }
+            } catch (error) {
+                console.error(error);
+                alert('Błąd połączenia.');
+                btn.textContent = originalText;
+                btn.disabled = false;
+            }
+        });
+    });
 });

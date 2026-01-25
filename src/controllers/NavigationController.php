@@ -4,6 +4,7 @@ require_once 'AppController.php';
 require_once __DIR__ . '/../repository/UserRepository.php';
 require_once __DIR__ . '/../repository/BusinessRepository.php';
 require_once __DIR__ . '/../repository/ServiceRepository.php';
+require_once __DIR__ . '/../repository/AppointmentRepository.php';
 
 require_once __DIR__ . '/../../supabase.php';
 
@@ -30,7 +31,7 @@ class NavigationController extends AppController
         $search = $_GET['search'] ?? null;
         $businessRepository = new BusinessRepository();
 
-        $businesses = $businessRepository->getBusinesses($search);
+        $businesses = $businessRepository->getBusinesses($search, 3);
 
         // Fetch user data for header
         $email = $_SESSION['user_id'] ?? null;
@@ -46,16 +47,6 @@ class NavigationController extends AppController
         ]);
     }
 
-    public function calendar()
-    {
-        if (!$this->isLoggedIn()) {
-            $url = "http://$_SERVER[HTTP_HOST]";
-            header("Location: {$url}/login");
-            exit();
-        }
-        // DATA FETCH HERE
-        return $this->render("calendar");
-    }
 
     public function appointments()
     {
@@ -64,8 +55,17 @@ class NavigationController extends AppController
             header("Location: {$url}/login");
             exit();
         }
-        // DATA FETCH HERE
-        return $this->render("appointments");
+
+        $email = $_SESSION['user_id'];
+        $user = $this->userRepository->getUserByEmail($email);
+
+        $appointmentRepository = new AppointmentRepository();
+        $appointments = $appointmentRepository->getAppointmentsByUserId($user['id']);
+
+        return $this->render("appointments", [
+            'user' => $user,
+            'appointments' => $appointments
+        ]);
     }
 
     public function profile()
@@ -83,9 +83,14 @@ class NavigationController extends AppController
         $businessRepository = new BusinessRepository();
         $isOwner = $businessRepository->checkIfOwner($user['id']);
 
+        // Fetch appointments
+        $appointmentRepository = new AppointmentRepository();
+        $appointments = $appointmentRepository->getAppointmentsByUserId($user['id']);
+
         return $this->render('profile', [
             'user' => $user,
-            'isOwner' => $isOwner
+            'isOwner' => $isOwner,
+            'appointments' => $appointments
         ]);
     }
 

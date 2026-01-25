@@ -1,15 +1,23 @@
 document.addEventListener('DOMContentLoaded', () => {
     const calendarDaysGrid = document.getElementById('calendar-days');
     const currentMonthEl = document.getElementById('current-month');
-    const timeSlots = document.querySelectorAll('.time-slot');
     const bookButton = document.querySelector('.book-submit-btn');
     const businessId = document.querySelector('.main-content').dataset.businessId;
     const serviceItems = document.querySelectorAll('.service-item');
     const selectButtons = document.querySelectorAll('.select-btn');
 
+    const timeSlotsGrid = document.querySelector('.time-slots-grid'); // Add selection of grid container
+
     let selectedServiceId = null;
     let selectedDate = null;
     let selectedTime = null;
+
+    // Config for selected service
+    let serviceConfig = {
+        startHour: '09:00',
+        endHour: '17:00',
+        duration: 60
+    };
 
     // Service Selection Logic
     selectButtons.forEach(btn => {
@@ -17,6 +25,25 @@ document.addEventListener('DOMContentLoaded', () => {
             // Find parent service item
             const serviceItem = e.target.closest('.service-item');
             const serviceId = serviceItem.dataset.id;
+
+            // Toggle Deselection
+            if (selectedServiceId === serviceId) {
+                serviceItem.classList.remove('selected-service');
+                e.target.textContent = 'Wybierz';
+                e.target.classList.remove('active');
+
+                selectedServiceId = null;
+                console.log('Service deselected');
+
+                renderTimeSlots();
+                validateSelection();
+                return;
+            }
+
+            // Update config
+            serviceConfig.startHour = serviceItem.dataset.startHour;
+            serviceConfig.endHour = serviceItem.dataset.endHour;
+            serviceConfig.duration = parseInt(serviceItem.dataset.duration);
 
             // Deselect all
             serviceItems.forEach(item => {
@@ -32,10 +59,55 @@ document.addEventListener('DOMContentLoaded', () => {
             e.target.classList.add('active');
 
             selectedServiceId = serviceId;
-            console.log(`Selected Service ID: ${selectedServiceId}`);
+            console.log(`Selected Service ID: ${selectedServiceId}, Config:`, serviceConfig);
+
+            // Re-render time slots based on new config
+            renderTimeSlots();
             validateSelection();
         });
     });
+
+    function renderTimeSlots() {
+        timeSlotsGrid.innerHTML = '';
+        selectedTime = null; // Reset selection on re-render
+
+        // If no service selected (though currently we only call this when service IS selected), but just in case logic changes
+        if (!selectedServiceId) {
+            timeSlotsGrid.innerHTML = '<p style="grid-column: 1/-1; text-align: center; color: var(--gray-500);">Wybierz usługę, aby zobaczyć dostępne terminy.</p>';
+            return;
+        }
+
+        const startParts = serviceConfig.startHour.split(':');
+        const endParts = serviceConfig.endHour.split(':');
+
+        let startTotalMinutes = parseInt(startParts[0]) * 60 + parseInt(startParts[1]);
+        let endTotalMinutes = parseInt(endParts[0]) * 60 + parseInt(endParts[1]);
+        const duration = serviceConfig.duration;
+
+        // Simple loop to generate slots
+        for (let time = startTotalMinutes; time + duration <= endTotalMinutes; time += duration) {
+            const hours = Math.floor(time / 60);
+            const minutes = time % 60;
+            const timeString = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`;
+
+            const btn = document.createElement('button');
+            btn.className = 'time-slot';
+            btn.textContent = timeString;
+
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.time-slot').forEach(s => s.classList.remove('selected'));
+                btn.classList.add('selected');
+                selectedTime = timeString;
+                validateSelection();
+            });
+
+            timeSlotsGrid.appendChild(btn);
+        }
+
+        if (timeSlotsGrid.children.length === 0) {
+            timeSlotsGrid.innerHTML = '<p style="grid-column: 1/-1; text-align: center; color: var(--gray-500);">Brak dostępnych terminów dla tej konfiguracji.</p>';
+        }
+    }
 
     // Calendar Generation Logic
     const today = new Date();
@@ -127,16 +199,7 @@ document.addEventListener('DOMContentLoaded', () => {
         renderCalendar(currentRenderDate);
     });
 
-    // Time Slots
-    timeSlots.forEach(slot => {
-        slot.addEventListener('click', () => {
-            timeSlots.forEach(s => s.classList.remove('selected'));
-            slot.classList.add('selected');
-            selectedTime = slot.textContent.trim();
-            console.log(`Selected Time: ${selectedTime}`);
-            validateSelection();
-        });
-    });
+    // Time Slots logic managed in renderTimeSlots now to update dynamically
 
     function validateSelection() {
         if (selectedServiceId && selectedDate && selectedTime) {

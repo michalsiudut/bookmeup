@@ -86,7 +86,10 @@
                         <div class="services-list">
                             <?php if (!empty($services)): ?>
                             <?php foreach ($services as $service): ?>
-                            <div class="service-item" data-id="<?= htmlspecialchars($service['id']) ?>">
+                            <div class="service-item" data-id="<?= htmlspecialchars($service['id']) ?>"
+                                data-start-hour="<?= htmlspecialchars($service['start_hour'] ?? '09:00') ?>"
+                                data-end-hour="<?= htmlspecialchars($service['end_hour'] ?? '17:00') ?>"
+                                data-duration="<?= htmlspecialchars($service['duration_minutes']) ?>">
                                 <div class="service-header">
                                     <h4 class="service-name">
                                         <?= htmlspecialchars($service['name']) ?>
@@ -141,9 +144,8 @@
                         </div>
 
                         <div class="time-slots-grid">
-                            <button class="time-slot">09:00</button>
-                            <button class="time-slot">10:30</button>
-                            <button class="time-slot selected">12:00</button>
+                            <p class="text-center text-gray-500 py-4" style="grid-column: 1/-1;">Wybierz usługę, aby
+                                zobaczyć dostępne terminy.</p>
                         </div>
 
                         <button class="book-submit-btn">

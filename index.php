@@ -18,7 +18,6 @@ Routing::post('login', ['controller' => 'SecurityController', 'action' => 'login
 Routing::get('register', ['controller' => 'SecurityController', 'action' => 'register']);
 Routing::post('register', ['controller' => 'SecurityController', 'action' => 'register']);
 Routing::get('dashboard', ['controller' => 'NavigationController', 'action' => 'dashboard']);
-Routing::get('calendar', ['controller' => 'NavigationController', 'action' => 'calendar']);
 Routing::get('appointments', ['controller' => 'NavigationController', 'action' => 'appointments']);
 Routing::get('profile', ['controller' => 'NavigationController', 'action' => 'profile']);
 Routing::get('logout', ['controller' => 'SecurityController', 'action' => 'logout']);
@@ -33,5 +32,6 @@ Routing::get('business_profile', ['controller' => 'NavigationController', 'actio
 Routing::post('addService', ['controller' => 'BusinessController', 'action' => 'addService']);
 Routing::post('bookAppointment', ['controller' => 'AppointmentController', 'action' => 'bookAppointment']);
 Routing::get('update-schema', ['controller' => 'AppointmentController', 'action' => 'updateSchema']);
+Routing::post('cancelAppointment', ['controller' => 'AppointmentController', 'action' => 'cancelAppointment']);
 
 $router->run($path);

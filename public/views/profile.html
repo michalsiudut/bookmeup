@@ -98,34 +98,64 @@
 
                 <section class="settings-section">
                     <h2>Historia rezerwacji</h2>
-                    <div class="table-container">
-                        <div class="table-row border-bottom">
-                            <div class="service-info">
-                                <p class="service-name">Strzyżenie męskie</p>
-                                <p class="service-provider">Barber Shop "Pod Wąsem"</p>
+                    <div class="bookings-list">
+                        <?php if (!empty($appointments)): ?>
+                        <?php foreach ($appointments as $appointment): ?>
+                        <div class="booking-card">
+                            <div class="booking-header">
+                                <div>
+                                    <h3 class="booking-service-name">
+                                        <?= htmlspecialchars($appointment['service_name']) ?>
+                                    </h3>
+                                    <p class="booking-business-name">
+                                        <?= htmlspecialchars($appointment['business_name']) ?>
+                                    </p>
+                                </div>
+                                <span class="booking-price">
+                                    <?= htmlspecialchars($appointment['price']) ?> PLN
+                                </span>
                             </div>
-                            <p class="service-date">25.07.2024, 14:30</p>
-                            <span class="badge badge-success">Potwierdzona</span>
-                            <button class="btn-link">Szczegóły</button>
-                        </div>
-                        <div class="table-row border-bottom">
-                            <div class="service-info">
-                                <p class="service-name">Masaż relaksacyjny</p>
-                                <p class="service-provider">Oaza Spokoju SPA</p>
+
+                            <div class="booking-details">
+                                <div class="booking-date">
+                                    <span class="material-symbols-outlined icon-small">calendar_today</span>
+                                    <?= date('d.m.Y, H:i', strtotime($appointment['appointment_date'])) ?>
+                                </div>
+
+                                <div class="booking-actions">
+                                    <?php
+                                        $statusClass = 'badge-neutral';
+                                        $statusLabel = $appointment['status'];
+                                        
+                                        if ($appointment['status'] === 'confirmed') {
+                                            $statusClass = 'badge-success';
+                                            $statusLabel = 'Potwierdzona';
+                                        } elseif ($appointment['status'] === 'cancelled') {
+                                            $statusClass = 'badge-error';
+                                            $statusLabel = 'Anulowana';
+                                        } elseif ($appointment['status'] === 'pending') {
+                                            $statusClass = 'badge-pending';
+                                            $statusLabel = 'Oczekująca';
+                                        } elseif ($appointment['status'] === 'completed' || $appointment['status'] === 'finished') {
+                                            $statusClass = 'badge-finished';
+                                            $statusLabel = 'Zakończona';
+                                        }
+                                    ?>
+                                    <span class="badge <?= $statusClass ?>">
+                                        <?= htmlspecialchars($statusLabel) ?>
+                                    </span>
+
+                                    <?php if ($appointment['status'] === 'pending' || $appointment['status'] === 'confirmed'): ?>
+                                    <button class="btn-cancel-appointment"
+                                        data-id="<?= htmlspecialchars($appointment['id']) ?>">Anuluj</button>
+                                    <?php endif; ?>
+                                </div>
                             </div>
-                            <p class="service-date">15.06.2024, 18:00</p>
-                            <span class="badge badge-neutral">Zakończona</span>
-                            <button class="btn-link">Szczegóły</button>
                         </div>
-                        <div class="table-row">
-                            <div class="service-info">
-                                <p class="service-name">Wizyta u weterynarza</p>
-                                <p class="service-provider">Przychodnia "Cztery Łapy"</p>
-                            </div>
-                            <p class="service-date">01.06.2024, 10:00</p>
-                            <span class="badge badge-error">Anulowana</span>
-                            <button class="btn-link">Szczegóły</button>
-                        </div>
+                        <?php endforeach; ?>
+                        <?php else: ?>
+                        <p class="empty-state">Brak historii rezerwacji.</p>
+                        <?php endif; ?>
                     </div>
                 </section>
             </div>
