@@ -2,18 +2,22 @@
 
 require_once 'AppController.php';
 require_once 'supabase.php';
+require_once __DIR__ . '/../repository/UserRepository.php';
+require_once __DIR__ . '/../repository/CategoryRepository.php';
 
 class SecurityController extends AppController
 {
 
 
     private $userRepository;
+    private $categoryRepository;
+
     public function __construct()
     {
         parent::__construct();
         $this->userRepository = new UserRepository();
+        $this->categoryRepository = new CategoryRepository();
     }
-
 
     public function login()
     {
@@ -48,6 +52,7 @@ class SecurityController extends AppController
         $url = "http://$_SERVER[HTTP_HOST]";
         header("Location: {$url}/dashboard");
     }
+
     public function register()
     {
         if (!$this->isPost()) {
@@ -97,8 +102,11 @@ class SecurityController extends AppController
     public function registerBusiness()
     {
         if (!$this->isPost()) {
-            return $this->render('registerBusiness');
+            $categories = $this->categoryRepository->getAllCategories();
+            return $this->render('registerBusiness', ['categories' => $categories]);
         }
+
+        // POST logic ...
         $imageUrl = "http://default-image.com/default.png";
         $email = $_POST['email'] ?? '';
         $password = $_POST['password'] ?? '';
@@ -136,7 +144,12 @@ class SecurityController extends AppController
         if ($success) {
             return $this->render('login', ['messages' => ['Firma i użytkownik zarejestrowani!']]);
         } else {
-            return $this->render('registerBusiness', ['messages' => ['Błąd rejestracji. Upewnij się, że dane są poprawne.']]);
+            // When re-rendering on failure, we should probably fetch categories again
+            $categories = $this->categoryRepository->getAllCategories();
+            return $this->render('registerBusiness', [
+                'messages' => ['Błąd rejestracji. Upewnij się, że dane są poprawne.'],
+                'categories' => $categories
+            ]);
         }
     }
 

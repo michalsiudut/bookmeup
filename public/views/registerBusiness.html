@@ -95,11 +95,13 @@
                         <label>Kategoria usług</label>
                         <select name="category" required>
                             <option value="" disabled selected>Wybierz kategorię</option>
-                            <option value="Fryzjerstwo">Fryzjerstwo</option>
-                            <option value="Kosmetyka">Kosmetyka</option>
-                            <option value="Fizjoterapia">Fizjoterapia</option>
-                            <option value="Trening personalny">Trening personalny</option>
-                            <option value="Inne">Inne</option>
+                            <?php if (isset($categories) && is_array($categories)): ?>
+                            <?php foreach ($categories as $category): ?>
+                            <option value="<?= htmlspecialchars($category['name']) ?>">
+                                <?= htmlspecialchars($category['name']) ?>
+                            </option>
+                            <?php endforeach; ?>
+                            <?php endif; ?>
                         </select>
                     </div>
                     <div class="form-group">

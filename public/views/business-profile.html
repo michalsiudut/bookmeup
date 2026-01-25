@@ -60,8 +60,8 @@
                         </div>
                     </div>
                     <div class="profile-logo-container">
-                        <div class="profile-logo-img"
-                            style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAPjJb0ReUAijkBGWbtLmXEiJkcTUM5mBh2GpEUIZpn7oSdU9bDF68zbAxukjH2Lt0ALNNWK4Q8tyaJ-mQUiMnh26T1qziS5qIIHm6CFGwflzMOP4L_pjdQgD7GJ-Wm8AYcnf0gwCEwuD-UCPsCevWEBT-JKnFfwIn3OsTgE_jDRfth2HdkFHXLSjz2068Yz5sAMN8Ynpmn3ePQ1RB19tx_fUySWwiFVdaQ6KkUZ4EsxitAqshYmnr6tkuwtXVc5Zl78Zvb7zsh0tM')">
+                        <?php $bgUrl = htmlspecialchars($business['image_url'] ?? '', ENT_QUOTES); ?>
+                        <div class="profile-logo-img" style="background-image: url('<?= $bgUrl ?>')">
                         </div>
                     </div>
                 </div>
