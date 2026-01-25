@@ -25,6 +25,19 @@ class BusinessRepository extends Repository
         return $businesses ?: [];
     }
 
+    public function getBusiness(int $id): ?array
+    {
+        $stmt = $this->database->connect()->prepare('
+            SELECT * FROM businesses WHERE id = :id
+        ');
+        $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+        $stmt->execute();
+
+        $business = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        return $business ?: null;
+    }
+
     public function searchBusinesses(string $searchString): array
     {
         $searchString = '%' . strtolower($searchString) . '%';

@@ -20,9 +20,11 @@
         <main class="main-content">
             <div class="breadcrumbs-container">
                 <nav class="breadcrumbs">
-                    <a class="breadcrumb-link" href="#">Start</a>
+                    <a class="breadcrumb-link" href="/dashboard">Start</a>
                     <span class="breadcrumb-separator">/</span>
-                    <span class="breadcrumb-current">Gentleman's Cut</span>
+                    <span class="breadcrumb-current">
+                        <?= htmlspecialchars($business['name']) ?>
+                    </span>
                 </nav>
                 <div class="action-buttons">
                     <button class="icon-btn favorite">
@@ -45,10 +47,14 @@
                                 <span class="rating-count">(123 opinie)</span>
                             </div>
                         </div>
-                        <h1 class="profile-title">Gentleman's Cut</h1>
+                        <h1 class="profile-title">
+                            <?= htmlspecialchars($business['name']) ?>
+                        </h1>
                         <div class="location-row">
                             <span class="material-symbols-outlined icon-18">location_on</span>
-                            <span>ul. Marszałkowska 10, Warszawa</span>
+                            <span>
+                                <?= htmlspecialchars($business['city'] . ', ' . $business['address']) ?>
+                            </span>
                             <span class="dot-separator">•</span>
                             <span class="status-open">Otwarte</span>
                         </div>
@@ -74,13 +80,7 @@
                     <section class="about-section">
                         <h3 class="section-label">O nas</h3>
                         <p class="about-text">
-                            Jesteśmy nowoczesnym salonem barberskim w samym sercu Warszawy. Specjalizujemy się w
-                            klasycznym strzyżeniu męskim, trymowaniu brody oraz pielęgnacji twarzy. Nasz zespół to
-                            doświadczeni profesjonaliści, dla których fryzjerstwo to pasja.
-                        </p>
-                        <p class="about-text mt-6">
-                            Używamy tylko najwyższej jakości kosmetyków. Wpadnij do nas na kawę i wyjdź z idealną
-                            fryzurą. Każda wizyta to rytuał, na który zasługujesz.
+                            <?= nl2br(htmlspecialchars($business['description'])) ?>
                         </p>
                     </section>
 

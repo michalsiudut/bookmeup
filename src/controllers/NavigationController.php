@@ -118,16 +118,23 @@ class NavigationController extends AppController
 
     public function business_profile()
     {
-        $serviceId = $_GET['id'] ?? null;
+        $id = $_GET['id'] ?? null;
+        $business = null;
 
-        $selectedService = null;
-        if ($serviceId) {
-            # TODO FECTH DATA FROM REPO
+        if ($id) {
+            $businessRepository = new BusinessRepository();
+            $business = $businessRepository->getBusiness((int) $id);
+        }
+
+        if (!$business) {
+            // Optional: redirect or show error if business not found
+            // For now, view handles it or we let it render with empty/null which is safe-ish
+            include 'public/views/404.html';
+            return;
         }
 
         return $this->render('business-profile', [
-            'selectedService' => $selectedService,
-            'serviceId' => $serviceId
+            'business' => $business
         ]);
     }
 

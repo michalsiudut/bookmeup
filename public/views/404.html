@@ -24,7 +24,10 @@
                         nieprawidłowy.
                     </p>
                     <div class="flex-center">
-                        <a class="btn-home" href="/dashboard">
+                        <?php
+                            $redirectUrl = isset($_SESSION['user_id']) ? '/dashboard' : '/login';
+                        ?>
+                        <a class="btn-home" href="<?= $redirectUrl ?>">
                             Wróć do strony głównej
                         </a>
                     </div>
