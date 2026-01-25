@@ -150,4 +150,83 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     });
+
+    // Review Modal Logic
+    const reviewModal = document.getElementById('review-modal');
+    const reviewBtns = document.querySelectorAll('.btn-review');
+    const closeModal = document.querySelector('.close-modal');
+    const submitReviewBtn = document.getElementById('submit-review');
+    const reviewBusinessName = document.getElementById('review-business-name');
+    const commentInput = document.getElementById('review-comment');
+
+    let activeAppointmentId = null;
+
+    reviewBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            activeAppointmentId = btn.dataset.id;
+            reviewBusinessName.textContent = `${btn.dataset.businessName} - ${btn.dataset.serviceName}`;
+            reviewModal.style.display = 'flex';
+        });
+    });
+
+    closeModal.addEventListener('click', () => {
+        reviewModal.style.display = 'none';
+        resetReviewForm();
+    });
+
+    window.addEventListener('click', (e) => {
+        if (e.target === reviewModal) {
+            reviewModal.style.display = 'none';
+            resetReviewForm();
+        }
+    });
+
+    submitReviewBtn.addEventListener('click', async () => {
+        const ratingInput = document.querySelector('input[name="rating"]:checked');
+        if (!ratingInput) {
+            alert('Proszę wybrać ocenę (gwiazdki).');
+            return;
+        }
+
+        const rating = ratingInput.value;
+        const comment = commentInput.value;
+
+        submitReviewBtn.disabled = true;
+        submitReviewBtn.textContent = 'Trwa wysyłanie...';
+
+        try {
+            const response = await fetch('/addReview', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    appointment_id: activeAppointmentId,
+                    rating: rating,
+                    comment: comment
+                })
+            });
+
+            const result = await response.json();
+
+            if (response.ok) {
+                // alert('Dziękujemy za opinię!');
+                location.reload();
+            } else {
+                alert('Błąd: ' + (result.error || 'Nie udało się dodać opinii.'));
+                submitReviewBtn.disabled = false;
+                submitReviewBtn.textContent = 'Wyślij opinię';
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            alert('Wystąpił błąd połączenia.');
+            submitReviewBtn.disabled = false;
+            submitReviewBtn.textContent = 'Wyślij opinię';
+        }
+    });
+
+    function resetReviewForm() {
+        activeAppointmentId = null;
+        commentInput.value = '';
+        const checked = document.querySelector('input[name="rating"]:checked');
+        if (checked) checked.checked = false;
+    }
 });

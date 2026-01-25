@@ -42,7 +42,8 @@
             <?php 
                 $headerAvatar = $_SESSION['user_avatar'] ?? $user['image_url'] ?? 'https://www.w3schools.com/howto/img_avatar.png';
             ?>
-            <div class="user-avatar" style="background-image: url('<?= htmlspecialchars($headerAvatar) ?>');">
+            <div class="user-avatar"
+                style="background-image: url('<?= htmlspecialchars($headerAvatar, ENT_QUOTES) ?>');">
             </div>
         </a>
     </div>

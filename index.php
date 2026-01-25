@@ -3,6 +3,7 @@
 require_once 'Routing.php';
 require_once 'src/controllers/BusinessController.php';
 require_once 'src/controllers/AppointmentController.php';
+require_once 'src/controllers/ReviewController.php';
 
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
@@ -33,5 +34,7 @@ Routing::post('addService', ['controller' => 'BusinessController', 'action' => '
 Routing::post('bookAppointment', ['controller' => 'AppointmentController', 'action' => 'bookAppointment']);
 Routing::get('update-schema', ['controller' => 'AppointmentController', 'action' => 'updateSchema']);
 Routing::post('cancelAppointment', ['controller' => 'AppointmentController', 'action' => 'cancelAppointment']);
+Routing::post('addReview', ['controller' => 'ReviewController', 'action' => 'addReview']);
+Routing::get('getBookedSlots', ['controller' => 'AppointmentController', 'action' => 'getBookedSlots']);
 
 $router->run($path);

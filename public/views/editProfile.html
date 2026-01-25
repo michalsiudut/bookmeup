@@ -30,7 +30,7 @@
                                         : 'https://www.w3schools.com/howto/img_avatar.png';
                         ?>
                         <div class="avatar-preview"
-                            style="background-image: url('<?= htmlspecialchars($avatarUrl) ?>');"></div>
+                            style="background-image: url('<?= htmlspecialchars($avatarUrl, ENT_QUOTES) ?>');"></div>
                         <label class="avatar-upload-btn" for="avatar-upload">
                             <span class="material-symbols-outlined">photo_camera</span>
                             <input type="file" id="avatar-upload" name="avatar" accept="image/*" hidden>

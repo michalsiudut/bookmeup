@@ -40,11 +40,17 @@
                 <div class="profile-header-content">
                     <div class="profile-text">
                         <div class="rating-badge-row">
+                            <?php if (($business['rating'] ?? 0) > 4.5): ?>
                             <span class="badge-top-rated">Top Rated</span>
+                            <?php endif; ?>
                             <div class="rating-container">
                                 <span class="material-symbols-outlined star-icon fill-1">star</span>
-                                <span class="rating-value">4.9</span>
-                                <span class="rating-count">(123 opinie)</span>
+                                <span class="rating-value">
+                                    <?= number_format($business['rating'] ?? 0, 1) ?>
+                                </span>
+                                <span class="rating-count">(
+                                    <?= $business['review_count'] ?? 0 ?> opinie)
+                                </span>
                             </div>
                         </div>
                         <h1 class="profile-title">
@@ -112,6 +118,47 @@
                             <?php else: ?>
                             <p class="text-center text-gray-500 py-4">Brak dostępnych usług.</p>
                             <?php endif; ?>
+                        </div>
+                    </section>
+
+                    <!-- Reviews Section -->
+                    <section class="reviews-section">
+                        <div class="reviews-accordion">
+                            <button class="reviews-toggle" id="reviews-toggle-btn">
+                                <span class="toggle-text">Opinie klientów (
+                                    <?= count($reviews) ?>)
+                                </span>
+                                <span class="material-symbols-outlined toggle-icon">expand_more</span>
+                            </button>
+                            <div class="reviews-content-wrapper" id="reviews-content">
+                                <?php if (!empty($reviews)): ?>
+                                <?php foreach ($reviews as $review): ?>
+                                <div class="review-card">
+                                    <div class="review-header">
+                                        <div class="reviewer-info">
+                                            <span class="reviewer-name">
+                                                <?= htmlspecialchars($review['firstname'] . ' ' . $review['lastname']) ?>
+                                            </span>
+                                        </div>
+                                        <div class="review-rating">
+                                            <?php for($i=1; $i<=5; $i++): ?>
+                                            <span
+                                                class="material-symbols-outlined star-icon <?= $i <= $review['rating'] ? 'fill-1' : '' ?>">star</span>
+                                            <?php endfor; ?>
+                                        </div>
+                                    </div>
+                                    <p class="review-comment">
+                                        <?= htmlspecialchars($review['comment']) ?>
+                                    </p>
+                                    <span class="review-date">
+                                        <?= date('d.m.Y', strtotime($review['created_at'])) ?>
+                                    </span>
+                                </div>
+                                <?php endforeach; ?>
+                                <?php else: ?>
+                                <p class="no-reviews">Ta firma nie ma jeszcze żadnych opinii.</p>
+                                <?php endif; ?>
+                            </div>
                         </div>
                     </section>
                 </div>

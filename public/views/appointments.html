@@ -105,6 +105,18 @@
                             <?php if ($appointment['status'] === 'pending' || $appointment['status'] === 'confirmed'): ?>
                             <button class="btn-cancel"
                                 data-id="<?= htmlspecialchars($appointment['id']) ?>">Anuluj</button>
+                            <?php elseif ($appointment['status'] === 'completed' && !($appointment['is_reviewed'] ?? false)): ?>
+                            <button class="btn-review" data-id="<?= htmlspecialchars($appointment['id']) ?>"
+                                data-business-name="<?= htmlspecialchars($appointment['business_name']) ?>"
+                                data-service-name="<?= htmlspecialchars($appointment['service_name']) ?>">
+                                Dodaj opinię
+                            </button>
+                            <?php elseif ($appointment['is_reviewed'] ?? false): ?>
+                            <span class="review-done-label">
+                                <span class="material-symbols-outlined"
+                                    style="font-size: 16px; vertical-align: middle;">check_circle</span>
+                                Opinia wystawiona
+                            </span>
                             <?php endif; ?>
                         </div>
                     </div>
@@ -119,6 +131,28 @@
                     <?php endif; ?>
                 </div>
             </main>
+        </div>
+    </div>
+
+    <div id="review-modal" class="modal">
+        <div class="modal-content card">
+            <div class="modal-header">
+                <h2>Oceń wizytę</h2>
+                <p id="review-business-name"></p>
+                <button class="close-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="star-rating">
+                    <input type="radio" name="rating" id="star5" value="5"><label for="star5">★</label>
+                    <input type="radio" name="rating" id="star4" value="4"><label for="star4">★</label>
+                    <input type="radio" name="rating" id="star3" value="3"><label for="star3">★</label>
+                    <input type="radio" name="rating" id="star2" value="2"><label for="star2">★</label>
+                    <input type="radio" name="rating" id="star1" value="1"><label for="star1">★</label>
+                </div>
+                <textarea id="review-comment"
+                    placeholder="Napisz kilka słów o swojej wizycie (opcjonalnie)..."></textarea>
+                <button id="submit-review" class="btn-primary">Wyślij opinię</button>
+            </div>
         </div>
     </div>
 

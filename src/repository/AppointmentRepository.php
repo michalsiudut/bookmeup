@@ -22,6 +22,14 @@ class AppointmentRepository extends Repository
         } catch (PDOException $e) {
             echo "Info (services): " . $e->getMessage() . "<br>";
         }
+
+        try {
+            $pdo = $this->database->connect();
+            $pdo->exec("ALTER TABLE appointments ADD COLUMN is_reviewed BOOLEAN DEFAULT FALSE");
+            echo "Column is_reviewed added.<br>";
+        } catch (PDOException $e) {
+            echo "Info (is_reviewed): " . $e->getMessage() . "<br>";
+        }
     }
 
     public function addAppointment(int $userId, int $businessId, int $serviceId, string $date, string $status = 'pending', string $type = 'standard'): void
@@ -51,6 +59,7 @@ class AppointmentRepository extends Repository
                 a.id,
                 a.appointment_date,
                 a.status,
+                a.is_reviewed,
                 b.name as business_name,
                 s.name as service_name,
                 s.price
@@ -92,5 +101,22 @@ class AppointmentRepository extends Repository
             // Silently fail or log error, so we don't block fetching list
             // error_log($e->getMessage());
         }
+    }
+
+    public function getBookedSlots(int $businessId, string $date): array
+    {
+        $stmt = $this->database->connect()->prepare("
+            SELECT appointment_date::time as slot_time
+            FROM appointments
+            WHERE business_id = :business_id 
+            AND appointment_date::date = :date
+            AND status NOT IN ('cancelled')
+        ");
+
+        $stmt->bindParam(':business_id', $businessId, PDO::PARAM_INT);
+        $stmt->bindParam(':date', $date, PDO::PARAM_STR);
+        $stmt->execute();
+
+        return $stmt->fetchAll(PDO::FETCH_COLUMN);
     }
 }

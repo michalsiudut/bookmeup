@@ -93,7 +93,11 @@ class AppointmentController extends AppController
 
             $this->appointmentRepository->runSchemaUpdate();
 
-            echo "Schema update attempted. Check if you can book now.";
+            require_once __DIR__ . '/../repository/ReviewRepository.php';
+            $reviewRepository = new ReviewRepository();
+            $reviewRepository->runSchemaUpdate();
+
+            echo "Schema update attempted. Check if you can see your appointments now.";
         } catch (Exception $e) {
             echo "Error: " . $e->getMessage();
         }
@@ -158,6 +162,30 @@ class AppointmentController extends AppController
         } catch (Exception $e) {
             http_response_code(500);
             echo json_encode(['error' => 'Database error']);
+        }
+    }
+    public function getBookedSlots()
+    {
+        $businessId = $_GET['business_id'] ?? null;
+        $date = $_GET['date'] ?? null;
+
+        if (!$businessId || !$date) {
+            http_response_code(400);
+            echo json_encode(['error' => 'Missing parameters']);
+            return;
+        }
+
+        try {
+            $slots = $this->appointmentRepository->getBookedSlots((int) $businessId, $date);
+            // Convert 'HH:MM:SS' to 'HH:MM'
+            $formattedSlots = array_map(function ($slot) {
+                return substr($slot, 0, 5);
+            }, $slots);
+
+            echo json_encode($formattedSlots);
+        } catch (Exception $e) {
+            http_response_code(500);
+            echo json_encode(['error' => $e->getMessage()]);
         }
     }
 }

@@ -131,10 +131,13 @@ class NavigationController extends AppController
         if ($id) {
             $businessRepository = new BusinessRepository();
             $serviceRepository = new ServiceRepository();
+            require_once __DIR__ . '/../repository/ReviewRepository.php';
+            $reviewRepository = new ReviewRepository();
 
             $business = $businessRepository->getBusiness((int) $id);
             if ($business) {
                 $services = $serviceRepository->getServicesByBusinessId($business['id']);
+                $reviews = $reviewRepository->getReviewsByBusinessId($business['id']);
             }
         }
 
@@ -147,7 +150,8 @@ class NavigationController extends AppController
 
         return $this->render('business-profile', [
             'business' => $business,
-            'services' => $services
+            'services' => $services,
+            'reviews' => $reviews ?? []
         ]);
     }
 

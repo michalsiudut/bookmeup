@@ -11,6 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let selectedServiceId = null;
     let selectedDate = null;
     let selectedTime = null;
+    let bookedSlots = [];
 
     // Config for selected service
     let serviceConfig = {
@@ -90,6 +91,9 @@ document.addEventListener('DOMContentLoaded', () => {
             const minutes = time % 60;
             const timeString = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`;
 
+            // Skip booked slots
+            if (bookedSlots.includes(timeString)) continue;
+
             const btn = document.createElement('button');
             btn.className = 'time-slot';
             btn.textContent = timeString;
@@ -166,7 +170,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (checkDate < now) {
                 div.classList.add('disabled');
             } else {
-                div.addEventListener('click', () => {
+                div.addEventListener('click', async () => {
                     document.querySelectorAll('.day-number').forEach(d => d.classList.remove('active-day'));
                     div.classList.add('active-day');
 
@@ -175,6 +179,19 @@ document.addEventListener('DOMContentLoaded', () => {
                     const d = i.toString().padStart(2, '0');
                     selectedDate = `${year}-${m}-${d}`;
                     console.log(`Selected Date: ${selectedDate}`);
+
+                    // Fetch Booked Slots
+                    try {
+                        const response = await fetch(`/getBookedSlots?business_id=${businessId}&date=${selectedDate}`);
+                        bookedSlots = await response.json();
+                        console.log('Booked Slots:', bookedSlots);
+                        renderTimeSlots();
+                    } catch (error) {
+                        console.error('Error fetching booked slots:', error);
+                        bookedSlots = [];
+                        renderTimeSlots();
+                    }
+
                     validateSelection();
                 });
             }
@@ -253,4 +270,12 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+    // Reviews Accordion Logic
+    const reviewsToggle = document.getElementById('reviews-toggle-btn');
+    if (reviewsToggle) {
+        reviewsToggle.addEventListener('click', () => {
+            const accordion = reviewsToggle.closest('.reviews-accordion');
+            accordion.classList.toggle('active');
+        });
+    }
 });
