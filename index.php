@@ -2,6 +2,7 @@
 
 require_once 'Routing.php';
 require_once 'src/controllers/BusinessController.php';
+require_once 'src/controllers/AppointmentController.php';
 
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
@@ -30,5 +31,7 @@ Routing::post('updateSettings', ['controller' => 'SecurityController', 'action' 
 Routing::get('business_dashboard', ['controller' => 'NavigationController', 'action' => 'business_dashboard']);
 Routing::get('business_profile', ['controller' => 'NavigationController', 'action' => 'business_profile']);
 Routing::post('addService', ['controller' => 'BusinessController', 'action' => 'addService']);
+Routing::post('bookAppointment', ['controller' => 'AppointmentController', 'action' => 'bookAppointment']);
+Routing::get('update-schema', ['controller' => 'AppointmentController', 'action' => 'updateSchema']);
 
 $router->run($path);
