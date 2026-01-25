@@ -1,6 +1,7 @@
 <?php
 
 require_once 'Routing.php';
+require_once 'src/controllers/BusinessController.php';
 
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
@@ -28,5 +29,6 @@ Routing::post('editProfile', ['controller' => 'NavigationController', 'action' =
 Routing::post('updateSettings', ['controller' => 'SecurityController', 'action' => 'updateSettings']);
 Routing::get('business_dashboard', ['controller' => 'NavigationController', 'action' => 'business_dashboard']);
 Routing::get('business_profile', ['controller' => 'NavigationController', 'action' => 'business_profile']);
+Routing::post('addService', ['controller' => 'BusinessController', 'action' => 'addService']);
 
 $router->run($path);

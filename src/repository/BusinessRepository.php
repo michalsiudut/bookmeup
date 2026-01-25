@@ -64,4 +64,20 @@ class BusinessRepository extends Repository
 
         return (bool) $stmt->fetchColumn();
     }
+
+    public function getBusinessByUserId(int $userId): ?array
+    {
+        $stmt = $this->database->connect()->prepare('
+            SELECT b.* 
+            FROM businesses b 
+            JOIN user_business ub ON b.id = ub.business_id 
+            WHERE ub.user_id = :user_id
+        ');
+        $stmt->bindParam(':user_id', $userId, PDO::PARAM_INT);
+        $stmt->execute();
+
+        $business = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        return $business ?: null;
+    }
 }

@@ -3,6 +3,7 @@
 require_once 'AppController.php';
 require_once __DIR__ . '/../repository/UserRepository.php';
 require_once __DIR__ . '/../repository/BusinessRepository.php';
+require_once __DIR__ . '/../repository/ServiceRepository.php';
 
 require_once __DIR__ . '/../../supabase.php';
 
@@ -120,10 +121,16 @@ class NavigationController extends AppController
     {
         $id = $_GET['id'] ?? null;
         $business = null;
+        $services = [];
 
         if ($id) {
             $businessRepository = new BusinessRepository();
+            $serviceRepository = new ServiceRepository();
+
             $business = $businessRepository->getBusiness((int) $id);
+            if ($business) {
+                $services = $serviceRepository->getServicesByBusinessId($business['id']);
+            }
         }
 
         if (!$business) {
@@ -134,7 +141,8 @@ class NavigationController extends AppController
         }
 
         return $this->render('business-profile', [
-            'business' => $business
+            'business' => $business,
+            'services' => $services
         ]);
     }
 

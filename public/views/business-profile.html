@@ -53,7 +53,7 @@
                         <div class="location-row">
                             <span class="material-symbols-outlined icon-18">location_on</span>
                             <span>
-                                <?= htmlspecialchars($business['city'] . ', ' . $business['address']) ?>
+                                <?= htmlspecialchars($business['street'] . ' ' . $business['house_number'] . ', ' . $business['city']) ?>
                             </span>
                             <span class="dot-separator">•</span>
                             <span class="status-open">Otwarte</span>
@@ -63,14 +63,6 @@
                         <div class="profile-logo-img"
                             style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAPjJb0ReUAijkBGWbtLmXEiJkcTUM5mBh2GpEUIZpn7oSdU9bDF68zbAxukjH2Lt0ALNNWK4Q8tyaJ-mQUiMnh26T1qziS5qIIHm6CFGwflzMOP4L_pjdQgD7GJ-Wm8AYcnf0gwCEwuD-UCPsCevWEBT-JKnFfwIn3OsTgE_jDRfth2HdkFHXLSjz2068Yz5sAMN8Ynpmn3ePQ1RB19tx_fUySWwiFVdaQ6KkUZ4EsxitAqshYmnr6tkuwtXVc5Zl78Zvb7zsh0tM')">
                         </div>
-                    </div>
-                </div>
-            </section>
-
-            <section class="hero-image-section">
-                <div class="hero-image-container">
-                    <div class="hero-image"
-                        style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAPjJb0ReUAijkBGWbtLmXEiJkcTUM5mBh2GpEUIZpn7oSdU9bDF68zbAxukjH2Lt0ALNNWK4Q8tyaJ-mQUiMnh26T1qziS5qIIHm6CFGwflzMOP4L_pjdQgD7GJ-Wm8AYcnf0gwCEwuD-UCPsCevWEBT-JKnFfwIn3OsTgE_jDRfth2HdkFHXLSjz2068Yz5sAMN8Ynpmn3ePQ1RB19tx_fUySWwiFVdaQ6KkUZ4EsxitAqshYmnr6tkuwtXVc5Zl78Zvb7zsh0tM')">
                     </div>
                 </div>
             </section>
@@ -94,47 +86,31 @@
                             </div>
                         </div>
                         <div class="services-list">
+                            <?php if (!empty($services)): ?>
+                            <?php foreach ($services as $service): ?>
                             <div class="service-item">
                                 <div class="service-header">
-                                    <h4 class="service-name">Strzyżenie Męskie Klasyczne</h4>
-                                    <span class="service-price">80 PLN</span>
+                                    <h4 class="service-name">
+                                        <?= htmlspecialchars($service['name']) ?>
+                                    </h4>
+                                    <span class="service-price">
+                                        <?= htmlspecialchars($service['price']) ?> PLN
+                                    </span>
                                 </div>
-                                <p class="service-desc">Konsultacja, mycie głowy, strzyżenie nożyczkami i maszynką,
-                                    modelowanie.</p>
-                                <div class="service-footer">
-                                    <span class="service-duration">45 min</span>
-                                    <button class="select-btn">Wybierz</button>
-                                </div>
-                            </div>
-
-                            <div class="service-item">
-                                <div class="service-header">
-                                    <h4 class="service-name">Strzyżenie Brody</h4>
-                                    <span class="service-price">50 PLN</span>
-                                </div>
-                                <p class="service-desc">Modelowanie brody brzytwą, gorący ręcznik, pielęgnacja olejkiem.
+                                <p class="service-desc">
+                                    <?= htmlspecialchars($service['description']) ?>
                                 </p>
                                 <div class="service-footer">
-                                    <span class="service-duration">30 min</span>
+                                    <span class="service-duration">
+                                        <?= htmlspecialchars($service['duration_minutes']) ?> min
+                                    </span>
                                     <button class="select-btn">Wybierz</button>
                                 </div>
                             </div>
-
-                            <div class="service-item">
-                                <div class="service-header">
-                                    <h4 class="service-name">Combo (Włosy + Broda)</h4>
-                                    <span class="service-price">120 PLN</span>
-                                </div>
-                                <p class="service-desc">Pełen pakiet dla dżentelmena. Oszczędzasz 10 PLN wybierając
-                                    komplet.</p>
-                                <div class="service-footer">
-                                    <div class="footer-left">
-                                        <span class="service-duration">75 min</span>
-                                        <span class="promo-tag">Promocja</span>
-                                    </div>
-                                    <button class="select-btn">Wybierz</button>
-                                </div>
-                            </div>
+                            <?php endforeach; ?>
+                            <?php else: ?>
+                            <p class="text-center text-gray-500 py-4">Brak dostępnych usług.</p>
+                            <?php endif; ?>
                         </div>
                     </section>
                 </div>
