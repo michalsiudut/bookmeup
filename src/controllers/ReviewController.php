@@ -47,52 +47,28 @@ class ReviewController extends AppController
         $user = $this->userRepository->getUserByEmail($email);
         $userId = $user['id'];
 
-        // Security check: verify appointment exists, is completed, belongs to user, and is not reviewed
-        $stmt = $this->appointmentRepository->getAppointmentsByUserId($userId);
-        $appointment = null;
-        foreach ($stmt as $appt) {
-            if ($appt['id'] == $appointmentId) {
-                $appointment = $appt;
-                break;
-            }
-        }
-
-        if (!$appointment) {
-            http_response_code(404);
-            echo json_encode(['error' => 'Appointment not found']);
-            return;
-        }
-
-        if ($appointment['status'] !== 'completed') {
-            http_response_code(400);
-            echo json_encode(['error' => 'Appointment not completed']);
-            return;
-        }
-
-        // We need to check if it's already reviewed. 
-        // AppointmentRepository::getAppointmentsByUserId should be updated to return is_reviewed.
-        if (isset($appointment['is_reviewed']) && $appointment['is_reviewed']) {
-            http_response_code(400);
-            echo json_encode(['error' => 'Already reviewed']);
-            return;
-        }
-
         try {
-            // Get business_id from somewhere. 
-            // We need to fetch the appointment details explicitly to get business_id.
-            $pdo = $this->appointmentRepository->getAppointmentsByUserId($userId);
-            // Actually I'll use a specific query in ReviewRepository or AppointmentRepository to get business_id.
+            $appointment = $this->appointmentRepository->getAppointmentById((int) $appointmentId);
 
-            // Let's assume we fetch it correctly. 
-            // Re-using the join from getAppointmentsByUserId but I need business_id specifically.
-            $conn = $this->appointmentRepository->updateStatus($appointmentId, 'completed'); // Dummy call to get handle or I update the query.
+            if (!$appointment || (int) $appointment['user_id'] !== (int) $userId) {
+                http_response_code(404);
+                echo json_encode(['error' => 'Appointment not found or unauthorized']);
+                return;
+            }
 
-            // Fetch business_id
-            $db = new Database();
-            $pdo = $db->connect();
-            $checkStmt = $pdo->prepare('SELECT business_id FROM appointments WHERE id = ?');
-            $checkStmt->execute([$appointmentId]);
-            $businessId = $checkStmt->fetchColumn();
+            if ($appointment['status'] !== 'completed') {
+                http_response_code(400);
+                echo json_encode(['error' => 'Appointment not completed']);
+                return;
+            }
+
+            if ($appointment['is_reviewed']) {
+                http_response_code(400);
+                echo json_encode(['error' => 'Already reviewed']);
+                return;
+            }
+
+            $businessId = $appointment['business_id'];
 
             $this->reviewRepository->addReview($userId, $businessId, (int) $rating, $comment, (int) $appointmentId);
 

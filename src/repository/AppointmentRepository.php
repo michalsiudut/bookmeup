@@ -76,6 +76,18 @@ class AppointmentRepository extends Repository
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    public function getAppointmentById(int $id): ?array
+    {
+        $stmt = $this->database->connect()->prepare('
+            SELECT * FROM appointments WHERE id = :id
+        ');
+        $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+        $stmt->execute();
+
+        $appointment = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $appointment ?: null;
+    }
+
     public function updateStatus(int $appointmentId, string $status): void
     {
         $stmt = $this->database->connect()->prepare('
