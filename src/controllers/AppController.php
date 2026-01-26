@@ -15,7 +15,7 @@ abstract class AppController
         return isset($_SESSION['user_id']);
     }
 
-    protected function render(string $template = null, array $variables = [])
+    protected function render(?string $template = null, array $variables = [])
     {
         $templatePath = 'public/views/' . $template . '.html';
 
