@@ -77,6 +77,10 @@ class SecurityController extends AppController
             return $this->render('register', ['messages' => 'Hasła muszą być identyczne']);
         }
 
+        if (!$this->validatePassword($password)) {
+            return $this->render('register', ['messages' => 'Hasło musi mieć min. 8 znaków, dużą literę, cyfrę i znak specjalny.']);
+        }
+
         if ($this->userRepository->getUserByEmail($email)) {
             return $this->render('register', ['messages' => 'Ten email jest już zajęty']);
         }
@@ -138,6 +142,14 @@ class SecurityController extends AppController
             'email' => $email,
             'description' => $_POST['description'] ?? ''
         ];
+
+        if (!$this->validatePassword($password)) {
+            $categories = $this->categoryRepository->getAllCategories();
+            return $this->render('registerBusiness', [
+                'messages' => ['Hasło musi mieć min. 8 znaków, dużą literę, cyfrę i znak specjalny.'],
+                'categories' => $categories
+            ]);
+        }
 
         $success = $this->userRepository->registerBusinessWithUser($userData, $businessData);
 

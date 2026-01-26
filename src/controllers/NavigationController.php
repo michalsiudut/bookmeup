@@ -171,8 +171,19 @@ class NavigationController extends AppController
             $lastname = $_POST['lastname'];
             $email = $_POST['email'];
             $bio = $_POST['bio'];
-            $password = !empty($_POST['password']) ? password_hash($_POST['password'], PASSWORD_BCRYPT) : null;
+            $passwordVal = $_POST['password'] ?? '';
+            $password = null;
             $imageUrl = null;
+
+            if (!empty($passwordVal)) {
+                if (!$this->validatePassword($passwordVal)) {
+                    return $this->render('editProfile', [
+                        'user' => $user,
+                        'error' => 'Nowe hasło musi mieć min. 8 znaków, dużą literę, cyfrę i znak specjalny.'
+                    ]);
+                }
+                $password = password_hash($passwordVal, PASSWORD_BCRYPT);
+            }
 
             if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
                 return $this->render('editProfile', [
