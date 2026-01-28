@@ -131,4 +131,31 @@ class AppointmentRepository extends Repository
 
         return $stmt->fetchAll(PDO::FETCH_COLUMN);
     }
+
+    public function searchAppointmentsByUserId(int $userId, string $search): array
+    {
+        $search = '%' . strtolower($search) . '%';
+        $stmt = $this->database->connect()->prepare('
+            SELECT 
+                a.id,
+                a.appointment_date,
+                a.status,
+                a.is_reviewed,
+                b.name as business_name,
+                s.name as service_name,
+                s.price
+            FROM appointments a
+            LEFT JOIN businesses b ON a.business_id = b.id
+            LEFT JOIN services s ON a.service_id = s.id
+            WHERE a.user_id = :user_id 
+              AND (LOWER(b.name) LIKE :search OR LOWER(s.name) LIKE :search)
+            ORDER BY a.appointment_date DESC
+        ');
+
+        $stmt->bindParam(':user_id', $userId, PDO::PARAM_INT);
+        $stmt->bindParam(':search', $search, PDO::PARAM_STR);
+        $stmt->execute();
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
 }

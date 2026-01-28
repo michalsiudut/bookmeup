@@ -23,20 +23,21 @@
                     <h1>Znajdź i zarezerwuj idealną usługę</h1>
                 </header>
 
-                <form class="search-container" action="/dashboard" method="GET">
+                <form class="search-container" id="search-form" action="/dashboard" method="GET">
                     <div class="search-bar">
                         <div class="search-icon">
                             <span class="material-symbols-outlined">search</span>
                         </div>
-                        <input type="text" name="search" value="<?= htmlspecialchars($search ?? '') ?>"
-                            placeholder="Nazwa usługi, kategoria, miasto..." class="search-input">
+                        <input type="text" name="search" id="dashboard-search"
+                            value="<?= htmlspecialchars($search ?? '') ?>"
+                            placeholder="Nazwa usługi, kategoria, miasto..." class="search-input" autocomplete="off">
                     </div>
                     <button type="submit" class="btn-search">Szukaj</button>
                 </form>
 
                 <section class="content-section">
                     <h2>Odkryj polecanych specjalistów</h2>
-                    <div class="specialists-grid <?= !empty($search) ? 'list-view-mode' : '' ?>">
+                    <div id="specialists-grid" class="specialists-grid <?= !empty($search) ? 'list-view-mode' : '' ?>">
 
                         <?php if (!empty($businesses)): ?>
                         <?php foreach ($businesses as $business): ?>
@@ -91,6 +92,7 @@
             </div>
         </main>
     </div>
+    <script src="public/scripts/dashboard.js"></script>
 </body>
 
 </html>

@@ -31,7 +31,8 @@ class NavigationController extends AppController
         $search = $_GET['search'] ?? null;
         $businessRepository = new BusinessRepository();
 
-        $businesses = $businessRepository->getBusinesses($search, 3);
+        $limit = empty($search) ? 3 : null;
+        $businesses = $businessRepository->getBusinesses($search, $limit);
 
         // Fetch user data for header
         $email = $_SESSION['user_id'] ?? null;

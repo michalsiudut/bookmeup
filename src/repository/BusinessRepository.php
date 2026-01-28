@@ -13,9 +13,10 @@ class BusinessRepository extends Repository
         if ($search) {
             $query .= ' WHERE LOWER(name) LIKE :search OR LOWER(category) LIKE :search OR LOWER(city) LIKE :search';
             $params[':search'] = '%' . strtolower($search) . '%';
+            $query .= ' ORDER BY created_at DESC';
+        } else {
+            $query .= ' ORDER BY rating DESC, review_count DESC';
         }
-
-        $query .= ' ORDER BY created_at DESC';
 
         if ($limit) {
             $query .= ' LIMIT ' . (int) $limit;

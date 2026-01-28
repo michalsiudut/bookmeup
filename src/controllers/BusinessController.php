@@ -56,4 +56,24 @@ class BusinessController extends AppController
         header("Location: {$url}/business_dashboard?status=service_added");
         exit();
     }
+
+    public function searchBusinesses()
+    {
+        $contentType = isset($_SERVER["CONTENT_TYPE"]) ? trim($_SERVER["CONTENT_TYPE"]) : '';
+        $search = '';
+        if ($contentType === "application/json") {
+            $content = trim(file_get_contents("php://input"));
+            $decoded = json_decode($content, true);
+            $search = $decoded['search'] ?? '';
+        } else {
+            $search = $_GET['search'] ?? '';
+        }
+
+        $limit = empty($search) ? 3 : null;
+        $businesses = $this->businessRepository->getBusinesses($search, $limit);
+
+        header('Content-Type: application/json');
+        http_response_code(200);
+        echo json_encode($businesses);
+    }
 }

@@ -17,6 +17,10 @@ document.addEventListener('DOMContentLoaded', () => {
         "Lipiec", "Sierpień", "Wrzesień", "Październik", "Listopad", "Grudzień"
     ];
 
+    const appointmentsGrid = document.querySelector('.appointments-grid');
+    const searchInput = document.getElementById('appointment-search');
+    let searchTimeout;
+
     function renderCalendar() {
         daysContainer.innerHTML = '';
 
@@ -71,6 +75,118 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    function renderAppointments(appointments) {
+        appointmentsGrid.innerHTML = '';
+
+        if (appointments.length === 0) {
+            appointmentsGrid.innerHTML = `
+                <div class="empty-state">
+                    <h2 class="empty-title">Brak wizyt</h2>
+                    <p class="empty-text">Nie znaleziono wizyt pasujących do Twoich kryteriów.</p>
+                </div>
+            `;
+            return;
+        }
+
+        appointments.forEach(appt => {
+            const dateObj = new Date(appt.appointment_date);
+            const dateStr = dateObj.toLocaleDateString('pl-PL', { day: '2-digit', month: '2-digit', year: 'numeric' });
+            const timeStr = dateObj.toLocaleTimeString('pl-PL', { hour: '2-digit', minute: '2-digit' });
+            const dbDate = appt.appointment_date.split(' ')[0];
+
+            let statusClass = 'badge-neutral';
+            let statusLabel = appt.status;
+
+            if (appt.status === 'confirmed') {
+                statusClass = 'badge-success';
+                statusLabel = 'Potwierdzona';
+            } else if (appt.status === 'cancelled') {
+                statusClass = 'badge-error';
+                statusLabel = 'Anulowana';
+            } else if (appt.status === 'pending') {
+                statusClass = 'badge-pending';
+                statusLabel = 'Oczekująca';
+            } else if (appt.status === 'completed' || appt.status === 'finished') {
+                statusClass = 'badge-finished';
+                statusLabel = 'Zakończona';
+            }
+
+            const card = document.createElement('div');
+            card.className = 'appointment-card';
+            card.dataset.date = dbDate;
+
+            let footerAction = '';
+            if (appt.status === 'pending' || appt.status === 'confirmed') {
+                footerAction = `<button class="btn-cancel" data-id="${appt.id}">Anuluj</button>`;
+            } else if ((appt.status === 'completed' || appt.status === 'finished') && !appt.is_reviewed) {
+                footerAction = `
+                    <button class="btn-review" data-id="${appt.id}" 
+                        data-business-name="${appt.business_name}" 
+                        data-service-name="${appt.service_name}">
+                        Dodaj opinię
+                    </button>
+                `;
+            } else if (appt.is_reviewed) {
+                footerAction = `
+                    <span class="review-done-label">
+                        <span class="material-symbols-outlined" style="font-size: 16px; vertical-align: middle;">check_circle</span>
+                        Opinia wystawiona
+                    </span>
+                `;
+            }
+
+            card.innerHTML = `
+                <div class="card-header">
+                    <div>
+                        <h3 class="service-name">${appt.service_name}</h3>
+                        <p class="business-name">${appt.business_name}</p>
+                    </div>
+                    <span class="price-tag">${appt.price} PLN</span>
+                </div>
+                <div class="card-details">
+                    <div class="detail-item">
+                        <span class="material-symbols-outlined">calendar_today</span>
+                        <span>${dateStr}</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="material-symbols-outlined">schedule</span>
+                        <span>${timeStr}</span>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <span class="badge ${statusClass}">${statusLabel}</span>
+                    ${footerAction}
+                </div>
+            `;
+
+            // Attach listeners for dynamic elements
+            if (footerAction.includes('btn-cancel')) {
+                card.querySelector('.btn-cancel').addEventListener('click', () => handleCancel(appt.id));
+            }
+            if (footerAction.includes('btn-review')) {
+                card.querySelector('.btn-review').addEventListener('click', (e) => handleReviewClick(e.target.dataset));
+            }
+
+            appointmentsGrid.appendChild(card);
+        });
+    }
+
+    async function handleSearch() {
+        const query = searchInput.value;
+        try {
+            const response = await fetch(`/searchAppointments?search=${encodeURIComponent(query)}`);
+            const data = await response.json();
+            renderAppointments(data);
+        } catch (error) {
+            console.error('Search error:', error);
+        }
+    }
+
+    searchInput.addEventListener('input', () => {
+        clearTimeout(searchTimeout);
+        searchTimeout = setTimeout(handleSearch, 300);
+    });
+
     function filterListByDate(dateStr) {
         const cards = document.querySelectorAll('.appointment-card');
         let hasVisible = false;
@@ -118,42 +234,32 @@ document.addEventListener('DOMContentLoaded', () => {
 
     renderCalendar();
 
-    // Cancellation Logic (Re-integrated from previous implementation)
-    const cancelButtons = document.querySelectorAll('.btn-cancel');
-    cancelButtons.forEach(btn => {
-        btn.addEventListener('click', async () => {
-            const appointmentId = btn.dataset.id;
-            if (!confirm('Czy na pewno chcesz anulować tę wizytę?')) return;
+    // Re-bindable handlers
+    async function handleCancel(appointmentId) {
+        if (!confirm('Czy na pewno chcesz anulować tę wizytę?')) return;
+        try {
+            const response = await fetch('/cancelAppointment', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ appointment_id: appointmentId })
+            });
 
-            const originalText = btn.textContent;
-            btn.textContent = '...';
-            btn.disabled = true;
-
-            try {
-                const response = await fetch('/cancelAppointment', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ appointment_id: appointmentId })
-                });
-
-                if (response.ok) location.reload();
-                else {
-                    const result = await response.json();
-                    alert('Błąd: ' + (result.error || 'Nie udało się anulować.'));
-                    btn.textContent = originalText;
-                    btn.disabled = false;
-                }
-            } catch (error) {
-                alert('Błąd połączenia.');
-                btn.textContent = originalText;
-                btn.disabled = false;
+            if (response.ok) handleSearch(); // Refresh list after cancel
+            else {
+                const result = await response.json();
+                alert('Błąd: ' + (result.error || 'Nie udało się anulować.'));
             }
-        });
-    });
+        } catch (error) {
+            alert('Błąd połączenia.');
+        }
+    }
 
-    // Review Modal Logic
-    const reviewModal = document.getElementById('review-modal');
-    const reviewBtns = document.querySelectorAll('.btn-review');
+    function handleReviewClick(data) {
+        activeAppointmentId = data.id;
+        reviewBusinessName.textContent = `${data.businessName} - ${data.serviceName}`;
+        reviewModal.style.display = 'flex';
+    }
+
     const closeModal = document.querySelector('.close-modal');
     const submitReviewBtn = document.getElementById('submit-review');
     const reviewBusinessName = document.getElementById('review-business-name');

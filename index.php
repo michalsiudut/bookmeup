@@ -36,5 +36,7 @@ Routing::get('update-schema', ['controller' => 'AppointmentController', 'action'
 Routing::post('cancelAppointment', ['controller' => 'AppointmentController', 'action' => 'cancelAppointment']);
 Routing::post('addReview', ['controller' => 'ReviewController', 'action' => 'addReview']);
 Routing::get('getBookedSlots', ['controller' => 'AppointmentController', 'action' => 'getBookedSlots']);
+Routing::get('searchAppointments', ['controller' => 'AppointmentController', 'action' => 'searchAppointments']);
+Routing::get('searchBusinesses', ['controller' => 'BusinessController', 'action' => 'searchBusinesses']);
 
 $router->run($path);

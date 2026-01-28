@@ -188,4 +188,31 @@ class AppointmentController extends AppController
             echo json_encode(['error' => $e->getMessage()]);
         }
     }
+
+    public function searchAppointments()
+    {
+        if (!$this->isLoggedIn()) {
+            http_response_code(401);
+            echo json_encode(['error' => 'Unauthorized']);
+            return;
+        }
+
+        $contentType = isset($_SERVER["CONTENT_TYPE"]) ? trim($_SERVER["CONTENT_TYPE"]) : '';
+        $search = '';
+        if ($contentType === "application/json") {
+            $content = trim(file_get_contents("php://input"));
+            $decoded = json_decode($content, true);
+            $search = $decoded['search'] ?? '';
+        } else {
+            $search = $_GET['search'] ?? '';
+        }
+
+        $email = $_SESSION['user_id'];
+        $user = $this->userRepository->getUserByEmail($email);
+        $appointments = $this->appointmentRepository->searchAppointmentsByUserId($user['id'], $search);
+
+        header('Content-type: application/json');
+        http_response_code(200);
+        echo json_encode($appointments);
+    }
 }
