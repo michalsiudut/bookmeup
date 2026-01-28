@@ -120,12 +120,12 @@ body {
 }
 
 .day.today {
-    color: #3b82f6;
+    background: #dbeafe;
+    color: #1e40af;
     font-weight: 800;
 }
 
 .day.has-visit {
-    background: #dbeafe;
     color: #1e40af;
 }
 
