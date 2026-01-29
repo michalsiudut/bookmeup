@@ -19,6 +19,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const appointmentsGrid = document.querySelector('.appointments-grid');
     const searchInput = document.getElementById('appointment-search');
+    const reviewModal = document.getElementById('review-modal');
+    const reviewBusinessName = document.getElementById('review-business-name');
+    const commentInput = document.getElementById('review-comment');
+    const submitReviewBtn = document.getElementById('submit-review');
+    const closeModal = document.querySelector('.close-modal');
+
+    let activeAppointmentId = null;
     let searchTimeout;
 
     function renderCalendar() {
@@ -260,20 +267,18 @@ document.addEventListener('DOMContentLoaded', () => {
         reviewModal.style.display = 'flex';
     }
 
-    const closeModal = document.querySelector('.close-modal');
-    const submitReviewBtn = document.getElementById('submit-review');
-    const reviewBusinessName = document.getElementById('review-business-name');
-    const commentInput = document.getElementById('review-comment');
-
-    let activeAppointmentId = null;
-
-    reviewBtns.forEach(btn => {
-        btn.addEventListener('click', () => {
-            activeAppointmentId = btn.dataset.id;
-            reviewBusinessName.textContent = `${btn.dataset.businessName} - ${btn.dataset.serviceName}`;
-            reviewModal.style.display = 'flex';
+    // Attach listeners to initial buttons (rendered by PHP)
+    function attachInitialListeners() {
+        document.querySelectorAll('.btn-cancel').forEach(btn => {
+            btn.addEventListener('click', () => handleCancel(btn.dataset.id));
         });
-    });
+
+        document.querySelectorAll('.btn-review').forEach(btn => {
+            btn.addEventListener('click', () => handleReviewClick(btn.dataset));
+        });
+    }
+
+    attachInitialListeners();
 
     closeModal.addEventListener('click', () => {
         reviewModal.style.display = 'none';
